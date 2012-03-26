@@ -349,7 +349,7 @@
 							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
 							<arg line="--undocumentedelements on" />
-							<arg line="--readmeinstallchangelog README,CHANGELOG,INSTALL,TUTORIAL,TUTORIAL" />
+							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
@@ -364,7 +364,7 @@
 							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
 							<arg line="--undocumentedelements on" />
-							<arg line="--readmeinstallchangelog README,CHANGELOG,INSTALL,TUTORIAL" />
+							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
@@ -385,7 +385,7 @@
 							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
 							<arg line="--undocumentedelements on" />
-							<arg line="--readmeinstallchangelog README,CHANGELOG,INSTALL,TUTORIAL" />
+							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
@@ -401,7 +401,7 @@
 							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
 							<arg line="--undocumentedelements on" />
-							<arg line="--readmeinstallchangelog README,CHANGELOG,INSTALL,TUTORIAL" />
+							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
