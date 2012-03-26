@@ -1,0 +1,156 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Setup</refname>
+		<refpurpose>This section describe how to setup php-tick</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			<authorblurb>
+				Written by Johannes Skov Frandsen
+			</authorblurb>
+		</author>
+	</refsynopsisdiv>
+	{@toc}
+	<refsect1 id="{@id setup}">
+		<title>Setup</title>
+		<para>
+			There is four simple steps to use php-tick:
+			<itemizedlist>
+				<listitem><para>Copy the Tick folder to your site.</para></listitem>
+ 				<listitem><para>Bootstrap php-tick</para></listitem>
+ 				<listitem><para>Define your model</para></listitem>
+ 				<listitem><para>Use your model</para></listitem>
+		</itemizedlist>
+		</para>
+		<refsect2 id="{@id basicuse}">
+			<title>Bootstrap php-tick</title>
+			<para>
+			You only need to do this once in you application.
+			</para>
+			<refsect3 id="{@id codeexample}">
+				<title>Code example</title>
+				<programlisting role="php">
+	    		<![CDATA[
+// First we make sure we don't mess with other autoloaders
+if (false === spl_autoload_functions()) {
+	if (function_exists('__autoload')) {
+		spl_autoload_register('__autoload', false);
+	}
+}
+// Then we setup the Tick autoloader
+require_once 'Tick/Tick.php';
+spl_autoload_register(array('Tick', 'autoload'));
+
+// Last we connect to the database
+TickManager::config('sql', 'sqlite:/data/db.sqlite');
+TickManager::setModelPath('models/');
+	    		]]>
+	    		</programlisting>
+			</refsect3>
+		</refsect2>
+		<refsect2 id="{@id defineyourmodel}">
+			<title>Define your model</title>
+			<refsect3 id="{@id defineyourmodel_codeexample}">
+				<title>Code example</title>
+				<programlisting role="php">
+	    		<![CDATA[
+//create file User.php
+/**
+ * User
+ *
+ * @collection users
+ * @property integer(11) $id          id          !notnull  !unique
+ * @property string(255) $firstname   first_name  <Unknown>
+ * @property string(255) $lastname    last_name   <Unknown>
+ * @property DateTime    $birthday    birthday   
+ * @property integer(1)  $member      member      <1> !notnull
+ * @property string      $description description
+ */
+class User extends Tick
+{
+}
+	    		]]>
+	    		</programlisting>
+			</refsect3>
+		</refsect2>
+		<refsect2 id="{@id useyourmodel}">
+			<title>Use your model</title>
+			<refsect3 id="{@id useyourmodel_codeexample}">
+				<title>Code example</title>
+				<programlisting role="php">
+	    		<![CDATA[
+//create	    		
+$user = new User();
+$user->setFirstname('John');
+$user->setLastname('Doe');
+$user->setBrithday(new Date());
+$user->setMember(2);
+$user->setDescription('Some description');
+$user->save();
+//retrive
+$user = new User();
+$criteria = $user->createCriteria('id', '=', 1);
+$result = $user->get(array($criteria));
+$user = $result[0];
+
+echo $user->getFirstname().' '.$user->getLastname();
+	    		]]>
+	    		</programlisting>
+			</refsect3>
+		</refsect2>
+		<refsect2 id="{@id gettingsmart}">
+			<title>Getting smart</title>
+			<refsect3 id="{@id gettingsmart_codeexample}">
+				<title>Code example</title>
+				<programlisting role="php">
+	    		<![CDATA[
+//add the following methods to your user class:
+/**
+ * Get user by id
+ *
+ * @param integer $userId User id
+ *
+ * @return User
+ */
+public static function getById($userId)
+{
+	$user = new self();
+	$criteria = $user->createCriteria('id', '=', $userId);
+	$result = $user->get(array($criteria));
+	if (!empty($result)) {
+		return $result[0];
+	}
+	throw new RuntimeException('Invalid id:('.$userId.')');
+}
+/**
+ * Create a user
+ *
+ * @param string  $firstname Firstname
+ * @param string  $lastname  Lastname
+ * @param integer $member    Member number
+ *
+ * @return void
+ */
+public static function create($firstname, $lastname, $member) {
+	$user = new self();
+	$user->setFirstname($firstname);
+	$user->setLastname($lastname);
+	$user->setMember($member);
+	$user->save();
+}
+// Now we can work much faster with our model
+
+//create
+User::create('John', 'Doe', 2);
+
+//retrive
+$user = User::getById(1);
+
+echo $user->getFirstname().' '.$user->getLastname();
+	    		]]>
+	    		</programlisting>
+			</refsect3>
+		</refsect2>
+		
+	</refsect1>
+</refentry>

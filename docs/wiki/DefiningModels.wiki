@@ -1,0 +1,33 @@
+#labels Featured,Phase-Deploy
+= Defining models =
+The 'magic' of php-tick happens with annotations.
+
+You define a storage collection like this:
+{{{
+ * @collection users
+}}}
+where 'users' is the name of the collection. This would be a table in a sql database.
+
+You define a basic storage property like this:
+{{{
+ * @property string firstname first_name
+}}}
+where:
+ * the first argument is the property type. eg a string. 
+ * the secound argument is alias for the field in the database
+ * the third argument is the name of the field in the database
+These arguments are required for all properties.
+
+Additionally you can add the following arguments:
+ * null
+   * Unless specified php-tick will ensure that you can't save your model if this property has a null value.
+ * unique
+   * php-tick will use this to make a qualified guess about autoincrement fields in the data storage.
+ * <default value>
+   * php-tick will supply a default value for the field if not specificly assigend.
+   
+Finally you can make php-tick enforce property lenght by postfixing the type with the length:
+{{{
+ * @property string(255) $firstname first_name
+ * @property integer(4)  $zipcode   zip_code
+}}}

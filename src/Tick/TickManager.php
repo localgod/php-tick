@@ -1,0 +1,265 @@
+<?php
+/**
+ * Tick Manager
+ *
+ * PHP version 5.2
+ *
+ * @category ActiveRecord
+ * @package  Tick
+ * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @since	 2011-09-18
+ */
+/**
+ * Tick Manager
+ *
+ * Manages storage connection and autoloading of models.
+ *
+ * @category ActiveRecord
+ * @package  Tick
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link	 http://code.google.com/p/php-tick/ php-tick
+ * @since	 2011-09-18
+ */
+class TickManager {
+	
+	/**
+	 * Default connection name
+	 * 
+	 * @var string
+	 */
+	const DEFAULT_CONNECTION_NAME = 'default';
+	
+	/**
+	 * Path to Tick model directory
+	 *
+	 * @var string $path Tick root directory
+	 */
+	private static $_modelPath;
+
+	/**
+	 * List of all defined connections by name
+	 *
+	 * @var array
+	 */
+	private static $_connections = array();
+
+	/**
+	 * Get storage instance
+	 *
+	 * @param string $connectionName Name of connection
+	 * 
+	 * @return Storage
+	 * @throws RuntimeException if the storage could not be retrived
+	 */
+	public static function getStorage($connectionName = self::DEFAULT_CONNECTION_NAME) {
+		if (!key_exists($connectionName, self::$_connections)) {
+			throw new InvalidArgumentException("No connection named '" . $connectionName . "' has been configured");
+		}
+
+		$connection = self::$_connections[$connectionName];
+		$unique_name = self::getUniqueName($connectionName);
+
+		if (!key_exists($unique_name, $GLOBALS)) {
+			$GLOBALS[$unique_name] = null;
+		}
+		if (!$GLOBALS[$unique_name] instanceof Storage) {
+			if ($connection['type'] != 'mongodb') {
+				self::_createSqlStorage($connectionName);
+			} else {
+				self::_createMongoStorage($connectionName);
+			}
+		}
+		return $GLOBALS[$unique_name];
+	}
+
+	/**
+	 * Get name of current database
+	 *
+	 * @param string $connectionName Name of connection
+	 * 
+	 * @return string
+	 */
+	public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME)
+	{
+		return self::$_connections[$connectionName]['database'];
+	}
+
+	/**
+	 * Create sql storage
+	 *
+	 * @param string $connectionName Name of connection
+	 *
+	 * @throws RuntimeException if connection creation failed
+	 *
+	 * @return void
+	 */
+	private static function _createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+	{
+		$connection = self::$_connections[$connectionName];
+		$unique_name = self::getUniqueName($connectionName);
+
+		$dsn = $connection['type'].':host='.$connection['host'].';dbname='.$connection['database'];
+		$connection['port'] != null ? $dsn = $dsn.';port='.$connection['port'] : null;
+
+		if ($connection['type'] == 'sqlite' && (file_exists($connection['database']) || $connection['database'] == ':memory:')) {
+			$dsn = $connection['type'].':'.$connection['database'];
+		}
+		try {
+			$pdo = new PDO($dsn, $connection['username'], $connection['password'], $connection['driverOptions']);
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$GLOBALS[$unique_name] = new SqlStorage($pdo);
+		} catch (PDOException $e) {
+			throw new RuntimeException('Connection failed: ' . $e->getMessage());
+		}
+	}
+
+	/**
+	 * Create mongo storage
+	 *
+	 * @param string $connection Name name of connection
+	 *
+	 * @throws RuntimeException if connection creation failed
+	 *
+	 * @return void
+	 */
+	private static function _createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+	{
+		$connection = self::$_connections[$connectionName];
+		$unique_name = self::getUniqueName($connectionName);
+		
+		$dsn = $connection['type'].'://'.$connection['host'];
+		$connection['port'] != null ? $dsn = $dsn.':'.$connection['port'] : null;
+		try {
+			$mongo = new Mongo($dsn, $connection['driverOptions']);
+			$mongo->connect();
+			$mongoDb = $mongo->selectDB($connection['database']);
+			$GLOBALS[$unique_name] = new MongoStorage($mongoDb);
+		} catch (MongoConnnectionException $e) {
+			throw new RuntimeException('Connection failed: ' . $e->getMessage());
+		}
+	}
+
+	/**
+	 * Get model path
+	 *
+	 * @return string
+	 */
+	public static function getModelPath() {
+		return self::$_modelPath;
+	}
+
+	/**
+	 * Set model path
+	 *
+	 * @param string $path Math to models
+	 *
+	 * @throws InvalidArgumentException on non existing path
+	 * @return void
+	 */
+	public static function setModelPath($path) {
+		if (!file_exists($path)) {
+			throw new InvalidArgumentException('Model path could not be found:' . $path);
+		}
+		self::$_modelPath = $path;
+	}
+
+	/**
+	 * Set the default database connection
+	 *
+	 * @param string  $type           Pdo supported sql databases or mongodb
+	 * @param string  $database       The database name
+	 * @param string  $username       Username
+	 * @param string  $password       Password
+	 * @param string  $host           The host name of the data source
+	 * @param integer $port           The the port of the data source
+	 * @param array   $driver_options Driver options
+	 *
+	 * @throws InvalidArgumentException missing database driver or database name
+	 * @return void
+	 */
+	public final static function addDefaultConnectionConfig($type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driver_options = null) {
+		self::addConnectionConfig(self::DEFAULT_CONNECTION_NAME, $type, $database, $username, $password, $host, $port, $driver_options);
+	}
+
+	/**
+	 * Set the database connection
+	 *
+	 * @param string  $name			  Connection name for later retrieval
+	 * @param string  $type           Pdo supported sql databases or mongodb
+	 * @param string  $database       The database name
+	 * @param string  $username       Username
+	 * @param string  $password       Password
+	 * @param string  $host           The host name of the data source
+	 * @param integer $port           The the port of the data source
+	 * @param array   $driver_options Driver options
+	 *
+	 * @throws InvalidArgumentException missing database driver or database name
+	 * @return void
+	 */
+	public final static function addConnectionConfig($name, $type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driver_options = null) {
+		$drivers = PDO::getAvailableDrivers();
+		$drivers[] = 'mongodb';
+
+		if (!in_array($type, $drivers)) {
+			throw new InvalidArgumentException('Only pdo supported sql databases and mongo is supported at the moment.('.$type.')');
+		}
+
+		if (empty($database)) {
+			throw new InvalidArgumentException('No database specified');
+		}
+
+		$connection = array();
+		$connection["type"]          = $type;
+		$connection["database"]      = $database;
+		$connection["username"]      = $username;
+		$connection["password"]      = $password;
+		$connection["host"]          = $host;
+		$connection["port"]          = $port;
+		$connection["driverOptions"] = $driver_options;
+		self::$_connections[$name]   = $connection;
+	}
+
+	/**
+	 * Closes and emoves all connections
+	 *
+	 * @return void
+	 */
+	public static function removeAllConnections() {
+		foreach (self::$_connections as $name => $obj) {
+			self::removeConnectionConfig($name);
+		}
+	}
+
+	/**
+	 * Closes and removes the a connection
+	 *
+	 * @param string $name Connection name
+	 *
+	 * @return void
+	 */
+	public static function removeConnectionConfig($connectionName = self::DEFAULT_CONNECTION_NAME) {
+		if (self::$_connections[$connectionName]) {
+			unset(self::$_connections[$connectionName]);
+		}
+
+		$unique_name = self::getUniqueName($connectionName);
+		if (key_exists($unique_name, $GLOBALS)) {
+			$GLOBALS[$unique_name]->closeConnection();
+			unset($GLOBALS[$unique_name]);
+		}
+	}
+
+	/**
+	 * The unigue name of connection in $GLOBALS
+	 *
+	 * @param string $connectionName Connection name
+	 *
+	 * @return string unique name
+	 */
+	protected static function getUniqueName($connectionName) {
+		return "TickConnection:" . $connectionName;
+	}
+}

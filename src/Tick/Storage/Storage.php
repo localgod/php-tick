@@ -1,0 +1,98 @@
+<?php
+/**
+ * Tick storage interface
+ *
+ * PHP version 5.2
+ *
+ * @category ActiveRecord
+ * @package  Tick
+ * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     http://code.google.com/p/php-tick/ php-tick
+ * @since    2011-04-09
+ */
+/**
+ * Tick storage interface
+ * 
+ * Interface for basic CRUD operation on storage.
+ *
+ * @category   ActiveRecord
+ * @package    Tick
+ * @subpackage Storage
+ * @author     Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @license    http://www.opensource.org/licenses/mit-license.php MIT
+ * @link       http://code.google.com/p/php-tick/ php-tick
+ * @since      2011-04-09
+ */
+interface Storage
+{
+	/**
+	 * Get entities in storage
+	 *
+	 * @param string  $collection Collection to search
+	 * @param array   $fields     Properties to fetch
+	 * @param array   $criterias  Criterias to search by
+	 * @param array   $order      Order result
+	 * @param boolean $direction  Order direction
+	 * @param array   $limit      Limit result
+	 * @param array   $offset     Offset result
+	 *
+	 * @return array Array with Associative arrays with fieldname=>value
+	 */
+	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '');
+	
+	/**
+	 * Insert entity to storage
+	 *
+	 * @param string $collection Collection to insert into
+	 * @param array  $data       Associative array with fieldname=>value
+	 *
+	 * @return integer Id of the object inserted
+	 */
+	public function insert($collection, array $data);
+	
+	/**
+	 * Update entity in storage
+	 *
+	 * @param string $collection Collection to update
+	 * @param array  $data       Associative array with fieldname=>value
+	 * @param array  $criterias  Criteria of the object to update
+	 *
+	 * @return void
+	 */
+	public function update($collection, array $data, array $criterias);
+	
+	/**
+	 * Remove entity from storage
+	 *
+	 * @param string $collection Collection to search
+	 * @param array  $criterias  Criteria of the object to remove
+	 *
+	 * @return void
+	 */
+	public function remove($collection, array $criterias);
+	
+	/**
+	 * Entity exists in storage
+	 *
+	 * @param string $collection Collection to search
+	 * @param array  $criterias  Criteria of the object to check for
+	 *
+	 * @return boolean
+	 */
+	public function exists($collection, array $criterias);
+	
+	/**
+	 * Close storage connection
+	 *
+	 * @return mixed
+	 */
+	public function closeConnection();
+	
+	/**
+	 * Get storage connection
+	 *
+	 * @return mixed
+	 */
+	public function getConnection();
+}

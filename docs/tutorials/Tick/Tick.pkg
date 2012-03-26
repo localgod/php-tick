@@ -1,0 +1,20 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>php-tick</refname>
+		<refpurpose>php-tick is a active record implementation.</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			<authorblurb>
+				Written by Johannes Skov Frandsen
+			</authorblurb>
+		</author>
+	</refsynopsisdiv>
+	{@toc}
+	<refsect1 id="{@id intro}">
+	<title>Introduction</title>
+	<para>Simple active record implementation with the least amount of fuss needed to make it work fast.</para>
+	<para>Support for both SQL and noSQL databases.</para>
+	<para>No support for foreign key relations.</para>
+	</refsect1>
+</refentry>

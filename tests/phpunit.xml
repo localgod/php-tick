@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+		bootstrap="bootstrap.php"
+		backupGlobals="false"
+		backupStaticAttributes="false"
+		colors="true"
+		debug="true"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		processIsolation="false"
+		stopOnFailure="false"
+		syntaxCheck="true">
+
+	<testsuites>
+		<testsuite name="php-tick test suite">
+			<directory>./</directory>
+		</testsuite>
+	</testsuites>
+
+	<logging>
+		<log type="coverage-html" target="../build/coverage" charset="UTF-8" yui="true"/>
+		<log type="coverage-xml" target="../build/logs/coverage.xml"/>
+		<log type="junit" target="../build/logs/logfile.xml" logIncompleteSkipped="true"/>
+	</logging>
+	<filter>
+		<blacklist>
+			<directory suffix=".php">./</directory>
+		</blacklist>
+		<whitelist>
+			<directory suffix=".php">./</directory>
+			<exclude>
+				<directory suffix=".php">../</directory>
+				<directory suffix=".php">./</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>
