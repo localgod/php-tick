@@ -29,7 +29,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 * @return void
 	 */
 	public function __construct() {
-		
+
 		if (extension_loaded('mongo')) {
 			shell_exec('mkdir -p mongodb/db && mkdir mongodb/log');
 			shell_exec('mongod  --fork --port 27088 --dbpath mongodb/db --logpath mongodb/log/mongo.log');
@@ -42,7 +42,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 * @return void
 	 */
 	public function __destruct() {
-		
+
 		if (extension_loaded('mongo')) {
 			if (file_exists('mongodb')) {
 				$pid = shell_exec('cat mongodb/db/mongod.lock');
@@ -51,7 +51,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 				shell_exec('rm -rf mongodb');
 			}
 		}
-		
+
 	}
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -61,8 +61,10 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		if (shell_exec('mongod --version | grep "db version"') == '') {
-			$this->markTestSkipped('The mongod execuatable is not available.');
+		if (extension_loaded('mongo')) {
+			if (shell_exec('mongod --version | grep "db version"') == '') {
+				$this->markTestSkipped('The mongod execuatable is not available.');
+			}
 		}
 		if (!extension_loaded('mongo')) {
 			$this->markTestSkipped('The mongo extension is not available.');
@@ -99,7 +101,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test
-	 * 
+	 *
 	 * @return void
 	 */
 	public function storeNew()

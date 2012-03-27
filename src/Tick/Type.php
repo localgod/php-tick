@@ -33,7 +33,7 @@ abstract class Type
 	 * @var string
 	 */
 	private $_classComment;
-	
+
 	/**
 	 * Check if value is valid for the given property
 	 *
@@ -50,7 +50,9 @@ abstract class Type
 		if ($type == 'integer' && is_integer($value)) {
 			$this->_isValidLength($property, $value);
 			return true;
-		} else if ($type == 'float' && (is_float($value) || is_double($value))) {
+		} else if ($type == 'float' && is_float($value)) {
+			return true;
+		} else if ($type == 'double' && is_double($value)) {
 			return true;
 		} else if ($type == 'boolean' && is_bool($value)) {
 			return true;
@@ -71,7 +73,7 @@ abstract class Type
 	}
 	/**
 	 * Get class comment
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function getClassComment() {
@@ -81,5 +83,5 @@ abstract class Type
 		}
 		return $this->_classComment;
 	}
-  
+
 }

@@ -13,7 +13,7 @@
  */
 /**
  * Tick storage interface
- * 
+ *
  * Interface for basic CRUD operation on storage.
  *
  * @category   ActiveRecord
@@ -40,7 +40,7 @@ interface Storage
 	 * @return array Array with Associative arrays with fieldname=>value
 	 */
 	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '');
-	
+
 	/**
 	 * Insert entity to storage
 	 *
@@ -50,7 +50,7 @@ interface Storage
 	 * @return integer Id of the object inserted
 	 */
 	public function insert($collection, array $data);
-	
+
 	/**
 	 * Update entity in storage
 	 *
@@ -61,7 +61,7 @@ interface Storage
 	 * @return void
 	 */
 	public function update($collection, array $data, array $criterias);
-	
+
 	/**
 	 * Remove entity from storage
 	 *
@@ -71,7 +71,7 @@ interface Storage
 	 * @return void
 	 */
 	public function remove($collection, array $criterias);
-	
+
 	/**
 	 * Entity exists in storage
 	 *
@@ -81,14 +81,24 @@ interface Storage
 	 * @return boolean
 	 */
 	public function exists($collection, array $criterias);
-	
+
+	/**
+	 * Count the number of entities matching the given criteria
+	 *
+	 * @param string $collection Collection to search
+	 * @param array  $criterias  Criteria of the object to check for
+	 *
+	 * @return integer
+	 */
+	public function count($collection, array $criterias);
+
 	/**
 	 * Close storage connection
 	 *
 	 * @return mixed
 	 */
 	public function closeConnection();
-	
+
 	/**
 	 * Get storage connection
 	 *

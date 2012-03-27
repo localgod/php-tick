@@ -25,7 +25,7 @@
  */
 class Result implements Iterator {
 	/**
-	 * The default max result we get as a safety precausion
+	 * The default max result we get as a safety precaution
 	 */
 	const DEFAULT_LIMIT = 10000;
 
@@ -33,7 +33,7 @@ class Result implements Iterator {
 	 * Position in result set
 	 * @var integer
 	 */
-	private $_position;
+	private $_position = 0;
 
 	/**
 	 * Condintions
@@ -89,6 +89,7 @@ class Result implements Iterator {
 		$this->_position = 0;
 		$this->_conditions = array();
 		$this->_order = array();
+		$this->_offset = 0;
 	}
 
 	/**
@@ -110,11 +111,15 @@ class Result implements Iterator {
 	 * @return integer
 	 */
 	public function count() {
-		return count($this->_getResult());
+		if (isset($this->_result) || isset($this->_limit)) {
+			return count($this->_getResult());
+		} else {
+			return $this->_model->getStorage()->count($this->_model->getCollectionName(), $this->_conditions);
+		}
 	}
 
 	/**
-	 * are there elements in result?
+	 * Are there elements in result?
 	 *
 	 * @return boolean
 	 */
@@ -165,6 +170,19 @@ class Result implements Iterator {
 	}
 
 	/**
+	 * Create a loose string match criteria on all fields.
+	 *
+	 * @param string $string String
+	 *
+	 * @return Result
+	 */
+	public function whereAnyMatches($string) {
+		$this->_conditions[] = array('property' => '*', 'condition' => 'MATCHES', 'value' => $string);
+
+		return $this;
+	}
+
+	/**
 	 * Set an order clause for det result
 	 *
 	 * @param array|string $properties Properties to order by
@@ -182,7 +200,7 @@ class Result implements Iterator {
 				$this->_order[] = $this->_model->propertyAlias($property);
 			}
 		} else {
-			$this->_offset[] = $this->_model->propertyAlias($property);
+			$this->_order[] = $this->_model->propertyAlias($properties);
 		}
 		return $this;
 	}
@@ -290,7 +308,11 @@ class Result implements Iterator {
 
 				if ($propertyType == 'DateTime') {
 					if ($value != 'NULL' && $value != '') {
-						$entity->$property = new DateTime($value);
+						if (is_integer($value)) {
+							$entity->$property = new DateTime("@$value");
+						} else {
+							$entity->$property = new DateTime($value);
+						}
 					} else {
 						$entity->$property = null;
 					}
