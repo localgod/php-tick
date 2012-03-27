@@ -29,7 +29,7 @@ require_once dirname(__FILE__) . '/TickManager.php';
  * @since	 2011-04-09
  */
 abstract class Tick extends Record {
-	
+
 	/**
 	 * Path to Tick root directory
 	 *
@@ -44,7 +44,6 @@ abstract class Tick extends Record {
 	 */
 	public function __construct() {
 		$this->init();
-		$this->modified(true);
 	}
 
 	/**
@@ -87,7 +86,7 @@ abstract class Tick extends Record {
 	/**
 	 * Remove object(s) from persisten storage
 	 *
-	 * If no cristeria is give, an attempt to remove by unique property will be made
+	 * If no criteria is given, an attempt to remove by unique property will be made
 	 *
 	 * @param array $criterias Criterias to remove by
 	 *
@@ -99,7 +98,7 @@ abstract class Tick extends Record {
 			if (isset($criterias[0])) {
 				$result = $this->getAdvanced($criterias);
 			} else {
-				$result = $this->getsimple($criterias);
+				$result = $this->getSimple($criterias);
 			}
 			$this->getStorage()->remove($this->getCollectionName(), $result);
 		} else {
@@ -149,28 +148,24 @@ abstract class Tick extends Record {
 
 	/**
 	 * Get list of object matching criterias
-	 * 
-	 * @param integer $limit Limit
-	 * 
+	 *
 	 * @return Result Result of matching objects
 	 */
-	public function get($limit = Result::DEFAULT_LIMIT)
-	{  
-		return $this->getAll($limit); 
+	public function get()
+	{
+		return $this->getAll();
 	}
-	
+
 	/**
 	 * Get list of object matching criterias
-	 * 
-	 * @param integer $limit Limit
-	 *  
+	 *
 	 * @return Result Result of matching objects
 	 */
-	public function getAll($limit = Result::DEFAULT_LIMIT)
-	{  
-		return new Result(get_class($this)); 
+	public function getAll()
+	{
+		return new Result(get_class($this));
 	}
-	
+
 
 	/**
 	 * Autoload function

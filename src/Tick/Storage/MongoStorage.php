@@ -320,6 +320,32 @@ class MongoStorage implements Storage
 	}
 
 	/**
+	 * Count number of entities matching the criteria
+	 *
+	 * @param string $collection Collection to search
+	 * @param array  $criterias  Criteria of the object to check for
+	 *
+	 * @return integer
+	 * @see Storage::count()
+	 */
+	public function count($collection, array $criterias) {
+		$sql = "SELECT COUNT(*) FROM ".$collection." ".$this->_criteria($criterias).";";
+
+		try {
+			if ($res = $this->_connection->query($sql)) {
+				if ($row = $res->fetchArray()) {
+					return $row[0];
+				}
+			}
+		} catch (PDOException $e) {
+			echo $e->getMessage()."\n";
+			echo 'Failed query: '.$sql."\n";
+			exit();
+		}
+		return 0;
+	}
+
+	/**
 	 * Convert integer to a valid database representation
 	 *
 	 * @param integer $value Value to convert

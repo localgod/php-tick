@@ -24,7 +24,7 @@
  * @property integer(11) id        user_id    - unique
  * @property string(255) firstname first_name - <Jane>
  * @property string(255) lastname  last_name  - <Doe Doe>
- * @property DateTime    created   created   
+ * @property DateTime    created   created
  * @property integer(1)  owner     owner      - null
  * @property float(1)    latitude  latitude   - null
  * @property float(1)    longitude longitude  - null

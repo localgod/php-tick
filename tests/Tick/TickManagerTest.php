@@ -42,7 +42,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 		TickManager::removeAllConnections();
 	}
- 
+
 	/**
 	 * Test
 	 *
@@ -129,27 +129,12 @@ class TickManagerTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test
 	 *
-	 * @tests 
+	 * @tests
 	 * @return void
 	 */
 	public function setAndGetExistingModelPathFails() {
 		TickManager::setModelPath("./");
 		$this->assertEquals("./", TickManager::getModelPath("./"));
-	}
-
-	/**
-	 * Test
-	 *
-	 * @tests
-	 * @return void
-	 */
-	public function onlySQLisSupported() {
-		try {
-			TickManager::addDefaultConnectionConfig('Sqlite', ':memory:');
-			$this->assertFalse(true);
-		} catch (InvalidArgumentException $e) {
-			$this->assertRegExp("/Only pdo supported sql databases and mongo is supported at the moment.\(".'Sqlite'."\)/", $e->getMessage());
-		}
 	}
 
 	/**

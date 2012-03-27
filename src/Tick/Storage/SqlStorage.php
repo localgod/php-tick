@@ -78,7 +78,12 @@ class SqlStorage implements Storage {
 	 * @see Storage::get()
 	 */
 	public function get($collection, array $fields, array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '') {
-		$sql = "SELECT `" . implode("`,`", $fields) . "` FROM `" . $collection . "` " . $this->_prepareCriteria($criterias) . " " . $this->_orderBy($order, $direction) . " " . $this->_limit($limit, $offset) . ";";
+		if (count($fields) > 0) {
+			$select = "`" . implode("`,`", $fields) . "`";
+		} else {
+			$select = '*';
+		}
+		$sql = "SELECT $select FROM `" . $collection . "` " . $this->_prepareCriteria($criterias) . " " . $this->_orderBy($order, $direction) . " " . $this->_limit($limit, $offset) . ";";
 		try {
 			$statement = $this->_connection->prepare($sql);
 			$statement->execute($this->_criteria($criterias));
@@ -167,6 +172,7 @@ class SqlStorage implements Storage {
 				}
 				$where[] = '`'.$criteria['property'] . '` ' . $criteria['condition'] . ' ?';
 			}
+
 			return implode('', $where);
 		}
 		return '';
@@ -280,18 +286,20 @@ class SqlStorage implements Storage {
 	 * @see Storage::exists()
 	 */
 	public function exists($collection, array $criterias) {
-		$sql = "SELECT COUNT(*) FROM `" . $collection . "` " . $this->_criteria($criterias) . " LIMIT 1;";
+		return count($this->get($collection, array(), $criterias)) > 0;
+	}
 
-		try {
-			if ($res = $this->_connection->query($sql)) {
-				if ($res->fetchColumn() == 1) {
-					return true;
-				}
-			}
-		} catch (PDOException $e) {
-			throw new RuntimeException('Query : "'.$sql.'" returned error : '.$e->getMessage());
-		}
-		return false;
+	/**
+	 * Count number of entities matching the criteria
+	 *
+	 * @param string $collection Collection to search
+	 * @param array  $criterias  Criteria of the object to check for
+	 *
+	 * @return integer
+	 * @see Storage::count()
+	 */
+	public function count($collection, array $criterias) {
+		return count($this->get($collection, array(), $criterias));
 	}
 
 	/**

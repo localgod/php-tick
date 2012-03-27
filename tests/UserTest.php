@@ -256,6 +256,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test
 	 *
+	 * @test
 	 * @return void
 	 */
 	public function getWithBiggerThanCriterias()
@@ -310,5 +311,21 @@ class UserTest extends PHPUnit_Framework_TestCase
 		$user = new User();
 		$user = $user->get()->whereEquals('id', 1)->current();
 		$this->assertEquals($user->getLongitude(), -75.6840);
+	}
+
+	/**
+	 * Utility method to debug tests.
+	 *
+	 * @return void
+	 */
+	private function dump() {
+		$u = new User();
+
+		print("\n|User ID   |First name|Last name |Created   |Owner     |Latitude  |Longitude |");
+		print("\n------------------------------------------------------------------------------");
+		foreach ($u->get() as $m) {
+			printf("\n|%10s|%10s|%10s|%10s|%10s|%10f|%10f|", $m->getId(), $m->getFirstname(), $m->getLastname(), $m->getCreated()->format('Y'), $m->getOwner(), $m->getLatitude(), $m->getLongitude());
+		}
+		print("\n");
 	}
 }
