@@ -30,7 +30,7 @@ abstract class Entity extends Type {
 	 *
 	 * @var boolean
 	 */
-	private $_modified;
+	private $_modified = false;
 
 	/**
 	 * Connection name
@@ -297,7 +297,8 @@ abstract class Entity extends Type {
 	 */
 	protected function propertyExists($name) {
 		$prop = $this->getMetadata();
-		return key_exists($name, $prop["properties"]) ? true : false;
+
+		return array_key_exists($name, $prop["properties"]) ? true : false;
 	}
 
 	/**

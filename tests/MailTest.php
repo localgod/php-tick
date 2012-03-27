@@ -95,4 +95,19 @@ class MailTest extends PHPUnit_Framework_TestCase
 		$mail = new Mail();
 		$this->assertEquals(1, $mail->get()->whereEquals('userId', 1)->whereEquals('mailId', 1)->whereEquals('mail', 'Conny')->count());
 	}
+
+	/**
+	 * Utility method to debug tests.
+	 *
+	 * @return void
+	 */
+	private function dump() {
+		$mail = new Mail();
+		print("\n|User ID   |Mail ID   |Mail      |");
+		print("\n----------------------------------");
+		foreach ($mail->get() as $m) {
+			printf("\n|%10s|%10s|%10s|", $m->getUserId(), $m->getMailId(), $m->getMail());
+		}
+		print("\n");
+	}
 }

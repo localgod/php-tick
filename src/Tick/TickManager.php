@@ -24,14 +24,14 @@
  * @since	 2011-09-18
  */
 class TickManager {
-	
+
 	/**
 	 * Default connection name
-	 * 
+	 *
 	 * @var string
 	 */
 	const DEFAULT_CONNECTION_NAME = 'default';
-	
+
 	/**
 	 * Path to Tick model directory
 	 *
@@ -50,7 +50,7 @@ class TickManager {
 	 * Get storage instance
 	 *
 	 * @param string $connectionName Name of connection
-	 * 
+	 *
 	 * @return Storage
 	 * @throws RuntimeException if the storage could not be retrived
 	 */
@@ -66,10 +66,12 @@ class TickManager {
 			$GLOBALS[$unique_name] = null;
 		}
 		if (!$GLOBALS[$unique_name] instanceof Storage) {
-			if ($connection['type'] != 'mongodb') {
-				self::_createSqlStorage($connectionName);
-			} else {
+			if ($connection['type'] == 'mongodb') {
 				self::_createMongoStorage($connectionName);
+			} else if ($connection['type'] == 'solr') {
+				self::_createSolrStorage($connectionName);
+			} else {
+				self::_createSqlStorage($connectionName);
 			}
 		}
 		return $GLOBALS[$unique_name];
@@ -79,7 +81,7 @@ class TickManager {
 	 * Get name of current database
 	 *
 	 * @param string $connectionName Name of connection
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME)
@@ -119,17 +121,16 @@ class TickManager {
 	/**
 	 * Create mongo storage
 	 *
-	 * @param string $connection Name name of connection
+	 * @param string $connectionName name of connection
 	 *
 	 * @throws RuntimeException if connection creation failed
 	 *
 	 * @return void
 	 */
-	private static function _createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
-	{
+	private static function _createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME) {
 		$connection = self::$_connections[$connectionName];
 		$unique_name = self::getUniqueName($connectionName);
-		
+
 		$dsn = $connection['type'].'://'.$connection['host'];
 		$connection['port'] != null ? $dsn = $dsn.':'.$connection['port'] : null;
 		try {
@@ -140,6 +141,38 @@ class TickManager {
 		} catch (MongoConnnectionException $e) {
 			throw new RuntimeException('Connection failed: ' . $e->getMessage());
 		}
+	}
+
+	/**
+	 * Create SOLR storage
+	 *
+	 * @param string $connectionName name of connection
+	 *
+	 * @throws RuntimeException if connection creation failed
+	 *
+	 * @return void
+	 */
+	private static function _createSolrStorage($connectionName = self::DEFAULT_CONNECTION_NAME) {
+		$connection = self::$_connections[$connectionName];
+		$unique_name = self::getUniqueName($connectionName);
+
+		$options = array();
+
+		if ($connection['host']) {
+			$options['hostname'] = $connection['host'];
+		}
+		if ($connection['username']) {
+			$options['login'] = $connection['username'];
+		}
+		if ($connection['password']) {
+			$options['password'] = $connection['password'];
+		}
+		if ($connection['port']) {
+			$options['port'] = $connection['port'];
+		}
+
+		$client = new SolrClient($options);
+		$GLOBALS[$unique_name] = new SolrStorage($client);
 	}
 
 	/**
@@ -202,9 +235,10 @@ class TickManager {
 	public final static function addConnectionConfig($name, $type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driver_options = null) {
 		$drivers = PDO::getAvailableDrivers();
 		$drivers[] = 'mongodb';
+		$drivers[] = 'solr';
 
 		if (!in_array($type, $drivers)) {
-			throw new InvalidArgumentException('Only pdo supported sql databases and mongo is supported at the moment.('.$type.')');
+			throw new InvalidArgumentException('Only pdo supported sql databases, solr and mongo is supported at the moment.('.$type.')');
 		}
 
 		if (empty($database)) {
