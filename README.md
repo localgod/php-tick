@@ -8,14 +8,7 @@ No support for foreign key relations.
 
 INSTALLATION
 ------------
-  * Copy the Tick folder to your site
-  * `require_once 'autoload.php';`
-  * ...Or add the following lines to you script:
-
-		<?php
-		require_once 'Tick/Tick.php';
-		spl_autoload_register(array('Tick', 'autoload'));
-		?>
+See this page: http://localgod.github.com/php-tick/
 
 REQUIREMENTS
 ------------
