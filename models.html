@@ -27,32 +27,43 @@
         </ul>
       </header>
       <section>
-      <ul>
-<li>php-tick is a simple active record implementation with the least amount of fuss needed to make it work fast.</li>
-<li>It has support for both SQL and noSQL databases.</li>
-<li>It has no support for foreign key relations.</li>
-</ul>
-<h2>INSTALLATION</h2>
+        <h1>Defining models</h1>
 
-<ul>
-<li>Copy the Tick folder to your site</li>
-<li><code>require_once 'autoload.php';</code></li>
-</ul>
-<p>...Or add the following lines to you script:</p>
+The 'magic' of php-tick happens with annotations.
 
+You define a storage collection like this:
 <pre class='brush: php'>
-&lt;?php
-require_once 'Tick/Tick.php';
-spl_autoload_register(array('Tick', 'autoload'));
-?&gt;
+ * @collection users
 </pre>
+<p>where 'users' is the name of the collection. This would be a table in a sql database.</p>
 
-<h2>REQUIREMENTS</h2>
-
+<p>You define a basic storage property like this:</p>
+<pre class='brush: php'>
+ * @property string firstname first_name
+</pre>
+<p>where:</p>
 <ul>
-<li>Php version 5.1.2&lt; build with the following extension: pcre, SPL (default build-in in most distributions)</li>
-<li>The SOLR storage engine requires the PECL SOLR extension.</li>
+ <li>the first argument is the property type. eg a string.</li>
+ <li>the secound argument is alias for the field in the database.</li>
+ <li>the third argument is the name of the field in the database.</li>
 </ul>
+<p>These arguments are required for all properties.</p>
+
+<p>Additionally you can add the following arguments:</p>
+<dl>
+ <dt>null</dt>
+   <dd>Unless specified php-tick will ensure that you can't save your model if this property has a null value.</dd>
+ <dt>unique</dt>
+   <dd>php-tick will use this to make a qualified guess about autoincrement fields in the data storage.</dd>
+ <dt>&lt;default value&gt;</dt>
+   <dd>php-tick will supply a default value for the field if not specificly assigend.</dd>
+</dl>
+   
+<p>Finally you can make php-tick enforce property lenght by postfixing the type with the length:</p>
+<pre class='brush: php'>
+ * @property string(255) $firstname first_name
+ * @property integer(4)  $zipcode   zip_code
+</pre>
       </section>
     </div>
     <footer>

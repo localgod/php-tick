@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Php-tick by localgod</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeFadeToGrey.css" rel="stylesheet" type="text/css" />
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+         <h1><a href="index.html">Php-tick</a></h1>
+<p>Simple active record implementation</p>
+        <p class="view"><a href="https://github.com/localgod/php-tick">View the Project on GitHub <small>localgod/php-tick</small></a></p>
+        <ul>
+          <li><a href="https://github.com/localgod/php-tick/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="setup.html">HowTo Use<strong>php-tick</strong></a></li>
+          <li><a href="https://github.com/localgod/php-tick">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Tutorial</h1>
+
+<p>This section describe how to setup php-tick</p>
+
+<h2>Tick Setup</h2>
+<p>There is tree simple steps to use php-tick when you have downloaded it and copied it to your site:</p>
+<ul>
+  <li>Bootstrap php-tick</li>
+  <li>Define your model</li>
+  <li>Use your model</li>
+</ul>
+<h3>Bootstrap php-tick</h3>
+<p>You only need to do this once in you application.</p>
+<pre class='brush: php'>
+// First we make sure we don't mess with other autoloaders
+if (false === spl_autoload_functions()) {
+	if (function_exists('__autoload')) {
+		spl_autoload_register('__autoload', false);
+	}
+}
+// Then we setup the Tick autoloader
+require_once 'Tick/Tick.php';
+spl_autoload_register(array('Tick', 'autoload'));
+
+// Last we connect to the database
+TickManager::addDefaultConnectionConfig('sqlite', 'data/db.sqlite');
+TickManager::setModelPath('models/');
+</pre>
+
+<h3>Define your model</h3>
+<p>Create a file called User.php in your model path and fill in the following:</p>
+<pre class='brush: php'>
+/**
+ * User
+ *
+ * @collection users
+ * @property integer(11) id          id          - unique
+ * @property string(255) firstname   first_name  - null &lt;Unknown&gt;
+ * @property string(255) lastname    last_name   - null &lt;Unknown&gt;
+ * @property DateTime    birthday    birthday    - null
+ * @property integer(1)  member      member      - &lt;1&gt;
+ * @property string      description description
+ */
+class User extends Tick
+{
+}
+</pre>
+<p>Read more about <a href="models.html">defining models</a></p>
+<h3>Use your model</h3>
+<pre class='brush: php'>
+//create	    		
+$user = new User();
+$user->setFirstname('John');
+$user->setLastname('Doe');
+$user->setBirthday(new Date());
+$user->setMember(2);
+$user->setDescription('Some description');
+$user->save();
+//retrive
+$user = new User();
+$user = $user->get()->whereEquals('userId', $userId)->current();
+
+echo $user->getFirstname().' '.$user->getLastname();
+</pre>
+<h2>Getting smart</h2>
+<p>Add the following methods to your user class:</p>
+<pre class='brush: php'>
+/**
+ * Get user by id
+ *
+ * @param integer $userId User id
+ *
+ * @return User
+ */
+public static function getById($userId)
+{
+	$user = new self();
+	$result = $user->get()->->whereEquals('userId', $userId);
+	if (!$result->isEmpty()) {
+		return $result->current();
+	}
+	throw new RuntimeException('Invalid id:('.$userId.')');
+}
+/**
+ * Create a user
+ *
+ * @param string  $firstname Firstname
+ * @param string  $lastname  Lastname
+ * @param integer $member    Member number
+ *
+ * @return void
+ */
+public static function create($firstname, $lastname, $member) {
+	$user = new self();
+	$user->setFirstname($firstname);
+	$user->setLastname($lastname);
+	$user->setMember($member);
+	$user->save();
+}
+</pre>
+<p>Now we can work much faster with our model:</p>
+<pre class='brush: php'>
+//create
+User::create('John', 'Doe', 2);
+
+//retrive
+$user = User::getById(1);
+
+echo $user->getFirstname().' '.$user->getLastname();
+</pre>
+
+
+</section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/localgod">localgod</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+  <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js" type="text/javascript"></script>
+  <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+  <script type="text/javascript">
+  SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all();
+  </script>
+</html>
