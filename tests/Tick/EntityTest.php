@@ -6,20 +6,19 @@
  *
  * @category Test
  * @package  Test
- * @author	Brian Demant <brian.demant@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-11-16
  */
 /**
  * Test Entity
  *
- * @category	Test
+ * @category Test
  * @package	 Test
- * @subpackage Test
- * @author	Brian Demant <brian.demant@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-11-16
  */
 class EntityTest extends PHPUnit_Framework_TestCase {
@@ -118,8 +117,10 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	public function propertyAlias() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
-			$this->assertEquals($prop["field"], $re->propertyAlias($name),
-					"field: $name expected  " . $prop["field"] . " but got " . $re->propertyAlias($name));
+			$this->assertEquals(
+				$prop["field"], $re->propertyAlias($name),
+				"field: $name expected  " . $prop["field"] . " but got " . $re->propertyAlias($name)
+			);
 		}
 	}
 
@@ -132,8 +133,10 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	public function _defaultValue() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
-			@$this->assertEquals($prop["default"], $re->_defaultValue($name),
-					"default: $name expected  " . $prop["default"] . " but got " . $re->_defaultValue($name));
+			@$this->assertEquals(
+				$prop["default"], $re->_defaultValue($name),
+				"default: $name expected  " . $prop["default"] . " but got " . $re->_defaultValue($name)
+			);
 		}
 	}
 
@@ -147,8 +150,10 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	public function _Null() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
-			@$this->assertEquals(!!$prop["null"], !!$re->_Null($name),
-					"null: $name expected  " . ($prop["null"] != true) . " but got " . $re->_Null($name));
+			@$this->assertEquals(
+				!!$prop["null"], !!$re->_Null($name), 
+				"null: $name expected  " . ($prop["null"] != true) . " but got " . $re->_Null($name)
+			);
 		}
 		unset($name, $prop);
 	}
@@ -168,8 +173,10 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 				$field = $name;
 			}
 
-			@$this->assertEquals($name, $re->fieldAlias($field),
-					"fieldAlias: $name ($field) expected  " . $name . " but got " . $re->fieldAlias($field));
+			@$this->assertEquals(
+				$name, $re->fieldAlias($field),
+				"fieldAlias: $name ($field) expected  " . $name . " but got " . $re->fieldAlias($field)
+			);
 		}
 		unset($name, $prop);
 	}
@@ -183,8 +190,10 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	public function _mustBeUnique() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
-			@$this->assertEquals(!!$prop["unique"], !!$re->_mustBeUnique($name),
-					"unique: $name expected  " . ($prop["unique"] != true) . " but got " . $re->_mustBeUnique($name));
+			@$this->assertEquals(
+				!!$prop["unique"], !!$re->_mustBeUnique($name),
+				"unique: $name expected  " . ($prop["unique"] != true) . " but got " . $re->_mustBeUnique($name)
+			);
 		}
 		unset($name, $prop);
 	}
@@ -213,8 +222,10 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	public function propertyType() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
-			@$this->assertEquals($prop["type"], $re->propertyType($name),
-					"type: $name expected  " . $prop["type"] . " but got " . $re->propertyType($name));
+			@$this->assertEquals(
+				$prop["type"], $re->propertyType($name),
+				"type: $name expected  " . $prop["type"] . " but got " . $re->propertyType($name)
+			);
 		}
 	}
 

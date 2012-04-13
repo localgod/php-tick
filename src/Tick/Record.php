@@ -8,7 +8,7 @@
  * @package  Tick
  * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-09
  */
 /**
@@ -20,7 +20,7 @@
  * @package  Tick
  * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-17
  */
 abstract class Record extends Entity {
@@ -79,7 +79,7 @@ abstract class Record extends Entity {
 	 *
 	 * @param string $property  Property
 	 * @param string $condition Condition
-	 * @param mixed  $value	  Value
+	 * @param mixed  $value	    Value
 	 *
 	 * @return array
 	 */

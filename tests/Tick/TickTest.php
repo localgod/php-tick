@@ -6,22 +6,21 @@
  *
  * @category Test
  * @package  Test
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
- * @author	Brian Demant <brian.demant@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-17
  */
 /**
  * Test Record
  *
- * @category	Test
+ * @category Test
  * @package	 Test
- * @subpackage Test
- * @author	  Johannes Skov Frandsen <jsf.greenoak@gmail.com>
- * @author	  Brian Demant <brian.demant@gmail.com>
+ * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license	 http://www.opensource.org/licenses/mit-license.php MIT
- * @link		 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  */
 class TickTest extends PHPUnit_Framework_TestCase {
 	/**
@@ -36,7 +35,7 @@ class TickTest extends PHPUnit_Framework_TestCase {
 		TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
 		$dbPath = dirname(__FILE__).'/../_testdata/test.sqlite';
 		touch($dbPath);
-		TickManager::addConnectionConfig('tick_connection','sqlite', $dbPath);
+		TickManager::addConnectionConfig('tick_connection', 'sqlite', $dbPath);
 
 		$storage = TickManager::getStorage();
 		$storage->getConnection()->exec(file_get_contents(dirname(__FILE__).'/../_testdata/schema.sql'));
@@ -50,8 +49,7 @@ class TickTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @return void
 	 */
-	protected function tearDown()
-	{
+	protected function tearDown() {
 		$dbPath = dirname(__FILE__).'/../_testdata/test.sqlite';
 		unlink($dbPath);
 	}

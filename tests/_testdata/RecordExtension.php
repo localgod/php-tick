@@ -6,10 +6,10 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
- * @author	Brian Demant <brian.demant@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-11-11
  */
 /**
@@ -17,20 +17,32 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
- * @author	Brian Demant <brian.demant@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-11-11
  *
  * @collection record_extension_collection
  * @connection record_extension_connection
  */
 class RecordExtension extends Record {
+	/**
+	 * Get collection name
+	 *
+	 * @return string
+	 * @see Entity::getCollectionName()
+	 */
 	public function getCollectionName() {
 		return parent::getCollectionName();
 	}
-
+	
+	/**
+	 * Get connection name
+	 *
+	 * @return string
+	 * @see Entity::getConnectionName()
+	 */
 	public function getConnectionName() {
 		return parent::getConnectionName();
 	}

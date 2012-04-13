@@ -6,9 +6,9 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-09
  */
 /**
@@ -19,9 +19,9 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-09
  */
 abstract class Entity extends Type {
@@ -126,8 +126,6 @@ abstract class Entity extends Type {
 
 	/**
 	 * Set collection name
-	 *
-	 * @param string $collectionName Collection name
 	 *
 	 * @return void
 	 */
@@ -378,7 +376,7 @@ abstract class Entity extends Type {
 	/**
 	 * Get field alias
 	 *
-	 * @param	string $field Field name
+	 * @param string $field Field name
 	 *
 	 * @return string Field alias or field name if no alias was found/specfied
 	 * @throws RuntimeException if field could not be matched to a property

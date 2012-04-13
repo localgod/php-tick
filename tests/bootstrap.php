@@ -8,7 +8,7 @@
  * @package  Tick
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-04-09
  */
 if (false === spl_autoload_functions()) {

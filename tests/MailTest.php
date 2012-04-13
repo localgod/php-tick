@@ -8,7 +8,7 @@
  * @package  Test
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-04-18
  */
 /**
@@ -19,18 +19,16 @@
  * @subpackage Test
  * @author     Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
- * @link       http://code.google.com/p/php-tick/ php-tick
+ * @link       https://github.com/localgod/php-tick php-tick
  */
-class MailTest extends PHPUnit_Framework_TestCase
-{
+class MailTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
 	 * @return void
 	 */
-	protected function setUp()
-	{
+	protected function setUp() {
 		TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
 		TickManager::setModelPath(dirname(__FILE__).'/_testdata/');
 		$storage = TickManager::getStorage();
@@ -44,8 +42,7 @@ class MailTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	protected function tearDown()
-	{
+	protected function tearDown() {
 		TickManager::removeAllConnections();
 	}
 
@@ -55,8 +52,7 @@ class MailTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function storeNew()
-	{
+	public function storeNew() {
 		$mail = new Mail();
 		$mail->setUserId(5);
 		$mail->setMailId(5);
@@ -72,8 +68,7 @@ class MailTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function remove()
-	{
+	public function remove() {
 		$mail = new Mail();
 		$mail = $mail->get()->whereEquals('userId', 1)->whereEquals('mailId', 1)->current();
 		$mail->remove(array('userId' => 1, 'mailId' => 1));
@@ -86,8 +81,7 @@ class MailTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function update()
-	{
+	public function update() {
 		$mail = new Mail();
 		$mail = $mail->get()->whereEquals('userId', 1)->whereEquals('mailId', 1)->current();
 		$mail->setMail('Conny');

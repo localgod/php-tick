@@ -8,7 +8,7 @@
  * @package  Tick
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-04-09
  */
 /**
@@ -23,11 +23,10 @@
  * @package  Tick
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-04-17
  */
-abstract class Type
-{
+abstract class Type {
 	/**
 	 * Class comment
 	 * @var string
@@ -42,8 +41,7 @@ abstract class Type
 	 *
 	 * @return boolean
 	 */
-	protected function isValidType($property, $value)
-	{
+	protected function isValidType($property, $value) {
 		$type = $this->propertyType($property);
 		$value = is_numeric($value) ? $value + 1 - 1 : $value;//Force to be a number
 

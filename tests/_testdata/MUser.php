@@ -8,7 +8,7 @@
  * @package  Test
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-11-04
  */
 /**
@@ -18,7 +18,7 @@
  * @package  Test
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  *
  * @collection users
  * 
@@ -30,8 +30,7 @@
  * @property float(1)    latitude  latitude   - null
  * @property float(1)    longitude longitude  - null
  */
-class MUser extends Tick
-{
+class MUser extends Tick {
 	/**
 	 * Get user by id
 	 *
@@ -39,8 +38,7 @@ class MUser extends Tick
 	 *
 	 * @return User
 	 */
-	public static function getById($userId = null)
-	{
+	public static function getById($userId = null) {
 		if ($userId) {
 			$user = new self();
 			$criteria = $user->createCriteria('id', '=', $userId);

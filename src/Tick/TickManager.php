@@ -6,9 +6,9 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-09-18
  */
 /**
@@ -20,7 +20,7 @@
  * @package  Tick
  * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-09-18
  */
 class TickManager {
@@ -84,8 +84,7 @@ class TickManager {
 	 *
 	 * @return string
 	 */
-	public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME)
-	{
+	public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME) {
 		return self::$_connections[$connectionName]['database'];
 	}
 
@@ -98,8 +97,7 @@ class TickManager {
 	 *
 	 * @return void
 	 */
-	private static function _createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
-	{
+	private static function _createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME) {
 		$connection = self::$_connections[$connectionName];
 		$unique_name = self::getUniqueName($connectionName);
 
@@ -270,7 +268,7 @@ class TickManager {
 	/**
 	 * Closes and removes the a connection
 	 *
-	 * @param string $name Connection name
+	 * @param string $connectionName Connection name
 	 *
 	 * @return void
 	 */

@@ -8,7 +8,7 @@
  * @package  Test
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-04-09
  */
 /**
@@ -19,10 +19,9 @@
  * @subpackage Test
  * @author     Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
- * @link       http://code.google.com/p/php-tick/ php-tick
+ * @link       https://github.com/localgod/php-tick php-tick
  */
-class MUserTest extends PHPUnit_Framework_TestCase
-{
+class MUserTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Start a mongo server if we can
 	 *
@@ -59,8 +58,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	protected function setUp()
-	{
+	protected function setUp() {
 		if (extension_loaded('mongo')) {
 			if (shell_exec('mongod --version | grep "db version"') == '') {
 				$this->markTestSkipped('The mongod execuatable is not available.');
@@ -82,8 +80,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	protected function tearDown()
-	{
+	protected function tearDown() {
 		TickManager::removeAllConnections();
 	}
 
@@ -93,8 +90,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getConnection()
-	{
+	public function getConnection() {
 		$this->assertTrue(TickManager::getStorage() instanceof Storage);
 		$this->assertTrue(TickManager::getStorage() instanceof MongoStorage);
 	}
@@ -104,8 +100,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function storeNew()
-	{
+	public function storeNew() {
 		$now = new DateTime();
 		$user = new MUser();
 		$user->setCreated($now);
@@ -120,8 +115,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function update()
-	{
+	public function update() {
 		$now = new DateTime();
 		$user = new User();
 		$user = User::getById(1);
@@ -136,8 +130,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function remove()
-	{
+	public function remove() {
 		$user = new User();
 		$user = User::getById(1);
 		$user->remove();

@@ -8,7 +8,7 @@
  * @package  Test
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-04-17
  */
 /**
@@ -19,18 +19,16 @@
  * @subpackage Test
  * @author     Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
- * @link       http://code.google.com/p/php-tick/ php-tick
+ * @link       https://github.com/localgod/php-tick php-tick
  */
-class UserMailsTest extends PHPUnit_Framework_TestCase
-{
+class UserMailsTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
 	 * @return void
 	 */
-	protected function setUp()
-	{
+	protected function setUp() {
 		TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
 		TickManager::setModelPath(dirname(__FILE__).'/_testdata/');
 		$storage = TickManager::getStorage();
@@ -44,8 +42,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	protected function tearDown()
-	{
+	protected function tearDown() {
 		TickManager::removeAllConnections();
 	}
 	/**
@@ -54,8 +51,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function createNew()
-	{
+	public function createNew() {
 		$userMails = new UserMails();
 		$userMails->setUserId(1);
 		$userMails->setMailId(1);
@@ -67,8 +63,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function storeNew()
-	{
+	public function storeNew() {
 		$userMails = new UserMails();
 		$userMails->setUserId(5);
 		$userMails->setMailId(5);
@@ -83,8 +78,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function remove()
-	{
+	public function remove() {
 		$userMails = new UserMails();
 		$userMails = $userMails->get()->whereEquals('userId', 1)->whereEquals('mailId', 1)->current();
 		$userMails->remove(array('userId' => 1, 'mailId' => 1));
@@ -97,8 +91,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function update()
-	{
+	public function update() {
 		$userMails = new UserMails();
 		$userMails = $userMails->get()->whereEquals('userId', 1)->whereEquals('mailId', 1)->current();
 		$userMails->setUserId(6);
@@ -114,8 +107,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getWithOneCriteria()
-	{
+	public function getWithOneCriteria() {
 		$userMails = new UserMails();
 		$this->assertEquals(2, $userMails->get()->whereEquals('userId', 1)->count());
 	}
@@ -126,8 +118,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getWithBiggerThanCriterias()
-	{
+	public function getWithBiggerThanCriterias() {
 		$userMails = new UserMails();
 		$this->assertEquals(0, $userMails->get()->where('userId', '>', 1)->count());
 	}

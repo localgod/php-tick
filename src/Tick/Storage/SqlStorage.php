@@ -6,9 +6,9 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-09
  */
 /**
@@ -17,13 +17,12 @@
  * All databases supported by PDO should work, but it has only been tested
  * with mysql and sqlite.
  *
- * @category	ActiveRecord
+ * @category ActiveRecord
  * @package	 Tick
- * @subpackage Storage
- * @author	  Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license	 http://www.opensource.org/licenses/mit-license.php MIT
- * @link		 http://code.google.com/p/php-tick/ php-tick
- * @since		2011-04-09
+ * @link	 https://github.com/localgod/php-tick php-tick
+ * @since	 2011-04-09
  */
 class SqlStorage implements Storage {
 	/**
@@ -57,6 +56,7 @@ class SqlStorage implements Storage {
 	/**
 	 * Close storage connection
 	 *
+	 * @return void
 	 * @see Storage::closeConnection()
 	 */
 	public function closeConnection() {
@@ -72,7 +72,8 @@ class SqlStorage implements Storage {
 	 * @param array  $criterias  Criterias to search by
 	 * @param array  $order		 Order result
 	 * @param array  $direction  Order direction
-	 * @param array  $limit		 Limit result
+	 * @param string $limit		 Limit result
+	 * @param string $offset	 Offset result
 	 *
 	 * @return array Array with Associative arrays with fieldname=>value
 	 * @see Storage::get()
@@ -122,7 +123,7 @@ class SqlStorage implements Storage {
 		if (!empty($order)) {
 			$orderString = array();
 			$orderString[] = 'ORDER BY';
-			for($i = 0; count($order) > $i; $i++) {
+			for ($i = 0; count($order) > $i; $i++) {
 				if ($i == 0) {
 					$orderString[] = '`' . $order[$i] . '`';
 				} else {

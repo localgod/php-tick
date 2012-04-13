@@ -8,7 +8,7 @@
  * @package  Tick
  * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-09
  */
 require_once dirname(__FILE__) . '/Type.php';
@@ -25,7 +25,7 @@ require_once dirname(__FILE__) . '/TickManager.php';
  * @package  Tick
  * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-09
  */
 abstract class Tick extends Record {
@@ -151,8 +151,7 @@ abstract class Tick extends Record {
 	 *
 	 * @return Result Result of matching objects
 	 */
-	public function get()
-	{
+	public function get() {
 		return $this->getAll();
 	}
 
@@ -161,8 +160,7 @@ abstract class Tick extends Record {
 	 *
 	 * @return Result Result of matching objects
 	 */
-	public function getAll()
-	{
+	public function getAll() {
 		return new Result(get_class($this));
 	}
 
@@ -181,19 +179,19 @@ abstract class Tick extends Record {
 		$class = self::getPath() . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
 		if (file_exists($class)) {
-			include_once $class;
+			require_once $class;
 			return true;
 		}
 
 		$class = self::getPath() . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
 		if (file_exists($class)) {
-			include_once $class;
+			require_once $class;
 			return true;
 		}
 		$class = TickManager::getModelPath() . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 		if (file_exists($class)) {
-			include_once $class;
+			require_once $class;
 			return true;
 		}
 		return false;

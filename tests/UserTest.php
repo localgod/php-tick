@@ -8,7 +8,7 @@
  * @package  Test
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-04-09
  */
 /**
@@ -19,18 +19,16 @@
  * @subpackage Test
  * @author     Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
- * @link       http://code.google.com/p/php-tick/ php-tick
+ * @link       https://github.com/localgod/php-tick php-tick
  */
-class UserTest extends PHPUnit_Framework_TestCase
-{
+class UserTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
 	 * @return void
 	 */
-	protected function setUp()
-	{
+	protected function setUp() {
 		TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
 		TickManager::setModelPath(dirname(__FILE__).'/_testdata/');
 		$storage = TickManager::getStorage();
@@ -44,8 +42,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	protected function tearDown()
-	{
+	protected function tearDown() {
 		TickManager::removeAllConnections();
 	}
 
@@ -55,8 +52,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function createNew()
-	{
+	public function createNew() {
 		$user = new User();
 		$this->assertEquals('Jane', $user->getFirstname());
 		$this->assertEquals('Doe Doe', $user->getLastname());
@@ -71,8 +67,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @expectedException RangeException
 	 * @return void
 	 */
-	public function setIdWidthToBigANumber()
-	{
+	public function setIdWidthToBigANumber() {
 		$user = new User();
 		$user->setId(123456789101);
 	}
@@ -84,8 +79,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @expectedException RangeException
 	 * @return void
 	 */
-	public function setWithToLongString()
-	{
+	public function setWithToLongString() {
 		$user = new User();
 		$longString = str_pad('', 256, 'D');
 		$user->setFirstname($longString);
@@ -97,8 +91,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function storeNew()
-	{
+	public function storeNew() {
 		$now = new DateTime();
 		$user = new User();
 		$user->setCreated($now);
@@ -113,8 +106,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function update()
-	{
+	public function update() {
 		$now = new DateTime();
 		$user = User::getById(1);
 		$user->setCreated($now);
@@ -129,8 +121,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function remove()
-	{
+	public function remove() {
 		$user = User::getById(1);
 		$user->remove();
 		$user = User::getById(1);
@@ -143,8 +134,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getWithOneCriteria()
-	{
+	public function getWithOneCriteria() {
 		$user = new User();
 		$this->assertEquals($user->get()->whereEquals('id', 1)->current()->getFirstname(), 'John');
 	}
@@ -155,8 +145,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getWithTwoCriterias()
-	{
+	public function getWithTwoCriterias() {
 		$user = new User();
 		$this->assertEquals($user->get()->where('firstname', '=', 'John')->where('id', '=', 1)->current()->getFirstname(), 'John');
 	}
@@ -167,8 +156,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getAll()
-	{
+	public function getAll() {
 		$user = new User();
 		$res = $user->get();
 		$this->assertEquals($user->get()->current()->getFirstname(), 'John');
@@ -181,8 +169,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getAllWithLimit()
-	{
+	public function getAllWithLimit() {
 		$user = new User();
 		$this->assertEquals($user->get()->limit(1)->current()->getFirstname(), 'John');
 		$this->assertEquals($user->get()->limit(2)->count(), 2);
@@ -194,8 +181,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getAllWithLimitAndOffset()
-	{
+	public function getAllWithLimitAndOffset() {
 		$user = new User();
 		$this->assertEquals($user->get()->limit(2)->offset(1)->current()->getFirstname(), 'Jonny');
 		$this->assertEquals($user->get()->limit(2)->offset(1)->count(), 2);
@@ -207,8 +193,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getAllOrderByDESC()
-	{
+	public function getAllOrderByDESC() {
 		$user = new User();
 		$this->assertEquals($user->get()->orderBy(array('firstname'), false)->current()->getFirstname(), 'Jonny');
 		$this->assertEquals($user->get()->orderBy(array('firstname'), false)->count(), 3);
@@ -220,8 +205,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getAllOrderByASC()
-	{
+	public function getAllOrderByASC() {
 		$user = new User();
 		$this->assertEquals($user->get()->orderBy(array('firstname'), true)->current()->getFirstname(), 'Jacob');
 		$this->assertEquals($user->get()->orderBy(array('firstname'), true)->count(), 3);
@@ -233,8 +217,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getAllOrderByTwoProperties()
-	{
+	public function getAllOrderByTwoProperties() {
 		$user = new User();
 		$this->assertEquals($user->get()->orderBy(array('firstname', 'lastname'), true)->current()->getFirstname(), 'Jacob');
 		$this->assertEquals($user->get()->orderBy(array('firstname', 'lastname'), true)->count(), 3);
@@ -246,8 +229,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getAllOrderByNoDirection()
-	{
+	public function getAllOrderByNoDirection() {
 		$user = new User();
 		$this->assertEquals($user->get()->orderBy(array('firstname', 'lastname'))->current()->getFirstname(), 'Jacob');
 		$this->assertEquals($user->get()->orderBy(array('firstname', 'lastname'))->count(), 3);
@@ -259,8 +241,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getWithBiggerThanCriterias()
-	{
+	public function getWithBiggerThanCriterias() {
 		$user = new User();
 		$this->assertEquals($user->get()->where('id', '>', 2)->current()->getFirstname(), 'Jacob');
 
@@ -272,8 +253,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function getFloatValue()
-	{
+	public function getFloatValue() {
 		$user = new User();
 		$this->assertEquals($user->get()->whereEquals('id', 1)->current()->getLatitude(), 43.8801);
 	}
@@ -284,8 +264,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 	 * @test
 	 * @return void
 	 */
-	public function setFloatValue()
-	{
+	public function setFloatValue() {
 		$user = new User();
 		$user = $user->get()->whereEquals('id', 1)->current();
 		$user->setLatitude(43.8802);
@@ -295,15 +274,13 @@ class UserTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($user->getLatitude(), 43.8802);
 	}
 
-
 	/**
 	 * Test
 	 *
 	 * @test
 	 * @return void
 	 */
-	public function setNegativeFloatValue()
-	{
+	public function setNegativeFloatValue() {
 		$user = new User();
 		$user = $user->get()->whereEquals('id', 1)->current();
 		$user->setLongitude(-75.6840);

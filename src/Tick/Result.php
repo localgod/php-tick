@@ -6,9 +6,9 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-09
  */
 /**
@@ -18,9 +18,9 @@
  *
  * @category ActiveRecord
  * @package  Tick
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-11-15
  */
 class Result implements Iterator {
@@ -132,7 +132,7 @@ class Result implements Iterator {
 	 *
 	 * @param string $property  Property
 	 * @param string $condition Condition
-	 * @param mixed  $value	  Value
+	 * @param mixed  $value	    Value
 	 *
 	 * @return Result
 	 */
@@ -144,8 +144,8 @@ class Result implements Iterator {
 	/**
 	 * Create equals criteria
 	 *
-	 * @param string $property  Property
-	 * @param mixed  $value     Value
+	 * @param string $property Property
+	 * @param mixed  $value    Value
 	 *
 	 * @return Result
 	 */
@@ -157,9 +157,9 @@ class Result implements Iterator {
 	/**
 	 * Create between criteria
 	 *
-	 * @param string $property  Property
-	 * @param mixed  $valueOne  Value one
-	 * @param mixed  $valueTwo  Value two
+	 * @param string $property Property
+	 * @param mixed  $valueOne Value one
+	 * @param mixed  $valueTwo Value two
 	 *
 	 * @return Result
 	 */
@@ -186,7 +186,7 @@ class Result implements Iterator {
 	 * Set an order clause for det result
 	 *
 	 * @param array|string $properties Properties to order by
-	 * @param boolean		$direction  Direction of the order (true = ascending, false descending)
+	 * @param boolean	   $direction  Direction of the order (true = ascending, false descending)
 	 *
 	 * @return Result
 	 */

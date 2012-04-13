@@ -8,7 +8,7 @@
  * @package  Tick
  * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2011-10-04
  */
 /**
@@ -22,11 +22,10 @@
  * @subpackage Storage
  * @author     Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
- * @link       http://code.google.com/p/php-tick/ php-tick
+ * @link       https://github.com/localgod/php-tick php-tick
  * @since      2011-10-04
  */
-class MongoStorage implements Storage
-{
+class MongoStorage implements Storage {
 	/**
 	 * Database connection
 	 *
@@ -41,8 +40,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return void
 	 */
-	public function __construct(MongoDB $connection)
-	{
+	public function __construct(MongoDB $connection) {
 		$this->_connection = $connection;
 	}
 
@@ -52,8 +50,7 @@ class MongoStorage implements Storage
 	 * @return Mongo A Mongo instance
 	 * @see Storage::getConnection()
 	 */
-	public function getConnection()
-	{
+	public function getConnection() {
 		return $this->_connection;
 	}
 
@@ -65,14 +62,13 @@ class MongoStorage implements Storage
 	 * @param array   $criterias  Criterias to search by
 	 * @param array   $order      Order result
 	 * @param boolean $direction  Order direction
-	 * @param array   $limit      Limit result
-	 * @param array   $offset     Offset result
+	 * @param string  $limit      Limit result
+	 * @param string  $offset     Offset result
 	 *
 	 * @return array Array with Associative arrays with fieldname=>value
 	 * @see Storage::get()
 	 */
-	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '')
-	{
+	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '') {
 		$sql = "SELECT * FROM ".$collection." ".$this->_criteria($criterias)." ".$this->_orderBy($order)." ".$this->_limit($limit).";";
 		try {
 			$statement = $this->_connection->query($sql);
@@ -91,8 +87,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return string Sql representation of a limit clause
 	 */
-	private function _limit($limit)
-	{
+	private function _limit($limit) {
 		if (!empty($limit)) {
 			if (isset($limit[0])) {
 				$limitString = array();
@@ -114,8 +109,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return string Sql representation of a order clause
 	 */
-	private function _orderBy(array $order)
-	{
+	private function _orderBy(array $order) {
 		if (!empty($order)) {
 			if (isset($order[0])) {
 				$orderString = array();
@@ -147,8 +141,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return string Sql representation of a where clause
 	 */
-	private function _criteria(array $criterias)
-	{
+	private function _criteria(array $criterias) {
 		if (!empty($criterias)) {
 			$where = array();
 			$where[] = 'WHERE ';
@@ -172,8 +165,7 @@ class MongoStorage implements Storage
 	 * @return integer Id of the object inserted
 	 * @see Storage::insert()
 	 */
-	public function insert($collection, array $data)
-	{
+	public function insert($collection, array $data) {
 		$columnString = array();
 		$setArray = array();
 		foreach ($data as $field => $value) {
@@ -216,8 +208,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return string Sql representation of a datetime value
 	 */
-	private static function _convertDateTime(DateTime $value = null)
-	{
+	private static function _convertDateTime(DateTime $value = null) {
 		if ($value instanceof DateTime) {
 			return $value->format('U');
 		}
@@ -233,8 +224,7 @@ class MongoStorage implements Storage
 	 * @return void
 	 * @see Storage::update()
 	 */
-	public function update($collection, array $data, array $criterias)
-	{
+	public function update($collection, array $data, array $criterias) {
 		$setString = array();
 
 		foreach ($data as $field => $value) {
@@ -281,8 +271,7 @@ class MongoStorage implements Storage
 	 * @return void
 	 * @see Storage::remove()
 	 */
-	public function remove($collection, array $criterias)
-	{
+	public function remove($collection, array $criterias) {
 		$sql = "DELETE FROM ".$collection." ".$this->_criteria($criterias).";";
 		try {
 			$statement = $this->_connection->query($sql);
@@ -301,8 +290,7 @@ class MongoStorage implements Storage
 	 * @return boolean if the entity exists
 	 * @see Storage::exists()
 	 */
-	public function exists($collection, array $criterias)
-	{
+	public function exists($collection, array $criterias) {
 		$sql = "SELECT COUNT(*) FROM ".$collection." ".$this->_criteria($criterias).";";
 
 		try {
@@ -352,8 +340,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return integer|string Sql representation of integer value
 	 */
-	private function _convertInteger($value)
-	{
+	private function _convertInteger($value) {
 		if ($value === null) {
 			return "NULL";
 		} elseif ($value === '') {
@@ -368,8 +355,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return float|string Sql representation of float value
 	 */
-	private function _convertFloat($value)
-	{
+	private function _convertFloat($value) {
 		if ($value === null) {
 			return "NULL";
 		} elseif ($value === '') {
@@ -380,7 +366,8 @@ class MongoStorage implements Storage
 
 	/**
 	 * Close storage connection
-	 *
+	 * 
+	 * @return void
 	 * @see Storage::closeConnection()
 	 */
 	public function closeConnection() {
@@ -395,8 +382,7 @@ class MongoStorage implements Storage
 	 *
 	 * @return string Sql representation of string value
 	 */
-	private function _convertString($value)
-	{
+	private function _convertString($value) {
 		if ($value === null) {
 			return "NULL";
 		} elseif ($value === '') {

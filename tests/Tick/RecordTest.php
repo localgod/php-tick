@@ -6,22 +6,21 @@
  *
  * @category Test
  * @package  Test
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
- * @author	Brian Demant <brian.demant@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-04-17
  */
 /**
  * Test Record
  *
- * @category	Test
+ * @category Test
  * @package	 Test
- * @subpackage Test
- * @author	  Johannes Skov Frandsen <jsf.greenoak@gmail.com>
- * @author	  Brian Demant <brian.demant@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Brian Demant <brian.demant@gmail.com>
  * @license	 http://www.opensource.org/licenses/mit-license.php MIT
- * @link		 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  */
 class RecordTest extends PHPUnit_Framework_TestCase {
 		/**

@@ -38,8 +38,6 @@
 	<property name="phpdoc.include.file" value="" />
 	<!-- Comma separated list of files to exclude -->
 	<property name="phpdoc.exclude" value="*/build/*,*/tests/*,*/tools/*,*/dist/*" />
-	<!-- Path to example files -->
-	<property name="phpdoc.examples" value="" />
 
 	<!-- ================ PHPLOC Settings ==================== -->
 	<!-- Comma separated list of folders to include -->
@@ -246,7 +244,7 @@
 			<then>
 				<exec dir="${basedir}" executable="phpcs" output="${basedir}/${build}/logs/checkstyle.xml">
 					<arg line="--report=checkstyle" />
-					<arg line="--standard=PEAR" />
+					<arg line="--standard=${basedir}/tools/PhpTick" />
 					<arg line="--extensions=php" />
 					<arg line="--tab-width=4" />
 					<arg line="-n" />
@@ -256,7 +254,7 @@
 			<else>
 				<exec dir="${basedir}" executable="phpcs" output="${basedir}/${build}/logs/checkstyle.xml">
 					<arg line="--report=checkstyle" />
-					<arg line="--standard=PEAR" />
+					<arg line="--standard=${basedir}/tools/PhpTick" />
 					<arg line="--extensions=php" />
 					<arg line="--ignore=${phpcs.exclude}" />
 					<arg line="--tab-width=4" />
@@ -346,31 +344,22 @@
 					<then>
 						<exec dir="${basedir}" executable="phpdoc" failonerror="true">
 							<arg line="--directory ${phpdoc.include.dir}" />
-							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
-							<arg line="--undocumentedelements on" />
 							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
-							<arg line="--defaultcategoryname ${modulename}" />
 							<arg line="--target ${basedir}/${build}/api" />
-							<arg line="--examplesdir ${phpdoc.examples}" />
 						</exec>
 					</then>
 					<else>
 						<exec dir="${basedir}" executable="phpdoc" failonerror="true">
 							<arg line="--directory ${phpdoc.include.dir}" />
-							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
-							<arg line="--undocumentedelements on" />
-							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
-							<arg line="--defaultcategoryname ${modulename}" />
 							<arg line="--target ${basedir}/${build}/api" />
-							<arg line="--examplesdir ${phpdoc.examples}" />
 							<arg line="--filename ${phpdoc.include.file}" />
 						</exec>
 					</else>
@@ -382,32 +371,22 @@
 					<then>
 						<exec dir="${basedir}" executable="phpdoc" failonerror="true">
 							<arg line="--directory ${phpdoc.include.dir}" />
-							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
-							<arg line="--undocumentedelements on" />
-							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
-							<arg line="--defaultcategoryname ${modulename}" />
 							<arg line="--target ${basedir}/${build}/api" />
-							<arg line="--examplesdir ${phpdoc.examples}" />
 							<arg line="--ignore ${phpdoc.exclude}" />
 						</exec>
 					</then>
 					<else>
 						<exec dir="${basedir}" executable="phpdoc" failonerror="true">
 							<arg line="--directory ${phpdoc.include.dir}" />
-							<arg line="--ignoresymlinks on" />
 							<arg line="--quiet on" />
-							<arg line="--undocumentedelements on" />
-							<arg line="--readmeinstallchangelog README.md,CHANGELOG,INSTALL,TUTORIAL" />
 							<arg line="--sourcecode on" />
 							<arg line="--title 'Phpdoc for ${ant.project.name}'" />
 							<arg line="--defaultpackagename ${modulename}" />
-							<arg line="--defaultcategoryname ${modulename}" />
 							<arg line="--target ${basedir}/${build}/api" />
-							<arg line="--examplesdir ${phpdoc.examples}" />
 							<arg line="--filename ${phpdoc.include.file}" />
 							<arg line="--ignore ${phpdoc.exclude}" />
 						</exec>

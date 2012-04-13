@@ -6,20 +6,19 @@
  *
  * @category Test
  * @package  Test
- * @author	Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	  http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  * @since	 2011-11-16
  */
 /**
  * Test the Result class
  *
- * @category	Test
+ * @category Test
  * @package	 Test
- * @subpackage Test
- * @author	  Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
  * @license	 http://www.opensource.org/licenses/mit-license.php MIT
- * @link		 http://code.google.com/p/php-tick/ php-tick
+ * @link	 https://github.com/localgod/php-tick php-tick
  */
 class ResultTest extends PHPUnit_Framework_TestCase {
 	/**

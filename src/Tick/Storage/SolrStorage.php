@@ -11,7 +11,7 @@
  * @package  Tick
  * @author   Jens Riisom Schultz <jers@fynskemedier.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     http://code.google.com/p/php-tick/ php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  * @since    2012-03-26
  */
 /**
@@ -24,11 +24,10 @@
  * @subpackage Storage
  * @author     Jens Riisom Schultz <jers@fynskemedier.dk>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
- * @link       http://code.google.com/p/php-tick/ php-tick
+ * @link       https://github.com/localgod/php-tick php-tick
  * @since      2012-03-26
  */
-class SolrStorage implements Storage
-{
+class SolrStorage implements Storage {
 	/**
 	 * Database connection
 	 *
@@ -60,6 +59,7 @@ class SolrStorage implements Storage
 	/**
 	 * Close storage connection
 	 *
+	 * @return void
 	 * @see Storage::closeConnection()
 	 */
 	public function closeConnection() {
