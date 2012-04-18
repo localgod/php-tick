@@ -45,6 +45,7 @@ abstract class Type {
 	 */
 	protected function isValidType($property, $value) {
 		$type = $this->propertyType($property);
+		echo "\n $type:".(is_numeric($value) ? 1:0);
 		$value = is_numeric($value) ? $value + 1 - 1 : $value;//Force to be a number
 
 		if ($type == 'integer' && is_integer($value)) {
