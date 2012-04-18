@@ -408,6 +408,7 @@ abstract class Entity extends Type {
 	 * @param mixed  $value Value to test
 	 *
 	 * @return boolean
+	 * @throws RangeException if the value dos not fit the specified size
 	 */
 	protected function _isValidLength($name, $value) {
 		$size = $this->_getProperty($name, "size");

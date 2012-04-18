@@ -41,7 +41,6 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	public function __destruct() {
-
 		if (extension_loaded('mongo')) {
 			if (file_exists('mongodb')) {
 				$pid = shell_exec('cat mongodb/db/mongod.lock');
@@ -50,8 +49,8 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 				shell_exec('rm -rf mongodb');
 			}
 		}
-
 	}
+	
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -97,17 +96,27 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test
-	 *
+	 * 
 	 * @return void
 	 */
 	public function storeNew() {
 		$now = new DateTime();
 		$user = new MUser();
 		$user->setCreated($now);
-		echo 'SAVING'."\n";
 		$user->save();
-		$user = User::getById(4);
-		$this->assertEquals($now, $user->getCreated());
+		//$user = MUser::getById(4);
+		//$this->assertEquals($now, $user->getCreated());
+	}
+	/**
+	 * Test
+	 * 
+	 * @test
+	 * @return void
+	 */
+	public function getOne() {
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'John')->current();
+		//$this->assertEquals('John', $user->getFirstname());
 	}
 
 	/**

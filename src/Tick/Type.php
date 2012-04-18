@@ -40,6 +40,8 @@ abstract class Type {
 	 * @param mixed  $value    Value to test
 	 *
 	 * @return boolean
+	 * @throws RangeException if the value dos not fit the specified size
+	 * @throws InvalidArgumentException if the value dos not mathc the  property declartion
 	 */
 	protected function isValidType($property, $value) {
 		$type = $this->propertyType($property);
@@ -66,7 +68,8 @@ abstract class Type {
 		} else if ($value instanceof $type) {
 			return true;
 		} else {
-			throw new InvalidArgumentException('Input:\''.$value.'\' of type \''.gettype($value).'\' does not match property declartion ['.$type.' $'.$property.']', 1);
+			$message = 'Input:\''.$value.'\' of type \''.gettype($value).'\' does not match property declartion ['.$type.' $'.$property.']';
+			throw new InvalidArgumentException($message, 1);
 		}
 	}
 	/**

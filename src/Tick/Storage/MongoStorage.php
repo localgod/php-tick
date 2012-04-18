@@ -70,9 +70,17 @@ class MongoStorage implements Storage {
 	 */
 	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '') {
 		$sql = "SELECT * FROM ".$collection." ".$this->_criteria($criterias)." ".$this->_orderBy($order)." ".$this->_limit($limit).";";
+		$query = array('first_name' => 'John');
+		//var_dump($query);
+		//var_dump($criterias);
+		//var_dump($this->_criteria($criterias));
 		try {
-			$statement = $this->_connection->query($sql);
-			return $statement->fetchAll(PDO::FETCH_ASSOC);
+			$mongoCollection = $this->_connection->selectCollection($collection);
+			$cursor = $mongoCollection->find($this->_criteria($criterias));
+			foreach ($cursor as $doc) {
+				var_dump($doc);
+			}
+			ob_flush();
 		} catch (PDOException $e) {
 			echo $e->getMessage()."\n";
 			echo 'Failed query: '.$sql."\n";
@@ -144,14 +152,16 @@ class MongoStorage implements Storage {
 	private function _criteria(array $criterias) {
 		if (!empty($criterias)) {
 			$where = array();
-			$where[] = 'WHERE ';
+				
 			foreach ($criterias as $criteria) {
-				if (sizeof($where) > 1) {
-					$where[] = ' AND ';
+				if ($criteria['condition'] == '=') {
+					$where[$criteria['property']] = $criteria['value'];
+				} else {
+					echo 'we only handle = at the moment';
+					ob_flush();
 				}
-				$where[] = $criteria['property'].' '.$criteria['condition'].' '.$criteria['value'];
 			}
-			return implode('', $where);
+			return $where;
 		}
 		return '';
 	}
@@ -196,6 +206,7 @@ class MongoStorage implements Storage {
 			foreach ($cursor as $doc) {
 				var_dump($doc);
 			}
+			ob_flush();
 		} catch (Exception $e) {
 			echo $e->getMessage()."\n";
 			echo 'Failed insert in collection > $collection: '.implode(', ', $setArray)."\n";
@@ -253,7 +264,7 @@ class MongoStorage implements Storage {
 			}
 		}
 		$sql = "UPDATE ".$collection."
-		        SET ".implode(', ', $setString)." ".$this->_criteria($criterias).";";
+		SET ".implode(', ', $setString)." ".$this->_criteria($criterias).";";
 		try {
 			$statement = $this->_connection->query($sql);
 		} catch (PDOException $e) {
@@ -366,7 +377,7 @@ class MongoStorage implements Storage {
 
 	/**
 	 * Close storage connection
-	 * 
+	 *
 	 * @return void
 	 * @see Storage::closeConnection()
 	 */
