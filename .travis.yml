@@ -3,6 +3,7 @@ php:
   - 5.3
   - 5.4
 before_script:
+  - pyrus channel-discover pear.pdepend.org
   - pyrus install pear/PHP_CodeSniffer
   - pyrus channel-discover pear.phpmd.org
   - pyrus install pear.phpmd.org/PHP_PMD
