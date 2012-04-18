@@ -1,3 +1,4 @@
+[![Build Status](https://secure.travis-ci.org/localgod/php-tick.png?branch=master)](http://travis-ci.org/localgod/php-tick)
 php-tick
 ========
 
