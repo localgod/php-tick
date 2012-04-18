@@ -1,4 +1,4 @@
-php-tick
+php-tick [![Build Status](https://secure.travis-ci.org/php-tick/php-tick.png)](http://travis-ci.org/php-tick/php-tick)
 ========
 
 Simple active record implementation with the least amount of fuss needed to make it work fast.
