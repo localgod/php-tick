@@ -4,12 +4,11 @@ php:
   - 5.4
 before_script:
   - pyrus channel-discover pear.pdepend.org
-  - pyrus install pear/PHP_CodeSniffer
   - pyrus channel-discover pear.phpmd.org
-  - pyrus install pear.phpmd.org/PHP_PMD
-  - pyrus channel-discover pear.pdepend.org 
-  - pyrus install pear.pdepend.org/PHP_Depend
-  - pyrus channel-discover pear.phpdoc.org
-  - pyrus install pear.phpdoc.org/phpDocumentor
+#  - pyrus channel-discover pear.phpdoc.org
+  - pyrus install pear/PHP_CodeSniffer
+#  - pyrus install pear.phpmd.org/PHP_PMD
+#  - pyrus install pear.pdepend.org/PHP_Depend
+#  - pyrus install pear.phpdoc.org/phpDocumentor
   - phpenv rehash
-script : ant
+script : ant travisbuild

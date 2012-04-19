@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="php-tick" default="packforgoogle" basedir=".">
+<project name="php-tick" default="deploy" basedir=".">
 
 	<!-- Change these to reflect the current project -->
 	<property name="version.status" value="alpha" />
 	<property name="version.major" value="0" />
 	<property name="version.minor" value="1" />
-	<property name="svn.base" value="https://php-tick.googlecode.com/svn/" />
-	<property name="svn.tags" value="tags" />
-	<property name="svn.user" value="jsf.greenoak@gmail.com" />
 
 	<!-- Don't modify anything below unless you know what you are doing. -->
 	<description>Deploy file for ${ant.project.name}</description>
@@ -17,74 +14,6 @@
 			<pathelement location="${basedir}/tools/ant-contrib-1.0b3.jar" />
 		</classpath>
 	</taskdef>
-
-	<!-- ================================= target: checkphp ============================== -->
-	<target name="packforgoogle" depends="getbuild" description="Prepare for distribution">
-		<delete dir="${basedir}/${dist}" />
-		<antcall target="export"></antcall>
-		<move file="${basedir}/${dist}/src/Tick" todir="${basedir}/${dist}/"/>
-		<exec executable="bash" dir="${basedir}/src/">
-			<arg line="-c 'cp -R ${basedir}/${build}/api ${basedir}/dist'" />
-		</exec>
-		<delete dir="${basedir}/${dist}/src"/>
-		<delete dir="${basedir}/${dist}/docs"/>
-		<delete dir="${basedir}/${dist}/tests"/>
-		<delete dir="${basedir}/${dist}/tools"/>
-		<delete file="${basedir}/${dist}/build.xml"/>
-		<delete file="${basedir}/${dist}/deploy.xml"/>
-		 <zip destfile="${dist}/php-tick-${version.major}.${version.minor}.${version.build}-${version.status}.zip"
-		       basedir="${basedir}/${dist}"
-		  />
-	</target>
-
-	<!-- - - - - - - - - - - - - - - - - - target: Export from svn - - - - - - - - - - - - - - - - - -->
-	<target name="export">
-		<exec executable="bash" dir="${basedir}/src/">
-			<arg line="-c 'svn export -q ${svn.base}/trunk ${basedir}/dist'" />
-		</exec>
-	</target>
-
-	<!-- ================================= target: Get the build number from svn. ================================= -->
-	<target name="getbuild">
-		<exec executable="bash" dir="${basedir}/src/" outputproperty="revision">
-			<arg line="-c 'svn info ${svn.base}trunk | grep Revision | sed s/^Revision:.//'" />
-		</exec>
-		<math result="result" operand1="${revision}" operation="+" operand2="1" datatype="int" />
-		<property name="version.build" value="${result}" />
-	</target>
-
-	<!-- ================================= target: tag version into subversion  ================================= -->
-	<target name="tag" depends="getbuild" description="Tag version into subversion">
-		<echo file="commitmessage" append="false">Tagging ${version.major}.${version.minor}.${version.build}</echo>
-		<exec executable="bash" dir="${basedir}/src/">
-			<arg line="-c 'svn --username ${svn.user} copy ${svn.base}trunk/ ${svn.base}tags/${version.major}.${version.minor}.${version.build}/ --file ${basedir}/commitmessage'" />
-		</exec>
-		<echo file="VERSION" append="false">${version.major}.${version.minor}.${version.build}</echo>
-		<echo>Tagged version: ${version.major}.${version.minor}.${version.build}</echo>
-	</target>
-	
-	<!-- ================================= target: tag latest into subversion ================================= -->
-	<target name="latest" depends="getbuild" description="Tag latest into subversion">
-		<echo file="commitmessage" append="false">Removing old latest</echo>
-		<exec executable="bash" dir="${basedir}/src/">
-			<arg line="-c 'svn --username ${svn.user} del ${svn.base}tags/latest --file ${basedir}/commitmessage'" />
-		</exec>
-		<echo file="commitmessage" append="false">Tagging latest</echo>
-		<exec executable="bash" dir="${basedir}/src/">
-			<arg line="-c 'svn --username ${svn.user} copy ${svn.base}trunk/ ${svn.base}tags/latest/ --file ${basedir}/commitmessage'" />
-		</exec>
-		<echo file="VERSION" append="false">${version.major}.${version.minor}.${version.build}</echo>
-		<echo>Tagged lastest version: ${version.major}.${version.minor}.${version.build}</echo>
-	</target>
-
-	<!-- ================================= target: tag check into subversion ================================= -->
-	<target name="ci" depends="getbuild" description="Check into subversion">
-		<input message="Please enter svn log message:" addproperty="svn.message" />
-		<echo file="commitmessage" append="false">${svn.message}</echo>
-		<echo file="VERSION" append="false">${version.major}.${version.minor}.${version.build}</echo>
-		<exec executable="bash" dir="${basedir}">
-			<arg line="-c 'svn --username ${svn.user} ci --file ${basedir}/commitmessage'" />
-		</exec>
-		<echo>Committed version: ${version.major}.${version.minor}.${version.build}</echo>
+	<target name="deploy">
 	</target>
 </project>
