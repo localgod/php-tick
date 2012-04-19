@@ -184,10 +184,10 @@ class SolrStorage implements Storage {
 
 		$ids = array();
 		foreach ($response->docs as $doc) {
-			$ids[] = $doc->getId();
+			$ids[] = $doc['id'];
 		}
 
-		$this->_connection->deletByIds($ids);
+		$this->_connection->deleteByIds($ids);
 
 		$this->_connection->commit();
 	}
