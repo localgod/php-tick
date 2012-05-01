@@ -67,79 +67,34 @@ class MongoStorage implements Storage {
 	 *
 	 * @return array Array with Associative arrays with fieldname=>value
 	 * @see Storage::get()
+	 * @throws RuntimeException if the query failed
 	 */
 	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '') {
-		$sql = "SELECT * FROM ".$collection." ".$this->_criteria($criterias)." ".$this->_orderBy($order)." ".$this->_limit($limit).";";
-		$query = array('first_name' => 'John');
-		//var_dump($query);
-		//var_dump($criterias);
-		//var_dump($this->_criteria($criterias));
-		try {
 			$mongoCollection = $this->_connection->selectCollection($collection);
-			$cursor = $mongoCollection->find($this->_criteria($criterias));
-			foreach ($cursor as $doc) {
-				var_dump($doc);
+			$cursor = $mongoCollection->find($this->_criteria($criterias), $fields);
+			$cursor->sort($order)->skip($offset)->limit($limit);
+			$result = array();
+			try {
+				while ($entry = $cursor->getNext()) {
+					$row = array();
+					foreach ($entry as $key => $value) {
+						if ($value instanceof MongoId) {
+							$row[$key] = $value->__tostring();
+						} elseif ($value instanceof MongoDate) {
+							$row[$key] = $value->sec;
+						} else {
+							$row[$key] = $value;
+						}
+					}
+					$result[] = $row;
+				}
+				return $result;
+			} catch (MongoConnectionException $e) {
+				throw new RuntimeException('Query : returned error : '.$e->getMessage());
+			} catch (MongoCursorTimeoutException $e) {
+				throw new RuntimeException('Query : returned error : '.$e->getMessage());
 			}
 			ob_flush();
-		} catch (PDOException $e) {
-			echo $e->getMessage()."\n";
-			echo 'Failed query: '.$sql."\n";
-			exit();
-		}
-	}
-
-	/**
-	 * Convert limit criteria to limit clause
-	 *
-	 * @param array $limit Limit
-	 *
-	 * @return string Sql representation of a limit clause
-	 */
-	private function _limit($limit) {
-		if (!empty($limit)) {
-			if (isset($limit[0])) {
-				$limitString = array();
-				$limitString[] = 'LIMIT';
-				$limitString[] = $limit[0];
-				if (isset($limit[1])) {
-					$limitString[] = ',';
-					$limitString[] = $limit[1];
-				}
-				return implode(' ', $limitString);
-			}
-		}
-		return '';
-	}
-	/**
-	 * Convert order criteria to order clause
-	 *
-	 * @param array $order Order
-	 *
-	 * @return string Sql representation of a order clause
-	 */
-	private function _orderBy(array $order) {
-		if (!empty($order)) {
-			if (isset($order[0])) {
-				$orderString = array();
-				$orderString[] = 'ORDER BY';
-				if (is_array($order[0])) {
-					$orderString[] = explode(',', $order[0]);
-				} else {
-					$orderString[] = $order[0];
-				}
-				if (isset($order[1])) {
-					if ($order[1]) {
-						$orderString[] = 'ASC';
-					} else {
-						$orderString[] = 'DESC';
-					}
-				} else {
-					$orderString[] = 'ASC';
-				}
-				return implode(' ', $orderString);
-			}
-		}
-		return '';
 	}
 
 	/**
@@ -329,18 +284,6 @@ class MongoStorage implements Storage {
 	 */
 	public function count($collection, array $criterias) {
 		$sql = "SELECT COUNT(*) FROM ".$collection." ".$this->_criteria($criterias).";";
-
-		try {
-			if ($res = $this->_connection->query($sql)) {
-				if ($row = $res->fetchArray()) {
-					return $row[0];
-				}
-			}
-		} catch (PDOException $e) {
-			echo $e->getMessage()."\n";
-			echo 'Failed query: '.$sql."\n";
-			exit();
-		}
 		return 0;
 	}
 

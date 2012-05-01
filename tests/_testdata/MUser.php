@@ -22,7 +22,7 @@
  *
  * @collection users
  * 
- * @property integer(11) id        user_id    - unique
+ * @property string      id        _id        - unique
  * @property string(255) firstname first_name - <Jane> null
  * @property string(255) lastname  last_name  - <Doe Doe>  
  * @property DateTime    created   created    

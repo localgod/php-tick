@@ -30,8 +30,13 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 	public function __construct() {
 
 		if (extension_loaded('mongo')) {
-			shell_exec('mkdir -p mongodb/db && mkdir mongodb/log');
-			shell_exec('mongod  --fork --port 27088 --dbpath mongodb/db --logpath mongodb/log/mongo.log');
+			if (!file_exists('mongodb/db')) {
+				shell_exec('mkdir -p mongodb/db');
+			}
+			if (!file_exists('mongodb/log')) {
+				shell_exec('mkdir mongodb/log');
+			}
+			shell_exec('mongod --fork --port 27088 --dbpath mongodb/db --logpath mongodb/log/mongo.log');
 		}
 	}
 
