@@ -102,15 +102,18 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test
 	 * 
+	 * @test
 	 * @return void
 	 */
 	public function storeNew() {
 		$now = new DateTime();
 		$user = new MUser();
+		$user->setFirstname('Hans');
 		$user->setCreated($now);
 		$user->save();
-		//$user = MUser::getById(4);
-		//$this->assertEquals($now, $user->getCreated());
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'Hans')->current();
+		$this->assertEquals($user->getFirstname(), 'Hans');
 	}
 	/**
 	 * Test
@@ -121,34 +124,38 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 	public function getOne() {
 		$user = new MUser();
 		$user = $user->get()->whereEquals('firstname', 'John')->current();
-		//$this->assertEquals('John', $user->getFirstname());
+		$this->assertEquals('John', $user->getFirstname());
 	}
 
 	/**
 	 * Test
-	 *
+	 * 
+	 * @test
 	 * @return void
 	 */
 	public function update() {
 		$now = new DateTime();
-		$user = new User();
-		$user = User::getById(1);
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'John')->current();
 		$user->setCreated($now);
 		$user->save();
-		$user = User::getById(1);
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'John')->current();
 		$this->assertEquals($now, $user->getCreated());
 	}
 
 	/**
 	 * Test
-	 *
+	 * 
+	 * @test
 	 * @return void
 	 */
 	public function remove() {
-		$user = new User();
-		$user = User::getById(1);
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'John')->current();
 		$user->remove();
-		$user = User::getById(1);
-		$this->assertEquals(null, $user);
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'John')->current();
+		$this->assertEquals($user, null);
 	}
 }

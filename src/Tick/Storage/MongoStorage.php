@@ -26,6 +26,7 @@
  * @since      2011-10-04
  */
 class MongoStorage implements Storage {
+	
 	/**
 	 * Database connection
 	 *
@@ -81,7 +82,7 @@ class MongoStorage implements Storage {
 						if ($value instanceof MongoId) {
 							$row[$key] = $value->__tostring();
 						} elseif ($value instanceof MongoDate) {
-							$row[$key] = $value->sec;
+							$row[$key] = date('Y-m-d h:i:s', $value->sec);
 						} else {
 							$row[$key] = $value;
 						}
@@ -94,7 +95,6 @@ class MongoStorage implements Storage {
 			} catch (MongoCursorTimeoutException $e) {
 				throw new RuntimeException('Query : returned error : '.$e->getMessage());
 			}
-			ob_flush();
 	}
 
 	/**
@@ -110,7 +110,12 @@ class MongoStorage implements Storage {
 				
 			foreach ($criterias as $criteria) {
 				if ($criteria['condition'] == '=') {
-					$where[$criteria['property']] = $criteria['value'];
+					if ($criteria['property'] == '_id') {
+						$theObjId = new MongoId($criteria['value']);
+						$where[$criteria['property']] = $theObjId;
+					} else {
+						$where[$criteria['property']] = $criteria['value'];
+					}
 				} else {
 					echo 'we only handle = at the moment';
 					ob_flush();
@@ -131,7 +136,6 @@ class MongoStorage implements Storage {
 	 * @see Storage::insert()
 	 */
 	public function insert($collection, array $data) {
-		$columnString = array();
 		$setArray = array();
 		foreach ($data as $field => $value) {
 			if ($value['value'] == '') {
@@ -139,47 +143,45 @@ class MongoStorage implements Storage {
 			}
 
 			if ($value['type'] == 'float') {
-				$setArray[$field] = $this->_convertFloat($value['value']);
+				$setArray[$field] = (float) $value['value'];
 				continue;
 			}
 			if ($value['type'] == 'integer') {
-				$setArray[$field] = $this->_convertInteger($value['value']);
+				$setArray[$field] = (integer) $value['value'];
 				continue;
 			}
 			if ($value['type'] == 'string') {
-				$setArray[$field] = $this->_convertString($value['value']);
+				$setArray[$field] = (string) $value['value'];
 				continue;
 			}
 			if ($value['type'] == 'DateTime') {
-				$setArray[$field] = $this->_convertDateTime($value['value']);
+				$setArray[$field] = self::_convertDateTime($value['value']);
 				continue;
 			}
 		}
 		try {
 			$mongoCollection = $this->_connection->selectCollection($collection);
-			$cursor = $mongoCollection->find();
-			foreach ($cursor as $doc) {
-				var_dump($doc);
-			}
-			ob_flush();
+			$mongoCollection->insert($setArray);
 		} catch (Exception $e) {
 			echo $e->getMessage()."\n";
 			echo 'Failed insert in collection > $collection: '.implode(', ', $setArray)."\n";
 		}
 	}
+	
 	/**
 	 * Convert DateTime object to a valid database representation
 	 *
 	 * @param DateTime $value Value to convert
 	 *
-	 * @return string Sql representation of a datetime value
+	 * @return MongoDate|null Mongo representation of a datetime value
 	 */
 	private static function _convertDateTime(DateTime $value = null) {
 		if ($value instanceof DateTime) {
-			return $value->format('U');
+			return new MongoDate(strtotime($value->format('Y-m-d h:i:s')));
 		}
-		return "NULL";
+		return null;
 	}
+	
 	/**
 	 * Update entity in storage
 	 *
@@ -191,43 +193,36 @@ class MongoStorage implements Storage {
 	 * @see Storage::update()
 	 */
 	public function update($collection, array $data, array $criterias) {
-		$setString = array();
-
+		$setArray = array();
 		foreach ($data as $field => $value) {
-
-			if ($value['value'] === null) {
-				continue;
+			if ($field == '_id') {
+				continue;//we don't update the id
+			}
+			if ($value['value'] == '') {
+				continue;//we don't insert empty values
 			}
 
-			if ($value['type'] == 'integer') {
-				$setString[] = $field." = ".$this->_convertInteger($value['value']);
-				continue;
-			}
 			if ($value['type'] == 'float') {
-				$setString[] = $field." = ".$this->_convertFloat($value['value']);
+				$setArray[$field] = (float) $value['value'];
+				continue;
+			}
+			if ($value['type'] == 'integer') {
+				$setArray[$field] = (integer) $value['value'];
 				continue;
 			}
 			if ($value['type'] == 'string') {
-
-				$setString[] = $field." = ".$this->_convertString($value['value']);
+				$setArray[$field] = (string) $value['value'];
 				continue;
 			}
-
 			if ($value['type'] == 'DateTime') {
-				$setString[] = $field." = ".$this->_convertDateTime($value['value']);
+				$setArray[$field] = new MongoDate(strtotime($value['value']->format('Y-m-d h:i:s')));
 				continue;
 			}
 		}
-		$sql = "UPDATE ".$collection."
-		SET ".implode(', ', $setString)." ".$this->_criteria($criterias).";";
-		try {
-			$statement = $this->_connection->query($sql);
-		} catch (PDOException $e) {
-			echo $e->getMessage()."\n";
-			echo 'Failed query: '.$sql."\n";
-			exit();
-		}
+		$mongoCollection = $this->_connection->selectCollection($collection);
+		$mongoCollection->update($this->_criteria($criterias), array('$set' => $setArray));
 	}
+	
 	/**
 	 * Remove entity from storage
 	 *
@@ -238,15 +233,10 @@ class MongoStorage implements Storage {
 	 * @see Storage::remove()
 	 */
 	public function remove($collection, array $criterias) {
-		$sql = "DELETE FROM ".$collection." ".$this->_criteria($criterias).";";
-		try {
-			$statement = $this->_connection->query($sql);
-		} catch (PDOException $e) {
-			echo $e->getMessage()."\n";
-			echo 'Failed query: '.$sql."\n";
-			exit();
-		}
+		$mongoCollection = $this->_connection->selectCollection($collection);
+		$mongoCollection->remove($this->_criteria($criterias));
 	}
+	
 	/**
 	 * Entity exists in storage
 	 *
@@ -257,20 +247,9 @@ class MongoStorage implements Storage {
 	 * @see Storage::exists()
 	 */
 	public function exists($collection, array $criterias) {
-		$sql = "SELECT COUNT(*) FROM ".$collection." ".$this->_criteria($criterias).";";
-
-		try {
-			if ($res = $this->_connection->query($sql)) {
-				if ($res->fetchColumn() == 1) {
-					return true;
-				}
-			}
-		} catch (PDOException $e) {
-			echo $e->getMessage()."\n";
-			echo 'Failed query: '.$sql."\n";
-			exit();
-		}
-		return false;
+		$mongoCollection = $this->_connection->selectCollection($collection);
+		$cursor = $mongoCollection->find($this->_criteria($criterias));
+		return $cursor->hasNext();
 	}
 
 	/**
@@ -283,39 +262,9 @@ class MongoStorage implements Storage {
 	 * @see Storage::count()
 	 */
 	public function count($collection, array $criterias) {
-		$sql = "SELECT COUNT(*) FROM ".$collection." ".$this->_criteria($criterias).";";
-		return 0;
-	}
-
-	/**
-	 * Convert integer to a valid database representation
-	 *
-	 * @param integer $value Value to convert
-	 *
-	 * @return integer|string Sql representation of integer value
-	 */
-	private function _convertInteger($value) {
-		if ($value === null) {
-			return "NULL";
-		} elseif ($value === '') {
-			return "''";
-		}
-		return $value;
-	}
-	/**
-	 * Convert float to a valid database representation
-	 *
-	 * @param float $value Value to convert
-	 *
-	 * @return float|string Sql representation of float value
-	 */
-	private function _convertFloat($value) {
-		if ($value === null) {
-			return "NULL";
-		} elseif ($value === '') {
-			return "''";
-		}
-		return $value;
+		$mongoCollection = $this->_connection->selectCollection($collection);
+		$cursor = $mongoCollection->find($this->_criteria($criterias));
+		return $cursor->count();
 	}
 
 	/**
@@ -327,21 +276,5 @@ class MongoStorage implements Storage {
 	public function closeConnection() {
 		$this->_connection = null;
 		unset($this->_connection);
-	}
-
-	/**
-	 * Convert string to a valid database representation
-	 *
-	 * @param mixed $value Value to convert
-	 *
-	 * @return string Sql representation of string value
-	 */
-	private function _convertString($value) {
-		if ($value === null) {
-			return "NULL";
-		} elseif ($value === '') {
-			return "''";
-		}
-		return "'".$value."'";
 	}
 }

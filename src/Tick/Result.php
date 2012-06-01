@@ -308,11 +308,7 @@ class Result implements Iterator {
 
 				if ($propertyType == 'DateTime') {
 					if ($value != 'NULL' && $value != '') {
-						if (is_integer($value)) {
-							$entity->$property = new DateTime("@$value");
-						} else {
-							$entity->$property = new DateTime($value);
-						}
+						$entity->$property = new DateTime($value);
 					} else {
 						$entity->$property = null;
 					}
