@@ -28,7 +28,6 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	public function __construct() {
-
 		if (extension_loaded('mongo')) {
 			if (!file_exists('mongodb/db')) {
 				shell_exec('mkdir -p mongodb/db');
@@ -72,10 +71,10 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 			$this->markTestSkipped('The mongo extension is not available.');
 		}
 
-		TickManager::addDefaultConnectionConfig('mongodb', 'db', null, null, '127.0.0.1', 27088);
+		TickManager::addDefaultConnectionConfig('mongodb', 'mongotest', null, null, '127.0.0.1', 27088);
 		TickManager::setModelPath(dirname(__FILE__).'/_testdata/');
-		shell_exec('mongoimport --port 27088 --drop --db db --collection users --file '.dirname(__FILE__).'/_testdata/fixture.json');
-		sleep(2);
+		shell_exec('mongoimport --port 27088 --drop --db mongotest --collection users --file '.dirname(__FILE__).'/_testdata/fixture.json');
+		sleep(1);
 	}
 
 	/**
@@ -115,6 +114,40 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 		$user = $user->get()->whereEquals('firstname', 'Hans')->current();
 		$this->assertEquals($user->getFirstname(), 'Hans');
 	}
+	
+	/**
+	 * Test
+	 * 
+	 * Messe with time/timezone... fix it
+	 * 
+	 * @return void
+	 */
+	public function update() {
+		$now = new DateTime();
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'Jonny')->current();
+		$user->setCreated($now);
+		$user->setLastname('Hansen');
+		$user->save();
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'Jonny')->current();
+		$this->assertEquals($now, $user->getCreated());
+	}
+	
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function remove() {
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'John')->current();
+		$user->remove();
+		$user = new MUser();
+		$user = $user->get()->whereEquals('firstname', 'John')->current();
+		$this->assertEquals($user, null);
+	}
 	/**
 	 * Test
 	 * 
@@ -126,36 +159,143 @@ class MUserTest extends PHPUnit_Framework_TestCase {
 		$user = $user->get()->whereEquals('firstname', 'John')->current();
 		$this->assertEquals('John', $user->getFirstname());
 	}
-
+	
 	/**
 	 * Test
-	 * 
+	 *
 	 * @test
 	 * @return void
 	 */
-	public function update() {
-		$now = new DateTime();
+	public function sortAscending() {
 		$user = new MUser();
-		$user = $user->get()->whereEquals('firstname', 'John')->current();
-		$user->setCreated($now);
-		$user->save();
-		$user = new MUser();
-		$user = $user->get()->whereEquals('firstname', 'John')->current();
-		$this->assertEquals($now, $user->getCreated());
+		$user = $user->get()->whereEquals('lastname', 'Bang')->orderBy('firstname', true)->current();
+		$this->assertEquals('Karl', $user->getFirstname());
 	}
-
+	
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function countAll() {
+		$user = new MUser();
+		$this->assertEquals(6, $user->getAll()->count());
+	}
+	
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function limit() {
+		$user = new MUser();
+		$count = $user->get()->whereEquals('lastname', 'Bang')->limit(2)->count();
+		$this->assertEquals(2, $count);
+	}
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function offset() {
+		$user = new MUser();
+		$count = $user->get()->whereEquals('lastname', 'Bang')->limit(2)->offset(1)->count();
+		$this->assertEquals(2, $count);
+	}
+	
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function selectGreaterThan() {
+		$user = new MUser();
+		$count = $user->get()->where('lastname', '>', 'Bang')->count();
+		$this->assertEquals(3, $count);
+	}
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function selectLesserThan() {
+		$user = new MUser();
+		$count = $user->get()->where('lastname', '<', 'Doe')->count();
+		$this->assertEquals(3, $count);
+	}
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function selectLesserThanOrEqual() {
+		$user = new MUser();
+		$count = $user->get()->where('firstname', '<=', 'Karl')->count();
+		$this->assertEquals(4, $count);
+	}
+	
 	/**
 	 * Test
 	 * 
 	 * @test
 	 * @return void
 	 */
-	public function remove() {
+	public function selectGreaterThanOrEqual() {
 		$user = new MUser();
-		$user = $user->get()->whereEquals('firstname', 'John')->current();
-		$user->remove();
+		$count = $user->get()->where('firstname', '>=', 'Kenny')->count();
+		$this->assertEquals(2, $count);
+	}
+	
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function selectLike() {
 		$user = new MUser();
-		$user = $user->get()->whereEquals('firstname', 'John')->current();
-		$this->assertEquals($user, null);
+		$count = $user->get()->where('firstname', 'like', 'Kenny')->count();
+		$this->assertEquals(1, $count);
+	}
+	
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function selectLikeOpenEnd() {
+		$user = new MUser();
+		$count = $user->get()->where('firstname', 'like', 'Ken%')->count();
+		$this->assertEquals(1, $count);
+	}
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function selectLikeOpenStart() {
+		$user = new MUser();
+		$count = $user->get()->where('firstname', 'like', '%ny')->count();
+		$this->assertEquals(2, $count);
+	}
+	
+	/**
+	 * Test
+	 *
+	 * @test
+	 * @return void
+	 */
+	public function sortDecending() {
+		$user = new MUser();
+		$user = $user->get()->whereEquals('lastname', 'Bang')->orderBy('firstname', false)->current();
+		$this->assertEquals('Kurt', $user->getFirstname());
 	}
 }

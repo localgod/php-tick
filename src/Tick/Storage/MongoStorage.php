@@ -63,17 +63,29 @@ class MongoStorage implements Storage {
 	 * @param array   $criterias  Criterias to search by
 	 * @param array   $order      Order result
 	 * @param boolean $direction  Order direction
-	 * @param string  $limit      Limit result
-	 * @param string  $offset     Offset result
+	 * @param integer $limit      Limit result
+	 * @param integer $offset     Offset result
 	 *
 	 * @return array Array with Associative arrays with fieldname=>value
 	 * @see Storage::get()
 	 * @throws RuntimeException if the query failed
 	 */
-	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '') {
+	public function get($collection, array $fields,array $criterias, array $order = array(), $direction = true, $limit = null, $offset = null) {
 			$mongoCollection = $this->_connection->selectCollection($collection);
+			
 			$cursor = $mongoCollection->find($this->_criteria($criterias), $fields);
-			$cursor->sort($order)->skip($offset)->limit($limit);
+			
+			if (isset($order[0])) { //This is a amputated way of handeling it..... we should support multiple ordering clauses.
+				$cursor->sort(array($order[0] => ($direction ? 1 : -1)));
+			}
+			
+			if ($offset) {
+				$cursor->skip($offset);
+			}
+			if ($limit) {
+				$cursor->limit($limit);
+			}
+			
 			$result = array();
 			try {
 				while ($entry = $cursor->getNext()) {
@@ -98,32 +110,35 @@ class MongoStorage implements Storage {
 	}
 
 	/**
-	 * Convert criteria to where clause
+	 * Convert criteria to search arguments
 	 *
 	 * @param array $criterias List of criterias
 	 *
-	 * @return string Sql representation of a where clause
+	 * @return array
 	 */
 	private function _criteria(array $criterias) {
 		if (!empty($criterias)) {
 			$where = array();
-				
+			$map = array('<' => '$lt', '>' => '$gt', '<=' => '$lte', '>=' => '$gte');
+			
 			foreach ($criterias as $criteria) {
-				if ($criteria['condition'] == '=') {
-					if ($criteria['property'] == '_id') {
-						$theObjId = new MongoId($criteria['value']);
-						$where[$criteria['property']] = $theObjId;
-					} else {
-						$where[$criteria['property']] = $criteria['value'];
-					}
+				if ($criteria['property'] == '_id') {
+					$value = new MongoId($criteria['value']);
 				} else {
-					echo 'we only handle = at the moment';
-					ob_flush();
+					$value = $criteria['value'];
+				}
+				if (array_key_exists($criteria['condition'], $map)) {
+					$where[$criteria['property']] = array(''.$map[$criteria['condition']].'' => $value);
+				} elseif (preg_match('/^like$/i', $criteria['condition'])) {
+					$regxp = '/'.(substr($value, 0, 1) == '%' ? '' : '^').str_replace('%', '', $value).(substr($value, -1) == '%' ? '' : '$').'/i';
+					$where[$criteria['property']] = new MongoRegex($regxp);
+				} elseif ($criteria['condition'] == '=') {
+					$where[$criteria['property']] = $value;
 				}
 			}
 			return $where;
 		}
-		return '';
+		return array();
 	}
 
 	/**
@@ -215,7 +230,7 @@ class MongoStorage implements Storage {
 				continue;
 			}
 			if ($value['type'] == 'DateTime') {
-				$setArray[$field] = new MongoDate(strtotime($value['value']->format('Y-m-d h:i:s')));
+				$setArray[$field] = self::_convertDateTime($value['value']);
 				continue;
 			}
 		}
