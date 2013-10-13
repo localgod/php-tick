@@ -23,10 +23,6 @@ chmod 755 ./tools/phpmd.phar
 wget -nc -O ./tools/pdepend.phar http://static.pdepend.org/php/latest/pdepend.phar
 chmod 755 ./tools/pdepend.phar
 
-#phpdoc
-wget -nc -O ./tools/phpDocumentor.phar http://www.phpdoc.org/phpDocumentor.phar
-chmod 755 ./tools/phpDocumentor.phar
-
 #Ant extension
 if [ ! -f ./tools/ant-contrib-1.0b3.jar ]; then
 wget -nc -O ./tools/ant-contrib-1.0b3-bin.zip http://sourceforge.net/projects/ant-contrib/files/ant-contrib/1.0b3/ant-contrib-1.0b3-bin.zip/download
