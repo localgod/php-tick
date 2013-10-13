@@ -9,7 +9,6 @@
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
- * @since	 2011-11-11
  */
 /**
  * Entity test extension
@@ -19,7 +18,6 @@
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
- * @since	 2011-11-11
  *
  * @property integer(11) id			user_id		 - unique
  * @property string(255) name		full_name	 - <Jane> null

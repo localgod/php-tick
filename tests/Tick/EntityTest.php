@@ -9,7 +9,6 @@
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
- * @since	 2011-11-16
  */
 /**
  * Test Entity
@@ -19,7 +18,6 @@
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
- * @since	 2011-11-16
  */
 class EntityTest extends PHPUnit_Framework_TestCase {
 	/**
@@ -241,3 +239,4 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->expected, $re->_getMetadata());
 	}
 }
+require_once dirname(__FILE__) . '../../_testdata/EntityExtension.php';

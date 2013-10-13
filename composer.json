@@ -1,0 +1,49 @@
+{
+	"name" : "localgod/php-tick",
+	"description" : "Simple active record implementation",
+	"type" : "library",
+	"authors" : [{
+			"name" : "Johannes Skov Frandsen",
+			"email" : "localgod@heaven.dk",
+			"homepage" : "https://github.com/localgod",
+			"role" : "Lead"
+		}
+	],
+	"keywords" : [
+		"active record"
+	],
+	"homepage" : "https://github.com/localgod/php-tick",
+	"license" : [
+		"MIT"
+	],
+	"require" : {
+		"php" : ">=5.3.3"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : ">=3.7.22@stable",
+		"phpdocumentor/phpdocumentor" : ">=2.0.0b7",
+		"squizlabs/php_codesniffer" : ">=1.4.5@stable"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Localgod\\Tick\\" : "src"
+		},
+		"classmap" : [
+			"src/"
+		]
+	},
+	"minimum-stability" : "dev",
+	"support" : {
+		"source" : "https://github.com/localgod/php-tick",
+		"issues" : "https://github.com/localgod/php-tick/issues",
+		"wiki" : "https://github.com/localgod/php-tick/wiki"
+	},
+	"config" : {
+		"bin-dir" : "bin/",
+		"vendor-dir" : "vendor/"
+	},
+	"suggest" : {
+		"ext-mongo" : "Allows MongoDB support",
+		"ext-solr" : "Allows Solr support"
+	}
+}

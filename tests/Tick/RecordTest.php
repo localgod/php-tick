@@ -6,18 +6,17 @@
  *
  * @category Test
  * @package  Test
- * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
- * @since	 2011-04-17
  */
 /**
  * Test Record
  *
  * @category Test
  * @package	 Test
- * @author	 Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license	 http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
@@ -54,3 +53,4 @@ class RecordTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("record_extension_connection", $re->getConnectionName());
 	}
 }
+require_once dirname(__FILE__) . '../../_testdata/RecordExtension.php';

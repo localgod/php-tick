@@ -1,1 +1,10 @@
-build/
+/composer.lock
+/composer.phar
+/bin
+/vendor
+/.buildpath
+/.project
+/.settings
+/target
+/tests/phpunit.phar
+/build/tools

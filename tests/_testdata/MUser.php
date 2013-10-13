@@ -6,17 +6,16 @@
  *
  * @category Test
  * @package  Test
- * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
- * @since    2011-11-04
  */
 /**
  * User
  *
  * @category Test
  * @package  Test
- * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  *

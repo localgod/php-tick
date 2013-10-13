@@ -6,10 +6,9 @@
  *
  * @category Test
  * @package  Test
- * @author   Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
- * @since    2011-04-09
  */
 /**
  * Test a class extending php-tick
@@ -17,7 +16,7 @@
  * @category   Test
  * @package    Test
  * @subpackage Test
- * @author     Johannes Skov Frandsen <jsf.greenoak@gmail.com>
+ * @author     Johannes Skov Frandsen <localgod@heaven.dk>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  * @link       https://github.com/localgod/php-tick php-tick
  */
