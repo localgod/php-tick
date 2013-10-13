@@ -3,10 +3,6 @@ if [ ! -f ./tools ]; then
 mkdir ./tools
 fi
 
-#phpunit
-wget -nc -O ../tests/phpunit.phar --no-check-certificate https://phar.phpunit.de/phpunit.phar
-chmod 755 ../tests/phpunit.phar
-
 #php copy paste detection
 wget -nc -O ./tools/phpcpd.phar --no-check-certificate https://phar.phpunit.de/phpcpd.phar
 chmod 755 ./tools/phpcpd.phar
