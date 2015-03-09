@@ -6,7 +6,6 @@
  * PHP version 5.2
  *
  * @category ActiveRecord
- * @package  Tick
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick

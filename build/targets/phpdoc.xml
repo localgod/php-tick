@@ -6,7 +6,7 @@
 	<!-- Comma separated list of files to exclude -->
 	<property name="phpdoc.exclude" value="" />
 	<!-- Default package name -->
-	<property name="phpdoc.defaultpackagename" value="Weevil" />
+	<property name="phpdoc.defaultpackagename" value="${ant.project.name}" />
 	<!-- Should we fail the build if phpdoc fails? -->
 	<property name="phpdoc.failonerror" value="false" />
 

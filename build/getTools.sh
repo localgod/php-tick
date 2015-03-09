@@ -1,4 +1,11 @@
 #!/usr/bin/env sh
+CWD=`pwd`
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+#Go to the correct path
+cd $DIR
+
 if [ ! -f ./tools ]; then
 mkdir ./tools
 fi
@@ -29,3 +36,6 @@ fi
 #composer dependency management
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar ../
+
+#back to where we started the script
+cd $CWD

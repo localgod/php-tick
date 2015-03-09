@@ -9,7 +9,6 @@
  * PHP version 5.2
  *
  * @category ActiveRecord
- * @package  Tick
  * @author   Jens Riisom Schultz <jers@fynskemedier.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick

@@ -13,16 +13,14 @@
 		"active record"
 	],
 	"homepage" : "https://github.com/localgod/php-tick",
-	"license" : [
-		"MIT"
-	],
+	"license" : "MIT",
 	"require" : {
 		"php" : ">=5.3.3"
 	},
 	"require-dev" : {
-		"phpunit/phpunit" : ">=3.7.22@stable",
-		"phpdocumentor/phpdocumentor" : ">=2.0.0b7",
-		"squizlabs/php_codesniffer" : ">=1.4.5@stable"
+		"phpunit/phpunit" : ">=4.5.0@stable",
+		"phpdocumentor/phpdocumentor" : ">=2.8.2@stable",
+		"squizlabs/php_codesniffer" : ">=2.3.0@stable"
 	},
 	"autoload" : {
 		"psr-0" : {

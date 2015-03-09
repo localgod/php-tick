@@ -53,6 +53,12 @@ class TickTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
+        // $dbPath = dirname ( __FILE__ ) . '/../_testdata/test.sqlite';
+        // unlink ( $dbPath );
+    }
+
+    public static function tearDownAfterClass()
+    {
         $dbPath = dirname(__FILE__) . '/../_testdata/test.sqlite';
         unlink($dbPath);
     }
@@ -61,7 +67,7 @@ class TickTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function writeToOneConnectioAndMakeSureItISNotPresentInOtherConnection()
@@ -83,7 +89,7 @@ class TickTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function switchCollectionRuntime()
@@ -109,7 +115,7 @@ class TickTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function switchConnectionRuntime()
