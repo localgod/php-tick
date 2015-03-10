@@ -1,22 +1,31 @@
 ---
 language: php
+os:
+  - linux
+  - osx
 php:
-- 5.3
-- 5.4
-- 5.5
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq unzip  
+
 before_script:
-- sudo apt-get install -qq unzip
-- ./build/getTools.sh
-- phpenv rehash
-- composer self-update
-- composer install
-- composer update
+  - ./build/getTools.sh
+  - phpenv rehash
+  - composer self-update
+  - composer install
+  - composer update
 
 services:
   - mongodb
 
 matrix:
   allow_failures:
-  - php: 5.5
+  - php: 5.6
+  - os: osx
+
 script:
 - ant travis -Dphpunit.testdox=true -Dpackage.version=$TRAVIS_BUILD_NUMBER
