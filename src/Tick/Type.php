@@ -46,7 +46,7 @@ abstract class Type {
         $value = is_numeric($value) ? $value + 1 - 1 : $value;//Force to be a number
 
         if ($type == 'integer' && is_numeric($value) && preg_match('/^[0-9]+$/', $value)) {
-            $this->_isValidLength($property, $value);
+            $this->isValidLength($property, $value);
             return true;
         } else if ($type == 'float' && is_float($value)) {
             return true;
@@ -56,7 +56,7 @@ abstract class Type {
             return true;
         } else if ($type == 'string') {
             if (is_string($value) || is_float($value) || is_integer($value) || is_bool($value)) {
-                $this->_isValidLength($property, $value);
+                $this->isValidLength($property, $value);
                 return true;
             }
         } else if ($type == 'array' && is_array($value)) {

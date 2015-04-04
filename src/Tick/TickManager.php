@@ -36,14 +36,14 @@ class TickManager
      *
      * @var string $path Tick root directory
      */
-    private static $_modelPath;
+    private static $modelPath;
 
     /**
      * List of all defined connections by name
      *
      * @var array
      */
-    private static $_connections = array();
+    private static $connections = array();
 
     /**
      * Get storage instance
@@ -56,11 +56,11 @@ class TickManager
      */
     public static function getStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
-        if (! key_exists($connectionName, self::$_connections)) {
+        if (! key_exists($connectionName, self::$connections)) {
             throw new InvalidArgumentException("No connection named '" . $connectionName . "' has been configured");
         }
         
-        $connection = self::$_connections[$connectionName];
+        $connection = self::$connections[$connectionName];
         $unique_name = self::getUniqueName($connectionName);
         
         if (! key_exists($unique_name, $GLOBALS)) {
@@ -68,12 +68,12 @@ class TickManager
         }
         if (! $GLOBALS[$unique_name] instanceof Storage) {
             if ($connection['type'] == 'mongodb') {
-                self::_createMongoStorage($connectionName);
+                self::createMongoStorage($connectionName);
             } else {
                 if ($connection['type'] == 'solr') {
-                    self::_createSolrStorage($connectionName);
+                    self::createSolrStorage($connectionName);
                 } else {
-                    self::_createSqlStorage($connectionName);
+                    self::createSqlStorage($connectionName);
                 }
             }
         }
@@ -90,7 +90,7 @@ class TickManager
      */
     public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
-        return self::$_connections[$connectionName]['database'];
+        return self::$connections[$connectionName]['database'];
     }
 
     /**
@@ -103,9 +103,9 @@ class TickManager
      *        
      * @return void
      */
-    private static function _createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
-        $connection = self::$_connections[$connectionName];
+        $connection = self::$connections[$connectionName];
         $unique_name = self::getUniqueName($connectionName);
         
         $dsn = $connection['type'] . ':host=' . $connection['host'] . ';dbname=' . $connection['database'];
@@ -133,9 +133,9 @@ class TickManager
      *        
      * @return void
      */
-    private static function _createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
-        $connection = self::$_connections[$connectionName];
+        $connection = self::$connections[$connectionName];
         $unique_name = self::getUniqueName($connectionName);
         
         $dsn = $connection['type'] . '://' . $connection['host'];
@@ -165,9 +165,9 @@ class TickManager
      *        
      * @return void
      */
-    private static function _createSolrStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createSolrStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
-        $connection = self::$_connections[$connectionName];
+        $connection = self::$connections[$connectionName];
         $unique_name = self::getUniqueName($connectionName);
         
         $options = array();
@@ -196,7 +196,7 @@ class TickManager
      */
     public static function getModelPath()
     {
-        return self::$_modelPath;
+        return self::$modelPath;
     }
 
     /**
@@ -213,7 +213,7 @@ class TickManager
         if (! file_exists($path)) {
             throw new InvalidArgumentException('Model path could not be found:' . $path);
         }
-        self::$_modelPath = $path;
+        self::$modelPath = $path;
     }
 
     /**
@@ -287,7 +287,7 @@ class TickManager
         $connection["host"] = $host;
         $connection["port"] = $port;
         $connection["driverOptions"] = $driver_options;
-        self::$_connections[$name] = $connection;
+        self::$connections[$name] = $connection;
     }
 
     /**
@@ -297,7 +297,7 @@ class TickManager
      */
     public static function removeAllConnections()
     {
-        foreach (self::$_connections as $name => $obj) {
+        foreach (self::$connections as $name => $obj) {
             self::removeConnectionConfig($name);
         }
     }
@@ -312,8 +312,8 @@ class TickManager
      */
     public static function removeConnectionConfig($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
-        if (self::$_connections[$connectionName]) {
-            unset(self::$_connections[$connectionName]);
+        if (self::$connections[$connectionName]) {
+            unset(self::$connections[$connectionName]);
         }
         
         $unique_name = self::getUniqueName($connectionName);

@@ -89,10 +89,10 @@ class EntityExtension extends Entity {
 	 * @param string $name Property name
 	 *
 	 * @return mixed Property default value if specified
-	 * @see Entity::_defaultValue()
+	 * @see Entity::defaultValue()
 	 */
-	public function _defaultValue($name) {
-		return parent::_defaultValue($name);
+	public function defaultValue($name) {
+		return parent::defaultValue($name);
 	}
 
 	/**
@@ -101,10 +101,10 @@ class EntityExtension extends Entity {
 	 * @param string $name Property name
 	 *
 	 * @return boolean false if the property can be persisted with a null value
-	 * @see Entity::_Null()
+	 * @see Entity::notNull()
 	 */
-	public function _Null($name) {
-		return parent::_Null($name);
+	public function notNull($name) {
+		return parent::notNull($name);
 	}
 
 	/**
@@ -129,8 +129,8 @@ class EntityExtension extends Entity {
 	 * @throws RuntimeException if property don't exists
 	 * @see Entity::_mustBeUnique()
 	 */
-	public function _mustBeUnique($name) {
-		return parent::_mustBeUnique($name);
+	public function mustBeUnique($name) {
+		return parent::mustBeUnique($name);
 	}
 
 	/**
@@ -155,7 +155,7 @@ class EntityExtension extends Entity {
 	 * @see Entity::_isValidLength()
 	 */
 	public function _isValidLength($name, $value) {
-		return parent::_isValidLength($name, $value);
+		return parent::isValidLength($name, $value);
 	}
 
 	/**

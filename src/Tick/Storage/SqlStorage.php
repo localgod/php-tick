@@ -30,7 +30,7 @@ class SqlStorage implements Storage
      *
      * @var PDO
      */
-    private $_connection;
+    private $connection;
 
     /**
      * Set the database connection
@@ -42,7 +42,7 @@ class SqlStorage implements Storage
      */
     public function __construct(PDO $connection)
     {
-        $this->_connection = $connection;
+        $this->connection = $connection;
     }
 
     /**
@@ -53,7 +53,7 @@ class SqlStorage implements Storage
      */
     public function getConnection()
     {
-        return $this->_connection;
+        return $this->connection;
     }
 
     /**
@@ -64,8 +64,8 @@ class SqlStorage implements Storage
      */
     public function closeConnection()
     {
-        $this->_connection = null;
-        unset($this->_connection);
+        $this->connection = null;
+        unset($this->connection);
     }
 
     /**
@@ -96,13 +96,13 @@ class SqlStorage implements Storage
         } else {
             $select = '*';
         }
-        $sql = "SELECT $select FROM `" . $collection . "` " . $this->_prepareCriteria($criterias) . " " . $this->_orderBy($order, $direction) . " " . $this->_limit($limit, $offset) . ";";
+        $sql = "SELECT $select FROM `" . $collection . "` " . $this->prepareCriteria($criterias) . " " . $this->orderBy($order, $direction) . " " . $this->limit($limit, $offset) . ";";
         try {
-            $statement = $this->_connection->prepare($sql);
-            $statement->execute($this->_criteria($criterias));
+            $statement = $this->connection->prepare($sql);
+            $statement->execute($this->criteria($criterias));
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            throw new RuntimeException('Query : "' . self::_interpolateQuery($sql, $this->_criteria($criterias)) . '" returned error : ' . $e->getMessage());
+            throw new RuntimeException('Query : "' . self::interpolateQuery($sql, $this->criteria($criterias)) . '" returned error : ' . $e->getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ class SqlStorage implements Storage
      *            
      * @return string Sql representation of a limit clause
      */
-    private function _limit($limit, $offset)
+    private function limit($limit, $offset)
     {
         if (! $offset == '') {
             return 'LIMIT ' . $offset . ',' . $limit;
@@ -136,7 +136,7 @@ class SqlStorage implements Storage
      *            
      * @return string Sql representation of a order clause
      */
-    private function _orderBy(array $order, $direction = true)
+    private function orderBy(array $order, $direction = true)
     {
         if (! empty($order)) {
             $orderString = array();
@@ -162,7 +162,7 @@ class SqlStorage implements Storage
      *            
      * @return array values to fill where clause
      */
-    private function _criteria(array $criterias)
+    private function criteria(array $criterias)
     {
         $where = array();
         if (! empty($criterias)) {
@@ -185,7 +185,7 @@ class SqlStorage implements Storage
      *            
      * @return string Sql representation of a where clause
      */
-    private function _prepareCriteria(array $criterias)
+    private function prepareCriteria(array $criterias)
     {
         if (! empty($criterias)) {
             $where = array();
@@ -219,7 +219,7 @@ class SqlStorage implements Storage
         
         foreach ($data as $field => $value) {
             if ($value['type'] == 'DateTime') {
-                $values[] = $this->_convertDateTime($value['value']);
+                $values[] = $this->convertDateTime($value['value']);
                 continue;
             }
             $values[] = $value['value'];
@@ -228,11 +228,11 @@ class SqlStorage implements Storage
         $sql = "INSERT INTO `" . $collection . "` (" . implode(', ', array_keys($data)) . ") VALUES (" . implode(', ', array_fill(0, count($data), '?')) . ");";
         
         try {
-            $statement = $this->_connection->prepare($sql);
+            $statement = $this->connection->prepare($sql);
             $statement->execute($values);
-            return $this->_connection->lastInsertId();
+            return $this->connection->lastInsertId();
         } catch (PDOException $e) {
-            throw new RuntimeException('Query : "' . self::_interpolateQuery($sql, $values) . '" returned error : ' . $e->getMessage());
+            throw new RuntimeException('Query : "' . self::interpolateQuery($sql, $values) . '" returned error : ' . $e->getMessage());
         }
     }
 
@@ -244,7 +244,7 @@ class SqlStorage implements Storage
      *            
      * @return string Sql representation of a datetime value
      */
-    private static function _convertDateTime(DateTime $value = null)
+    private static function convertDateTime(DateTime $value = null)
     {
         if ($value instanceof DateTime) {
             return $value->format('Y-m-d H:i:s');
@@ -274,18 +274,18 @@ class SqlStorage implements Storage
             $setString[] = '`' . $field . "` = ?";
             
             if ($value['type'] == 'DateTime') {
-                $values[] = self::_convertDateTime($value['value']);
+                $values[] = self::convertDateTime($value['value']);
                 continue;
             }
             $values[] = $value['value'];
         }
-        $sql = "UPDATE `" . $collection . "` SET " . implode(', ', $setString) . " " . $this->_prepareCriteria($criterias) . ";";
-        $values = array_merge($values, $this->_criteria($criterias));
+        $sql = "UPDATE `" . $collection . "` SET " . implode(', ', $setString) . " " . $this->prepareCriteria($criterias) . ";";
+        $values = array_merge($values, $this->criteria($criterias));
         try {
-            $statement = $this->_connection->prepare($sql);
+            $statement = $this->connection->prepare($sql);
             $statement->execute($values);
         } catch (PDOException $e) {
-            throw new RuntimeException('Query : "' . self::_interpolateQuery($sql, $values) . '" returned error : ' . $e->getMessage());
+            throw new RuntimeException('Query : "' . self::interpolateQuery($sql, $values) . '" returned error : ' . $e->getMessage());
         }
     }
 
@@ -302,12 +302,12 @@ class SqlStorage implements Storage
      */
     public function remove($collection, array $criterias)
     {
-        $sql = "DELETE FROM `" . $collection . "` " . $this->_prepareCriteria($criterias) . ";";
+        $sql = "DELETE FROM `" . $collection . "` " . $this->prepareCriteria($criterias) . ";";
         try {
-            $statement = $this->_connection->prepare($sql);
-            $statement->execute($this->_criteria($criterias));
+            $statement = $this->connection->prepare($sql);
+            $statement->execute($this->criteria($criterias));
         } catch (PDOException $e) {
-            throw new RuntimeException('Query : "' . self::_interpolateQuery($sql, $this->_criteria($criterias)) . '" returned error : ' . $e->getMessage());
+            throw new RuntimeException('Query : "' . self::interpolateQuery($sql, $this->criteria($criterias)) . '" returned error : ' . $e->getMessage());
         }
     }
 
@@ -356,7 +356,7 @@ class SqlStorage implements Storage
      *            
      * @return string The interpolated query
      */
-    private static function _interpolateQuery($query, $params)
+    private static function interpolateQuery($query, $params)
     {
         $keys = array();
         

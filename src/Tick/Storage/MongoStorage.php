@@ -31,7 +31,7 @@ class MongoStorage implements Storage
      *
      * @var MongoDB
      */
-    private $_connection;
+    private $connection;
 
     /**
      * Set the database connection
@@ -43,7 +43,7 @@ class MongoStorage implements Storage
      */
     public function __construct(MongoDB $connection)
     {
-        $this->_connection = $connection;
+        $this->connection = $connection;
     }
 
     /**
@@ -54,7 +54,7 @@ class MongoStorage implements Storage
      */
     public function getConnection()
     {
-        return $this->_connection;
+        return $this->connection;
     }
 
     /**
@@ -81,9 +81,9 @@ class MongoStorage implements Storage
      */
     public function get($collection, array $fields, array $criterias, array $order = array(), $direction = true, $limit = null, $offset = null)
     {
-        $mongoCollection = $this->_connection->selectCollection($collection);
+        $mongoCollection = $this->connection->selectCollection($collection);
         
-        $cursor = $mongoCollection->find($this->_criteria($criterias), $fields);
+        $cursor = $mongoCollection->find($this->criteria($criterias), $fields);
         
         if (isset($order[0])) { // This is a amputated way of handeling it..... we should support multiple ordering clauses.
             $cursor->sort(array(
@@ -129,7 +129,7 @@ class MongoStorage implements Storage
      *            
      * @return array
      */
-    private function _criteria(array $criterias)
+    private function criteria(array $criterias)
     {
         if (! empty($criterias)) {
             $where = array();
@@ -194,12 +194,12 @@ class MongoStorage implements Storage
                 continue;
             }
             if ($value['type'] == 'DateTime') {
-                $setArray[$field] = self::_convertDateTime($value['value']);
+                $setArray[$field] = self::convertDateTime($value['value']);
                 continue;
             }
         }
         try {
-            $mongoCollection = $this->_connection->selectCollection($collection);
+            $mongoCollection = $this->connection->selectCollection($collection);
             $mongoCollection->insert($setArray);
         } catch (Exception $e) {
             echo $e->getMessage() . "\n";
@@ -215,7 +215,7 @@ class MongoStorage implements Storage
      *            
      * @return MongoDate null representation of a datetime value
      */
-    private static function _convertDateTime(DateTime $value = null)
+    private static function convertDateTime(DateTime $value = null)
     {
         if ($value instanceof DateTime) {
             return new MongoDate(strtotime($value->format('Y-m-d h:i:s')));
@@ -260,12 +260,12 @@ class MongoStorage implements Storage
                 continue;
             }
             if ($value['type'] == 'DateTime') {
-                $setArray[$field] = self::_convertDateTime($value['value']);
+                $setArray[$field] = self::convertDateTime($value['value']);
                 continue;
             }
         }
-        $mongoCollection = $this->_connection->selectCollection($collection);
-        $mongoCollection->update($this->_criteria($criterias), array(
+        $mongoCollection = $this->connection->selectCollection($collection);
+        $mongoCollection->update($this->criteria($criterias), array(
             '$set' => $setArray
         ));
     }
@@ -283,8 +283,8 @@ class MongoStorage implements Storage
      */
     public function remove($collection, array $criterias)
     {
-        $mongoCollection = $this->_connection->selectCollection($collection);
-        $mongoCollection->remove($this->_criteria($criterias));
+        $mongoCollection = $this->connection->selectCollection($collection);
+        $mongoCollection->remove($this->criteria($criterias));
     }
 
     /**
@@ -300,8 +300,8 @@ class MongoStorage implements Storage
      */
     public function exists($collection, array $criterias)
     {
-        $mongoCollection = $this->_connection->selectCollection($collection);
-        $cursor = $mongoCollection->find($this->_criteria($criterias));
+        $mongoCollection = $this->connection->selectCollection($collection);
+        $cursor = $mongoCollection->find($this->criteria($criterias));
         return $cursor->hasNext();
     }
 
@@ -318,8 +318,8 @@ class MongoStorage implements Storage
      */
     public function count($collection, array $criterias)
     {
-        $mongoCollection = $this->_connection->selectCollection($collection);
-        $cursor = $mongoCollection->find($this->_criteria($criterias));
+        $mongoCollection = $this->connection->selectCollection($collection);
+        $cursor = $mongoCollection->find($this->criteria($criterias));
         return $cursor->count();
     }
 
@@ -331,7 +331,7 @@ class MongoStorage implements Storage
      */
     public function closeConnection()
     {
-        $this->_connection = null;
-        unset($this->_connection);
+        $this->connection = null;
+        unset($this->connection);
     }
 }

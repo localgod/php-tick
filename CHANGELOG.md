@@ -9,7 +9,7 @@
 	Added autoloading for models
 	Fixed bug with storing float values
 2011-09-23  Johannes Skov Frandsen  <localgod@heaven.dk>
-	Added a connection mannager, simplifying model setup considerably.
+	Added a connection manager, simplifying model setup considerably.
 2011-09-15  Johannes Skov Frandsen  <localgod@heaven.dk>
 	Fixed small problem with handeling float values.
 	Added toArray() method.

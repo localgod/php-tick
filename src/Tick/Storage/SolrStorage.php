@@ -33,7 +33,7 @@ class SolrStorage implements Storage
      *
      * @var SolrClient
      */
-    private $_connection;
+    private $connection;
 
     /**
      * Set the database connection
@@ -45,7 +45,7 @@ class SolrStorage implements Storage
      */
     public function __construct(SolrClient $connection)
     {
-        $this->_connection = $connection;
+        $this->connection = $connection;
     }
 
     /**
@@ -56,7 +56,7 @@ class SolrStorage implements Storage
      */
     public function getConnection()
     {
-        return $this->_connection;
+        return $this->connection;
     }
 
     /**
@@ -67,8 +67,8 @@ class SolrStorage implements Storage
      */
     public function closeConnection()
     {
-        $this->_connection = null;
-        unset($this->_connection);
+        $this->connection = null;
+        unset($this->connection);
     }
 
     /**
@@ -93,7 +93,7 @@ class SolrStorage implements Storage
      */
     public function get($collection, array $fields, array $criterias, array $order = array(), $direction = true, $limit = null, $offset = 0)
     {
-        $query = $this->_getQuery($collection, $criterias);
+        $query = $this->getQuery($collection, $criterias);
         
         foreach ($fields as $field) {
             $query->addField($field);
@@ -108,7 +108,7 @@ class SolrStorage implements Storage
             $query->addSortField($field, $direction ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC);
         }
         
-        $response = $this->_connection->query($query)->getResponse()->response;
+        $response = $this->connection->query($query)->getResponse()->response;
         
         $result = array();
         if ($response->numFound > 0) {
@@ -165,8 +165,8 @@ class SolrStorage implements Storage
             }
         }
         
-        $this->_connection->addDocument($doc);
-        $this->_connection->commit();
+        $this->connection->addDocument($doc);
+        $this->connection->commit();
     }
 
     /**
@@ -199,19 +199,19 @@ class SolrStorage implements Storage
      */
     public function remove($collection, array $criterias)
     {
-        $query = $this->_getQuery($collection, $criterias);
+        $query = $this->getQuery($collection, $criterias);
         $query->addField('id');
         
-        $response = $this->_connection->query($query)->getResponse()->response;
+        $response = $this->connection->query($query)->getResponse()->response;
         
         $ids = array();
         foreach ($response->docs as $doc) {
             $ids[] = $doc['id'];
         }
         
-        $this->_connection->deleteByIds($ids);
+        $this->connection->deleteByIds($ids);
         
-        $this->_connection->commit();
+        $this->connection->commit();
     }
 
     /**
@@ -226,10 +226,10 @@ class SolrStorage implements Storage
      */
     public function exists($collection, array $criterias)
     {
-        $query = $this->_getQuery($collection, $criterias);
+        $query = $this->getQuery($collection, $criterias);
         $query->addField('id');
         
-        $response = $this->_connection->query($query)->getResponse()->response;
+        $response = $this->connection->query($query)->getResponse()->response;
         
         return $response->numFound > 0;
     }
@@ -246,10 +246,10 @@ class SolrStorage implements Storage
      */
     public function count($collection, array $criterias)
     {
-        $query = $this->_getQuery($collection, $criterias);
+        $query = $this->getQuery($collection, $criterias);
         $query->setRows(0);
         
-        $response = $this->_connection->query($query)->getResponse()->response;
+        $response = $this->connection->query($query)->getResponse()->response;
         
         return $response->numFound;
     }
@@ -264,7 +264,7 @@ class SolrStorage implements Storage
      *            
      * @return SolrQuery
      */
-    private function _getQuery($collection, $criterias)
+    private function getQuery($collection, $criterias)
     {
         $query = new SolrQuery();
         

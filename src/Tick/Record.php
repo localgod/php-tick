@@ -69,7 +69,7 @@ abstract class Record extends Entity
     {
         $data = array();
         foreach ($this->listPropertyNames() as $property) {
-            if ($this->$property === null && ! $this->_Null($property) && ! $insert) {
+            if ($this->$property === null && ! $this->notNull($property) && ! $insert) {
                 throw new RuntimeException('Property "' . $property . '" can not be persisted as null');
             }
             $data[$this->propertyAlias($property)] = array(
@@ -151,7 +151,7 @@ abstract class Record extends Entity
     {
         $criterias = array();
         foreach ($this->listPropertyNames() as $property) {
-            if ($this->_mustBeUnique($property)) {
+            if ($this->mustBeUnique($property)) {
                 $criterias[] = $this->createCriteria($property, '=', $this->$property);
             }
         }

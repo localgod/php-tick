@@ -30,7 +30,7 @@ abstract class Tick extends Record
      *
      * @var string $path Tick root directory
      */
-    private static $_path;
+    private static $path;
 
     /**
      * Construct a new record
@@ -50,10 +50,10 @@ abstract class Tick extends Record
     public function save()
     {
         if ($this->modified()) {
-            if ($this->_exists()) {
+            if ($this->exists()) {
                 $this->update();
             } else {
-                $this->_insert();
+                $this->insert();
             }
         }
     }
@@ -63,7 +63,7 @@ abstract class Tick extends Record
      *
      * @return boolean
      */
-    private function _exists()
+    private function exists()
     {
         $criterias = $this->getUniqueCriteria();
         foreach ($criterias as $criteria) {
@@ -144,7 +144,7 @@ abstract class Tick extends Record
      *
      * @return void
      */
-    private function _insert()
+    private function insert()
     {
         $this->getStorage()->insert($this->getCollectionName(), $this->hydrate());
     }
@@ -210,9 +210,9 @@ abstract class Tick extends Record
      */
     public static function getPath()
     {
-        if (! self::$_path) {
-            self::$_path = dirname(__FILE__);
+        if (! self::$path) {
+            self::$path = dirname(__FILE__);
         }
-        return self::$_path;
+        return self::$path;
     }
 }

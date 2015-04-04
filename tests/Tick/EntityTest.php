@@ -80,7 +80,6 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("entity_extension_connection", $re->getConnectionName());
 	}
 
-
 	/**
 	 * Test
 	 *
@@ -132,8 +131,8 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
 			@$this->assertEquals(
-				$prop["default"], $re->_defaultValue($name),
-				"default: $name expected  " . $prop["default"] . " but got " . $re->_defaultValue($name)
+				$prop["default"], $re->defaultValue($name),
+				"default: $name expected  " . $prop["default"] . " but got " . $re->defaultValue($name)
 			);
 		}
 	}
@@ -145,12 +144,12 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	 * @test
 	 * @return void
 	 */
-	public function _Null() {
+	public function notNull() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
 			@$this->assertEquals(
-				!!$prop["null"], !!$re->_Null($name), 
-				"null: $name expected  " . ($prop["null"] != true) . " but got " . $re->_Null($name)
+				!!$prop["null"], !!$re->notNull($name), 
+				"null: $name expected  " . ($prop["null"] != true) . " but got " . $re->notNull($name)
 			);
 		}
 		unset($name, $prop);
@@ -189,8 +188,8 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
 			@$this->assertEquals(
-				!!$prop["unique"], !!$re->_mustBeUnique($name),
-				"unique: $name expected  " . ($prop["unique"] != true) . " but got " . $re->_mustBeUnique($name)
+				!!$prop["unique"], !!$re->mustBeUnique($name),
+				"unique: $name expected  " . ($prop["unique"] != true) . " but got " . $re->mustBeUnique($name)
 			);
 		}
 		unset($name, $prop);

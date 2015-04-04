@@ -34,56 +34,56 @@ class Result implements Iterator
      * 
      * @var integer
      */
-    private $_position = 0;
+    private $position = 0;
 
     /**
      * Condintions
      * 
      * @var array
      */
-    private $_conditions;
+    private $conditions;
 
     /**
      * Limit value
      * 
      * @var integer
      */
-    private $_limit;
+    private $limit;
 
     /**
      * Offset value
      * 
      * @var integer
      */
-    private $_offset;
+    private $offset;
 
     /**
      * List of object
      * 
      * @var array
      */
-    private $_result;
+    private $result;
 
     /**
      * Instance of the model we query
      * 
      * @var Object
      */
-    private $_model;
+    private $model;
 
     /**
      * Order of result
      * 
      * @var array
      */
-    private $_order;
+    private $order;
 
     /**
      * Direction of result
      * 
      * @var boolean
      */
-    private $_direction;
+    private $direction;
 
     /**
      * Construct a new result
@@ -95,11 +95,11 @@ class Result implements Iterator
      */
     public function __construct($model)
     {
-        $this->_model = new $model();
-        $this->_position = 0;
-        $this->_conditions = array();
-        $this->_order = array();
-        $this->_offset = 0;
+        $this->model = new $model();
+        $this->position = 0;
+        $this->conditions = array();
+        $this->order = array();
+        $this->offset = 0;
     }
 
     /**
@@ -107,13 +107,13 @@ class Result implements Iterator
      *
      * @return array
      */
-    private function _getResult()
+    private function getResult()
     {
-        if (! isset($this->_result)) {
-            $fieldNames = $this->_model->listFieldNames();
-            $this->_result = $this->_model->getStorage()->get($this->_model->getCollectionName(), $fieldNames, $this->_conditions, $this->_order, $this->_direction, $this->_limit, $this->_offset);
+        if (! isset($this->result)) {
+            $fieldNames = $this->model->listFieldNames();
+            $this->result = $this->model->getStorage()->get($this->model->getCollectionName(), $fieldNames, $this->conditions, $this->order, $this->direction, $this->limit, $this->offset);
         }
-        return $this->_result;
+        return $this->result;
     }
 
     /**
@@ -123,10 +123,10 @@ class Result implements Iterator
      */
     public function count()
     {
-        if (isset($this->_result) || isset($this->_limit)) {
-            return count($this->_getResult());
+        if (isset($this->result) || isset($this->limit)) {
+            return count($this->getResult());
         } else {
-            return $this->_model->getStorage()->count($this->_model->getCollectionName(), $this->_conditions);
+            return $this->model->getStorage()->count($this->model->getCollectionName(), $this->conditions);
         }
     }
 
@@ -154,8 +154,8 @@ class Result implements Iterator
      */
     public function where($property, $condition, $value)
     {
-        $this->_conditions[] = array(
-            'property' => $this->_model->propertyAlias($property),
+        $this->conditions[] = array(
+            'property' => $this->model->propertyAlias($property),
             'condition' => $condition,
             'value' => $value
         );
@@ -174,8 +174,8 @@ class Result implements Iterator
      */
     public function whereEquals($property, $value)
     {
-        $this->_conditions[] = array(
-            'property' => $this->_model->propertyAlias($property),
+        $this->conditions[] = array(
+            'property' => $this->model->propertyAlias($property),
             'condition' => '=',
             'value' => $value
         );
@@ -196,13 +196,13 @@ class Result implements Iterator
      */
     public function whereBetween($property, $valueOne, $valueTwo)
     {
-        $this->_conditions[] = array(
-            'property' => $this->_model->propertyAlias($property),
+        $this->conditions[] = array(
+            'property' => $this->model->propertyAlias($property),
             'condition' => '>',
             'value' => $valueOne
         );
-        $this->_conditions[] = array(
-            'property' => $this->_model->propertyAlias($property),
+        $this->conditions[] = array(
+            'property' => $this->model->propertyAlias($property),
             'condition' => '<',
             'value' => $valueTwo
         );
@@ -219,7 +219,7 @@ class Result implements Iterator
      */
     public function whereAnyMatches($string)
     {
-        $this->_conditions[] = array(
+        $this->conditions[] = array(
             'property' => '*',
             'condition' => 'MATCHES',
             'value' => $string
@@ -243,13 +243,13 @@ class Result implements Iterator
         if (! is_bool($direction)) {
             throw new InvalidArgumentException('Order direction must be boolean. (true = ascending, false descending)');
         }
-        $this->_direction = $direction;
+        $this->direction = $direction;
         if (is_array($properties)) {
             foreach ($properties as $property) {
-                $this->_order[] = $this->_model->propertyAlias($property);
+                $this->order[] = $this->model->propertyAlias($property);
             }
         } else {
-            $this->_order[] = $this->_model->propertyAlias($properties);
+            $this->order[] = $this->model->propertyAlias($properties);
         }
         return $this;
     }
@@ -264,7 +264,7 @@ class Result implements Iterator
      */
     public function limit($limit)
     {
-        $this->_limit = $limit;
+        $this->limit = $limit;
         return $this;
     }
 
@@ -278,9 +278,9 @@ class Result implements Iterator
      */
     public function offset($offset)
     {
-        $this->_offset = $offset;
-        if (! is_numeric($this->_limit) && ! $this->_limit >= 0) {
-            $this->_limit = self::DEFAULT_LIMIT; // This is a arbitrary number!
+        $this->offset = $offset;
+        if (! is_numeric($this->limit) && ! $this->limit >= 0) {
+            $this->limit = self::DEFAULT_LIMIT; // This is a arbitrary number!
             trigger_error('Limit was not specifically set, so Tick defaulted to ' . self::DEFAULT_LIMIT, E_USER_NOTICE);
         }
         return $this;
@@ -294,8 +294,8 @@ class Result implements Iterator
      */
     public function rewind()
     {
-        $this->_getResult();
-        $this->_position = 0;
+        $this->getResult();
+        $this->position = 0;
     }
 
     /**
@@ -306,7 +306,7 @@ class Result implements Iterator
      */
     public function current()
     {
-        return $this->getModel($this->_position);
+        return $this->getModel($this->position);
     }
 
     /**
@@ -317,8 +317,8 @@ class Result implements Iterator
      */
     public function key()
     {
-        $this->_getResult();
-        return $this->_position;
+        $this->getResult();
+        return $this->position;
     }
 
     /**
@@ -329,8 +329,8 @@ class Result implements Iterator
      */
     public function next()
     {
-        $this->_getResult();
-        ++ $this->_position;
+        $this->getResult();
+        ++ $this->position;
     }
 
     /**
@@ -341,8 +341,8 @@ class Result implements Iterator
      */
     public function valid()
     {
-        $this->_getResult();
-        return isset($this->_result[$this->_position]);
+        $this->getResult();
+        return isset($this->result[$this->position]);
     }
 
     /**
@@ -355,14 +355,14 @@ class Result implements Iterator
      */
     private function getModel($position)
     {
-        $this->_getResult();
-        $class = get_class($this->_model);
+        $this->getResult();
+        $class = get_class($this->model);
         $entity = new $class();
-        $meta = $this->_model->getMetadata();
+        $meta = $this->model->getMetadata();
         $fields = $meta["fields"];
         
         if (! $this->isEmpty()) {
-            foreach ($this->_result[$position] as $field => $value) {
+            foreach ($this->result[$position] as $field => $value) {
                 $property = $fields[$field]["property"];
                 $propertyType = $fields[$field]["type"];
                 
