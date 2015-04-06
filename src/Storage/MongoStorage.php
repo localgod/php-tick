@@ -17,6 +17,7 @@ namespace Localgod\Tick\Storage;
  use \MongoDate;
  use \Exception;
  use \RuntimeException;
+ use \DateTime;
 /**
  * Tick mongo storage implementation
  *
@@ -40,10 +41,8 @@ class MongoStorage implements Storage
     /**
      * Set the database connection
      *
-     * @param PDO $connection
+     * @param MongoDB $connection
      *            Database connection
-     *            
-     * @return void
      */
     public function __construct(MongoDB $connection)
     {

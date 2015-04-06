@@ -32,8 +32,6 @@ abstract class Tick extends Record
 
     /**
      * Construct a new record
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -70,7 +68,7 @@ abstract class Tick extends Record
             }
         }
         
-        if ($criterias) {
+        if (! empty($criterias)) {
             $result = $this->get($criterias);
             if (! empty($result)) {
                 return true;

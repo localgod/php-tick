@@ -30,10 +30,10 @@ class ResultTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
-        Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+        Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
         $storage = Manager::getStorage();
-        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/../_testdata/schema.sql'));
-        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/../_testdata/fixture.sql'));
+        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/_testdata/schema.sql'));
+        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/_testdata/fixture.sql'));
     }
 
     /**
@@ -289,4 +289,4 @@ class ResultTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $result->current());
     }
 }
-require_once dirname(__FILE__) . '../../_testdata/User.php';
+require_once dirname(__FILE__) . '/_testdata/User.php';

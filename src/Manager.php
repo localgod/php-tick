@@ -1,24 +1,25 @@
 <?php
 namespace Localgod\Tick;
+
 /**
  * Tick Manager
  *
  * PHP version >=5.3.3
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
- * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     https://github.com/localgod/php-tick php-tick
+ * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @link https://github.com/localgod/php-tick php-tick
  */
- use \Mongo;
- use \SolrClient;
- use \PDO;
- use \PDOException;
- use \InvalidArgumentException;
- use \RuntimeException;
- use \Localgod\Tick\Storage\SqlStorage;
- use \Localgod\Tick\Storage\SolrStorage;
- use \Localgod\Tick\Storage\MongoStorage;
- 
+use \Mongo;
+use \SolrClient;
+use \PDO;
+use \PDOException;
+use \InvalidArgumentException;
+use \RuntimeException;
+use \Localgod\Tick\Storage\SqlStorage;
+use \Localgod\Tick\Storage\SolrStorage;
+use \Localgod\Tick\Storage\MongoStorage;
+
 /**
  * Tick Manager
  *
@@ -244,7 +245,7 @@ class Manager
      * @throws InvalidArgumentException missing database driver or database name
      * @return void
      */
-    public final static function addDefaultConnectionConfig($type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driver_options = null)
+    final public static function addDefaultConnectionConfig($type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driver_options = null)
     {
         self::addConnectionConfig(self::DEFAULT_CONNECTION_NAME, $type, $database, $username, $password, $host, $port, $driver_options);
     }
@@ -272,7 +273,7 @@ class Manager
      * @throws InvalidArgumentException missing database driver or database name
      * @return void
      */
-    public final static function addConnectionConfig($name, $type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driverOptions = null)
+    final public static function addConnectionConfig($name, $type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driverOptions = null)
     {
         $drivers = PDO::getAvailableDrivers();
         $drivers[] = 'mongodb';

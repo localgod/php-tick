@@ -90,8 +90,6 @@ class Result implements Iterator
      *
      * @param Object $model
      *            Model to get results from
-     *            
-     * @return void
      */
     public function __construct($model)
     {
@@ -174,11 +172,7 @@ class Result implements Iterator
      */
     public function whereEquals($property, $value)
     {
-        $this->conditions[] = array(
-            'property' => $this->model->propertyAlias($property),
-            'condition' => '=',
-            'value' => $value
-        );
+        $this->where($property, '=', $value);
         return $this;
     }
 

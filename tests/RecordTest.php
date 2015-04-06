@@ -30,7 +30,7 @@ class RecordTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+        Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
     }
 
     /**
@@ -59,4 +59,4 @@ class RecordTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("record_extension_connection", $re->getConnectionName());
     }
 }
-require_once dirname(__FILE__) . '../../_testdata/RecordExtension.php';
+require_once dirname(__FILE__) . '/_testdata/RecordExtension.php';

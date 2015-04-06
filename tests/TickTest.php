@@ -31,18 +31,18 @@ class TickTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+        Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
         Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(
             PDO::ATTR_PERSISTENT => true
         ));
-        $dbPath = dirname(__FILE__) . '/../_testdata/test.sqlite';
+        $dbPath = dirname(__FILE__) . '/_testdata/test.sqlite';
         touch($dbPath);
         Manager::addConnectionConfig('tick_connection', 'sqlite', $dbPath);
         
         $storage = Manager::getStorage();
-        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/../_testdata/schema.sql'));
+        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/_testdata/schema.sql'));
         $storage = Manager::getStorage("tick_connection");
-        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/../_testdata/schema.sql'));
+        $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/_testdata/schema.sql'));
     }
 
     /**
@@ -59,7 +59,7 @@ class TickTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        $dbPath = dirname(__FILE__) . '/../_testdata/test.sqlite';
+        $dbPath = dirname(__FILE__) . '/_testdata/test.sqlite';
         unlink($dbPath);
     }
 
@@ -138,5 +138,5 @@ class TickTest extends PHPUnit_Framework_TestCase
         $obj2->resetCollectionName();
     }
 }
-require_once dirname(__FILE__) . '../../_testdata/TickExtension.php';
-require_once dirname(__FILE__) . '../../_testdata/TickExtension2.php';
+require_once dirname(__FILE__) . '/_testdata/TickExtension.php';
+require_once dirname(__FILE__) . '/_testdata/TickExtension2.php';

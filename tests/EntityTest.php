@@ -30,7 +30,7 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	protected function setUp() {
-		Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+		Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
 		$this->expected = array(
 			"properties" => array(
 				"id" => array("field" => "user_id", "type" => "integer", 'default' => null,"size" => 11,
@@ -235,4 +235,4 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->expected, $re->_getMetadata());
 	}
 }
-require_once dirname(__FILE__) . '../../_testdata/EntityExtension.php';
+require_once dirname(__FILE__) . '/_testdata/EntityExtension.php';

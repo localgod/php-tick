@@ -17,7 +17,7 @@ use Localgod\Tick\Manager;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-class TickManagerTest extends PHPUnit_Framework_TestCase
+class ManagerTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -28,7 +28,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+        Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
     }
 
     /**
@@ -163,4 +163,4 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(key_exists("TickConnection:default", $GLOBALS));
     }
 }
-require_once dirname(__FILE__) . '../../_testdata/TickManagerExtension.php';
+require_once dirname(__FILE__) . '/_testdata/TickManagerExtension.php';

@@ -1,3 +1,5 @@
+2015-04-06  Johannes Skov Frandsen  <localgod@heaven.dk>
+	Switched to PSR-4 autoloading
 2013-10-13  Johannes Skov Frandsen  <localgod@heaven.dk>
 	Added support for composer
 2011-11-18  Johannes Skov Frandsen  <localgod@heaven.dk>

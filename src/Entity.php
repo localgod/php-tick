@@ -102,7 +102,18 @@ abstract class Entity extends Type
     public function setConnectionName($connectionName)
     {
         self::$connectionNameMap[get_class($this)] = $connectionName;
-        $this->_resetStorage();
+        $this->resetStorage();
+    }
+
+    /**
+     * Reset storage
+     *
+     * @return void
+     */
+    private function resetStorage()
+    {
+        $this->storage = null;
+        return $this->storage;
     }
 
     /**
@@ -247,7 +258,7 @@ abstract class Entity extends Type
      *            
      * @return mixed
      */
-    private final function callGet($name, $arguments)
+    final private function callGet($name, $arguments)
     {
         $propertyName = lcfirst(str_replace('get', '', $name));
         
@@ -274,7 +285,7 @@ abstract class Entity extends Type
      *            
      * @return boolean
      */
-    protected final function modified($modified = false)
+    final protected function modified($modified = false)
     {
         if ($modified) {
             $this->modified = true;
@@ -292,7 +303,7 @@ abstract class Entity extends Type
      *            
      * @return mixed
      */
-    private final function callSet($name, $arguments)
+    final private function callSet($name, $arguments)
     {
         $propertyName = lcfirst(str_replace('set', '', $name));
         

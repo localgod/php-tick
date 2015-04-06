@@ -1,18 +1,20 @@
 <?php
 namespace Localgod\Tick\Storage;
+
 /**
  * Tick sql storage implementation
  *
  * PHP version >=5.3.3
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
- * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     https://github.com/localgod/php-tick php-tick
+ * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @link https://github.com/localgod/php-tick php-tick
  */
- use \PDO;
- use \DateTime;
- use \PDOException;
- use \RuntimeException;
+use \PDO;
+use \DateTime;
+use \PDOException;
+use \RuntimeException;
+
 /**
  * Tick sql storage implementation
  *
@@ -38,8 +40,6 @@ class SqlStorage implements Storage
      *
      * @param PDO $connection
      *            Database connection
-     *            
-     * @return void
      */
     public function __construct(PDO $connection)
     {
@@ -80,7 +80,7 @@ class SqlStorage implements Storage
      *            Criterias to search by
      * @param array $order
      *            Order result
-     * @param array $direction
+     * @param boolean $direction
      *            Order direction
      * @param string $limit
      *            Limit result

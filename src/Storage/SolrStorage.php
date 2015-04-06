@@ -42,8 +42,6 @@ class SolrStorage implements Storage
      *
      * @param SolrClient $connection
      *            Database connection
-     *            
-     * @return void
      */
     public function __construct(SolrClient $connection)
     {
@@ -159,7 +157,6 @@ class SolrStorage implements Storage
                         break;
                     case 'array':
                         throw new Exception("array is not supported yet.");
-                        break;
                     case 'DateTime':
                         $doc->addField($key, $d['value'] ? $d['value']->getTimestamp() : '');
                         break;
