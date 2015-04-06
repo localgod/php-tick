@@ -1,4 +1,4 @@
-php-tick
+#php-tick
 
 Copyright (c) 2011, Johannes Skov Frandsen <localgod@heaven.dk>.
 All rights reserved.
