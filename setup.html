@@ -41,7 +41,7 @@
 <h3>Bootstrap php-tick</h3>
 <p>You only need to do this once in you application.</p>
 <pre class='brush: php'>
-Connect to the database
+//Connect to the database
 use Localgod\Tick\Manager;
 Manager::addDefaultConnectionConfig('sqlite', 'data/db.sqlite');
 Manager::setModelPath('models/');
@@ -50,7 +50,7 @@ Manager::setModelPath('models/');
 <h3>Define your model</h3>
 <p>Create a file called User.php in your model path and fill in the following:</p>
 <pre class='brush: php'>
-use Localgod\Tick\Manager;
+use Localgod\Tick\Tick;
 /**
  * User
  *
