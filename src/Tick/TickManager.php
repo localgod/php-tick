@@ -1,5 +1,5 @@
 <?php
-namespace Tick;
+namespace Localgod\Tick;
 /**
  * Tick Manager
  *
@@ -16,7 +16,7 @@ namespace Tick;
  use \PDOException;
  use \InvalidArgumentException;
  use \RuntimeException;
- use \Tick\Storage\SqlStorage;
+ use \Localgod\Tick\Storage\SqlStorage;
  
 /**
  * Tick Manager

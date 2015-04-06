@@ -1,5 +1,5 @@
 <?php
-namespace Tick;
+namespace Localgod\Tick;
 /**
  * Type handler for Tick
  *

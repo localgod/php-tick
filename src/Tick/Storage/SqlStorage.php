@@ -1,5 +1,5 @@
 <?php
-namespace Tick\Storage;
+namespace Localgod\Tick\Storage;
 /**
  * Tick sql storage implementation
  *

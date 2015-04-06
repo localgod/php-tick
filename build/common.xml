@@ -14,7 +14,7 @@
 	<property name="phpcpd.executable" value="${tools.dir}/phpcpd.phar" />
 	<property name="phploc.executable" value="${tools.dir}/phploc.phar" />
 	<property name="phpmd.executable" value="${tools.dir}/phpmd.phar" />
-	<property name="phpdoc.executable" value="${bin.dir}/phpdoc.php" />
+	<property name="phpdoc.executable" value="${bin.dir}/phpdoc" />
 
 	<!-- Paths -->
 	<path id="ant.lib.path">

@@ -1,5 +1,5 @@
 <?php
-namespace Tick;
+namespace Localgod\Tick;
 /**
  * Record
  *
@@ -10,6 +10,7 @@ namespace Tick;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+ use Localgod\Tick\Entity;
 /**
  * Record
  *

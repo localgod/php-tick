@@ -11,7 +11,7 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
  */
-use Tick\TickManager;
+use Localgod\Tick\TickManager;
 /**
  * Test a class extending php-tick
  *
@@ -112,7 +112,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
         TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
         TickManager::getStorage();
         $this->assertNotNull($GLOBALS["TickConnection:default"]);
-        $this->assertTrue($GLOBALS["TickConnection:default"] instanceof Tick\Storage\SqlStorage);
+        $this->assertTrue($GLOBALS["TickConnection:default"] instanceof Localgod\Tick\Storage\SqlStorage);
     }
 
     /**
