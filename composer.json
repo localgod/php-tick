@@ -18,17 +18,14 @@
 		"php" : ">=5.3.3"
 	},
 	"require-dev" : {
-		"phpunit/phpunit" : ">=4.5.0@stable",
-		"phpdocumentor/phpdocumentor" : ">=2.8.2@stable",
-		"squizlabs/php_codesniffer" : ">=2.3.0@stable"
+		"phpunit/phpunit" : "4.6.1",
+		"phpdocumentor/phpdocumentor" : "2.8.1",
+		"squizlabs/php_codesniffer" : "2.3.0"
 	},
 	"autoload" : {
 		"psr-0" : {
-			"Localgod\\Tick\\" : "src"
-		},
-		"classmap" : [
-			"src/"
-		]
+			"Tick" : "src/"
+		}
 	},
 	"minimum-stability" : "dev",
 	"support" : {

@@ -1,5 +1,5 @@
 <?php
-
+namespace Tick;
 /**
  * Tick Manager
  *
@@ -10,6 +10,14 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+ use \Mongo;
+ use \SolrClient;
+ use \PDO;
+ use \PDOException;
+ use \InvalidArgumentException;
+ use \RuntimeException;
+ use \Tick\Storage\SqlStorage;
+ 
 /**
  * Tick Manager
  *
@@ -291,7 +299,7 @@ class TickManager
     }
 
     /**
-     * Closes and emoves all connections
+     * Closes and removes all connections
      *
      * @return void
      */

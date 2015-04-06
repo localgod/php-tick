@@ -10,6 +10,7 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
  */
+ use Tick\TickManager;
 /**
  * Test Entity
  *
@@ -127,7 +128,7 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	 * @test
 	 * @return void
 	 */
-	public function _defaultValue() {
+	public function defaultValue() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
 			@$this->assertEquals(
@@ -184,7 +185,7 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	 * @test
 	 * @return void
 	 */
-	public function _mustBeUnique() {
+	public function mustBeUnique() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
 			@$this->assertEquals(
@@ -201,7 +202,7 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	 * @test
 	 * @return void
 	 */
-	public function _isValidLength() {
+	public function isValidLength() {
 		$re = new EntityExtension();
 		foreach ($this->expected["properties"] as $name => $prop) {
 			@$this->assertTrue($re->_isValidLength($name, 10), "10 should be valid value for $name");

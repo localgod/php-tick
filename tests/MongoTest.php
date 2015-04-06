@@ -11,6 +11,7 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+ use Tick\TickManager;
 /**
  * Test a class extending php-tick
  *

@@ -1,5 +1,5 @@
 <?php
-
+namespace Tick;
 /**
  * Entity
  *
@@ -10,6 +10,7 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+use \RangeException;
 /**
  * Entity
  *

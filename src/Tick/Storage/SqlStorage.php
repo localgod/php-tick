@@ -1,5 +1,5 @@
 <?php
-
+namespace Tick\Storage;
 /**
  * Tick sql storage implementation
  *
@@ -10,6 +10,10 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+ use \PDO;
+ use \DateTime;
+ use \PDOException;
+ use \RuntimeException;
 /**
  * Tick sql storage implementation
  *

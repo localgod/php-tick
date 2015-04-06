@@ -10,6 +10,7 @@
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+use Tick\TickManager;
 /**
  * Test a class extending php-tick
  *
@@ -28,7 +29,7 @@ class UserTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	protected function setUp() {
-		TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
+        TickManager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
 		TickManager::setModelPath(dirname(__FILE__).'/_testdata/');
 		$storage = TickManager::getStorage();
 		$storage->getConnection()->exec(file_get_contents(dirname(__FILE__).'/_testdata/schema.sql'));

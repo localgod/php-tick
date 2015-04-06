@@ -1,5 +1,5 @@
 <?php
-
+namespace Tick\Storage;
 /**
  * Tick storage interface
  *
