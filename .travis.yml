@@ -13,6 +13,7 @@ before_install:
   - sudo apt-get install -qq unzip  
 
 before_script:
+  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - ./build/getTools.sh
   - phpenv rehash
   - composer self-update
