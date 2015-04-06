@@ -32,33 +32,25 @@
 <p>This section describe how to setup php-tick</p>
 
 <h2>Tick Setup</h2>
-<p>There is tree simple steps to use php-tick when you have downloaded it and copied it to your site:</p>
+<p>There is 3 simple steps to use php-tick when you have downloaded it and copied it to your site:</p>
 <ul>
-  <li>Bootstrap php-tick</li>
+  <li>Connect php-tick to a database</li>
   <li>Define your model</li>
   <li>Use your model</li>
 </ul>
 <h3>Bootstrap php-tick</h3>
 <p>You only need to do this once in you application.</p>
 <pre class='brush: php'>
-// First we make sure we don't mess with other autoloaders
-if (false === spl_autoload_functions()) {
-	if (function_exists('__autoload')) {
-		spl_autoload_register('__autoload', false);
-	}
-}
-// Then we setup the Tick autoloader
-require_once 'Tick/Tick.php';
-spl_autoload_register(array('Tick', 'autoload'));
-
-// Last we connect to the database
-TickManager::addDefaultConnectionConfig('sqlite', 'data/db.sqlite');
-TickManager::setModelPath('models/');
+Connect to the database
+use Localgod\Tick\Manager;
+Manager::addDefaultConnectionConfig('sqlite', 'data/db.sqlite');
+Manager::setModelPath('models/');
 </pre>
 
 <h3>Define your model</h3>
 <p>Create a file called User.php in your model path and fill in the following:</p>
 <pre class='brush: php'>
+use Localgod\Tick\Manager;
 /**
  * User
  *

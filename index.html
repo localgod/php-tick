@@ -1,73 +1,92 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Php-tick by localgod</title>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>Php-tick by localgod</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeFadeToGrey.css" rel="stylesheet" type="text/css" />
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<link rel="stylesheet" href="stylesheets/styles.css">
+<link
+	href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeFadeToGrey.css"
+	rel="stylesheet" type="text/css" />
+<script src="javascripts/scale.fix.js"></script>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <!--[if lt IE 9]>
+<!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1><a href="index.html">Php-tick</a></h1>
-<p>Simple active record implementation</p>
-        <p class="view"><a href="https://github.com/localgod/php-tick">View the Project on GitHub <small>localgod/php-tick</small></a></p>
-        <ul>
-          <li><a href="https://github.com/localgod/php-tick/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="setup.html">HowTo Use<strong>php-tick</strong></a></li>
-          <li><a href="https://github.com/localgod/php-tick">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-      <ul>
-<li>php-tick is a simple active record implementation with the least amount of fuss needed to make it work fast.</li>
-<li>It has support for both SQL and noSQL databases.</li>
-<li>It has no support for foreign key relations.</li>
-</ul>
-<h2>INSTALLATION</h2>
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<h1>
+				<a href="index.html">Php-tick</a>
+			</h1>
+			<p>Simple active record implementation</p>
+			<p class="view">
+				<a href="https://github.com/localgod/php-tick">View the Project
+					on GitHub <small>localgod/php-tick</small>
+				</a>
+			</p>
+			<ul>
+				<li><a
+					href="https://github.com/localgod/php-tick/zipball/master">Download
+						<strong>ZIP File</strong>
+				</a></li>
+				<li><a href="setup.html">HowTo Use<strong>php-tick</strong></a></li>
+				<li><a href="https://github.com/localgod/php-tick">View On
+						<strong>GitHub</strong>
+				</a></li>
+			</ul>
+		</header>
+		<section>
+			<ul>
+				<li>php-tick is a simple active record implementation with the
+					least amount of fuss needed to make it work fast.</li>
+				<li>It has support for both SQL and noSQL databases.</li>
+				<li>It has no support for foreign key relations.</li>
+			</ul>
+			<h2>INSTALLATION</h2>
 
-<ul>
-<li>Copy the Tick folder to your site</li>
-<li><code>require_once 'autoload.php';</code></li>
-</ul>
-<p>...Or add the following lines to you script:</p>
+			php-tick is <a target="_blank"
+				href="http://www.php-fig.org/psr/psr-4/">PSR-4</a> compliant and
+			easily installed with <a target="_blank"
+				href="https://getcomposer.org/">Composer</a>
 
-<pre class='brush: php'>
-&lt;?php
-require_once 'Tick/Tick.php';
-spl_autoload_register(array('Tick', 'autoload'));
-?&gt;
-</pre>
+			<h2>REQUIREMENTS</h2>
 
-<h2>REQUIREMENTS</h2>
+			<ul>
+				<li>Php version 5.3.3&lt; build with the following extension:
+					pcre, SPL (default build-in in most distributions)</li>
+				<li>The SOLR storage engine requires the PECL SOLR extension.</li>
+				<li>The Mongo storage engine requires the PECL Mongo extension.</li>
+			</ul>
+		</section>
+	</div>
+	<footer>
+		<p>
+			Project maintained by <a href="https://github.com/localgod">localgod</a>
+		</p>
+		<p>
+			Hosted on GitHub Pages &mdash; Theme by <a
+				href="https://github.com/orderedlist">orderedlist</a>
+		</p>
+	</footer>
+	<!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
 
-<ul>
-<li>Php version 5.1.2&lt; build with the following extension: pcre, SPL (default build-in in most distributions)</li>
-<li>The SOLR storage engine requires the PECL SOLR extension.</li>
-</ul>
-      </section>
-    </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/localgod">localgod</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-    
-  </body>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
-  <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js" type="text/javascript"></script>
-  <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
-  <script type="text/javascript">
-  SyntaxHighlighter.defaults['toolbar'] = false;
-  SyntaxHighlighter.all();
-  </script>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js"
+	type="text/javascript"></script>
+<script
+	src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js"
+	type="text/javascript"></script>
+<script
+	src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js"
+	type="text/javascript"></script>
+<script type="text/javascript">
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
 </html>
