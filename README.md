@@ -15,6 +15,6 @@ See this page: http://localgod.github.com/php-tick/
 
 ##REQUIREMENTS
 
-  * Php version 5.3.3< build with the following extension: pcre, SPL (default build-in in most distributions)
+  * Php version >=5.3.3 build with the following extension: pcre, SPL (default build-in in most distributions)
   * The SOLR storage engine requires the PECL SOLR extension.
   * The Mongo storage engine requires the PECL Mongo extension.
