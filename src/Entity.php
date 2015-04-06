@@ -102,18 +102,6 @@ abstract class Entity extends Type
     public function setConnectionName($connectionName)
     {
         self::$connectionNameMap[get_class($this)] = $connectionName;
-        $this->resetStorage();
-    }
-
-    /**
-     * Reset storage
-     *
-     * @return void
-     */
-    private function resetStorage()
-    {
-        $this->storage = null;
-        return $this->storage;
     }
 
     /**
@@ -201,6 +189,7 @@ abstract class Entity extends Type
                     break;
                 case 'string':
                     $result[$property] = (string) $this->$property;
+                    break;
                 default:
                     $result[$property] = $this->$property;
             }

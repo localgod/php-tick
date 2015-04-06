@@ -140,9 +140,10 @@ class SqlStorage implements Storage
     private function orderBy(array $order, $direction = true)
     {
         if (! empty($order)) {
+            $count = count($order);
             $orderString = array();
             $orderString[] = 'ORDER BY';
-            for ($i = 0; count($order) > $i; $i ++) {
+            for ($i = 0; $count > $i; $i ++) {
                 if ($i == 0) {
                     $orderString[] = '`' . $order[$i] . '`';
                 } else {

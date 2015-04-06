@@ -22,14 +22,6 @@ use \RuntimeException;
  */
 abstract class Tick extends Record
 {
-
-    /**
-     * Path to Tick root directory
-     *
-     * @var string $path Tick root directory
-     */
-    private static $path;
-
     /**
      * Construct a new record
      */
@@ -69,7 +61,7 @@ abstract class Tick extends Record
         }
         
         if (! empty($criterias)) {
-            $result = $this->get($criterias);
+            $result = $this->get();
             if (! empty($result)) {
                 return true;
             }
