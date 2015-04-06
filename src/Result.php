@@ -3,22 +3,20 @@ namespace Localgod\Tick;
 /**
  * Result
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
  use \Iterator;
  use \DateTime;
+ use \InvalidArgumentException;
 /**
  * Result
  *
  * The result class helps you query your model and manage result sets
  *
- * @category ActiveRecord
- * @package Tick
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick

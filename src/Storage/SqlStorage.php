@@ -3,9 +3,8 @@ namespace Localgod\Tick\Storage;
 /**
  * Tick sql storage implementation
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
@@ -20,8 +19,6 @@ namespace Localgod\Tick\Storage;
  * All databases supported by PDO should work, but it has only been tested
  * with mysql and sqlite.
  *
- * @category ActiveRecord
- * @package Tick
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
@@ -373,7 +370,7 @@ class SqlStorage implements Storage
             }
         }
         
-        $query = preg_replace($keys, $params, $query, 1, $count);
+        $query = preg_replace($keys, $params, $query, 1);
         return $query;
     }
 }

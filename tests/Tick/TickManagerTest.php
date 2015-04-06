@@ -3,20 +3,16 @@
 /**
  * Test a class extending php-tick
  *
- * PHP Version 5.1.2
+ * PHP version >=5.3.3
  *
- * @category Test
- * @package  Test
  * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
  */
-use Localgod\Tick\TickManager;
+use Localgod\Tick\Manager;
 /**
  * Test a class extending php-tick
  *
- * @category Test
- * @package Test
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
@@ -32,7 +28,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        TickManager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+        Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
     }
 
     /**
@@ -43,7 +39,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        TickManager::removeAllConnections();
+        Manager::removeAllConnections();
     }
 
     /**
@@ -55,10 +51,10 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function removeAllConnectionsOnlyDefault()
     {
-        TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
-        TickManager::getStorage();
+        Manager::addDefaultConnectionConfig('sqlite', ':memory:');
+        Manager::getStorage();
         $this->assertNotNull($GLOBALS[TickManagerExtension::getUniqueName("default")]);
-        TickManager::removeAllConnections();
+        Manager::removeAllConnections();
         $this->assertFalse(key_exists("TickConnection:default", $GLOBALS));
     }
 
@@ -71,11 +67,11 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function removeAllConnectionsOnlyNamed()
     {
-        TickManager::addConnectionConfig('my_connection', 'sqlite', ':memory:');
-        TickManager::getStorage("my_connection");
+        Manager::addConnectionConfig('my_connection', 'sqlite', ':memory:');
+        Manager::getStorage("my_connection");
         $this->assertNotNull($GLOBALS["TickConnection:my_connection"]);
         $this->assertFalse(key_exists("TickConnection:default", $GLOBALS));
-        TickManager::removeAllConnections();
+        Manager::removeAllConnections();
         $this->assertFalse(key_exists("TickConnection:my_connection", $GLOBALS));
         $this->assertFalse(key_exists("TickConnection:default", $GLOBALS));
     }
@@ -89,13 +85,13 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function removeAllConnectionsBoth()
     {
-        TickManager::addConnectionConfig('my_connection', 'sqlite', ':memory:');
-        TickManager::getStorage("my_connection");
-        TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
-        TickManager::getStorage();
+        Manager::addConnectionConfig('my_connection', 'sqlite', ':memory:');
+        Manager::getStorage("my_connection");
+        Manager::addDefaultConnectionConfig('sqlite', ':memory:');
+        Manager::getStorage();
         $this->assertNotNull($GLOBALS["TickConnection:my_connection"]);
         $this->assertNotNull($GLOBALS["TickConnection:default"]);
-        TickManager::removeAllConnections();
+        Manager::removeAllConnections();
         $this->assertFalse(key_exists("TickConnection:my_connection", $GLOBALS));
         $this->assertFalse(key_exists("TickConnection:default", $GLOBALS));
     }
@@ -109,8 +105,8 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function defaultIsAddedToGlobalAfterStorageIsRequested()
     {
-        TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
-        TickManager::getStorage();
+        Manager::addDefaultConnectionConfig('sqlite', ':memory:');
+        Manager::getStorage();
         $this->assertNotNull($GLOBALS["TickConnection:default"]);
         $this->assertTrue($GLOBALS["TickConnection:default"] instanceof Localgod\Tick\Storage\SqlStorage);
     }
@@ -125,7 +121,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function throwsExceptionOnWrongName()
     {
-        TickManager::getStorage("qwe");
+        Manager::getStorage("qwe");
     }
 
     /**
@@ -138,7 +134,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function setNonExistingModelPathFails()
     {
-        TickManager::setModelPath("/this-should-not/exist/");
+        Manager::setModelPath("/this-should-not/exist/");
     }
 
     /**
@@ -150,8 +146,8 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function setAndGetExistingModelPathFails()
     {
-        TickManager::setModelPath("./");
-        $this->assertEquals("./", TickManager::getModelPath("./"));
+        Manager::setModelPath("./");
+        $this->assertEquals("./", Manager::getModelPath("./"));
     }
 
     /**
@@ -163,7 +159,7 @@ class TickManagerTest extends PHPUnit_Framework_TestCase
      */
     public function defaultIsNotAddedToGlobalBeforeStorageIsRequested()
     {
-        TickManager::addDefaultConnectionConfig('sqlite', ':memory:');
+        Manager::addDefaultConnectionConfig('sqlite', ':memory:');
         $this->assertFalse(key_exists("TickConnection:default", $GLOBALS));
     }
 }

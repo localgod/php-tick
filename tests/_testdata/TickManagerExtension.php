@@ -2,28 +2,24 @@
 /**
  * Tick Manager test extension
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
- * @package  Tick
  * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
  */
-use Localgod\Tick\TickManager;
+use Localgod\Tick\Manager;
 
 /**
  * Tick Manager  test extension 
  *
- * @category ActiveRecord
- * @package  Tick
  * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
  */
-class TickManagerExtension extends TickManager {
+class TickManagerExtension extends Manager {
 	/**
 	 * The unigue name of connection in $GLOBALS
 	 *

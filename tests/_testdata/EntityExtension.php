@@ -2,10 +2,8 @@
 /**
  * Entity test extension
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveEntity
- * @package  Tick
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
@@ -14,8 +12,6 @@
 /**
  * Entity test extension
  *
- * @category ActiveEntity
- * @package  Tick
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick

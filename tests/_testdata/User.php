@@ -2,10 +2,8 @@
 /**
  * User
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category Test
- * @package  Test
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
@@ -15,8 +13,6 @@ use Localgod\Tick\Tick;
 /**
  * User
  *
- * @category Test
- * @package  Test
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick

@@ -2,7 +2,7 @@
 /**
  * php_tick test bootstrap file
  *
- * PHP Version 5.3.3
+ * PHP version >=5.3.3
  *
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  */

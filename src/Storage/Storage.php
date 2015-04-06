@@ -3,9 +3,8 @@ namespace Localgod\Tick\Storage;
 /**
  * Tick storage interface
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
@@ -15,9 +14,6 @@ namespace Localgod\Tick\Storage;
  *
  * Interface for basic CRUD operation on storage.
  *
- * @category ActiveRecord
- * @package Tick
- * @subpackage Storage
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick

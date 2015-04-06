@@ -3,9 +3,8 @@ namespace Localgod\Tick;
 /**
  * Tick Manager
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
@@ -17,19 +16,19 @@ namespace Localgod\Tick;
  use \InvalidArgumentException;
  use \RuntimeException;
  use \Localgod\Tick\Storage\SqlStorage;
+ use \Localgod\Tick\Storage\SolrStorage;
+ use \Localgod\Tick\Storage\MongoStorage;
  
 /**
  * Tick Manager
  *
  * Manages storage connection and autoloading of models.
  *
- * @category ActiveRecord
- * @package Tick
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-class TickManager
+class Manager
 {
 
     /**
@@ -69,12 +68,12 @@ class TickManager
         }
         
         $connection = self::$connections[$connectionName];
-        $unique_name = self::getUniqueName($connectionName);
+        $uniqueName = self::getUniqueName($connectionName);
         
-        if (! key_exists($unique_name, $GLOBALS)) {
-            $GLOBALS[$unique_name] = null;
+        if (! key_exists($uniqueName, $GLOBALS)) {
+            $GLOBALS[$uniqueName] = null;
         }
-        if (! $GLOBALS[$unique_name] instanceof Storage) {
+        if (! $GLOBALS[$uniqueName] instanceof Storage) {
             if ($connection['type'] == 'mongodb') {
                 self::createMongoStorage($connectionName);
             } else {
@@ -85,7 +84,7 @@ class TickManager
                 }
             }
         }
-        return $GLOBALS[$unique_name];
+        return $GLOBALS[$uniqueName];
     }
 
     /**
@@ -114,7 +113,7 @@ class TickManager
     private static function createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
         $connection = self::$connections[$connectionName];
-        $unique_name = self::getUniqueName($connectionName);
+        $uniqueName = self::getUniqueName($connectionName);
         
         $dsn = $connection['type'] . ':host=' . $connection['host'] . ';dbname=' . $connection['database'];
         $connection['port'] != null ? $dsn = $dsn . ';port=' . $connection['port'] : null;
@@ -125,7 +124,7 @@ class TickManager
         try {
             $pdo = new PDO($dsn, $connection['username'], $connection['password'], $connection['driverOptions']);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $GLOBALS[$unique_name] = new SqlStorage($pdo);
+            $GLOBALS[$uniqueName] = new SqlStorage($pdo);
         } catch (PDOException $e) {
             throw new RuntimeException('Connection failed: ' . $e->getMessage());
         }
@@ -144,7 +143,7 @@ class TickManager
     private static function createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
         $connection = self::$connections[$connectionName];
-        $unique_name = self::getUniqueName($connectionName);
+        $uniqueName = self::getUniqueName($connectionName);
         
         $dsn = $connection['type'] . '://' . $connection['host'];
         $connection['port'] != null ? $dsn = $dsn . ':' . $connection['port'] : null;
@@ -157,7 +156,7 @@ class TickManager
             
             $mongo->connect();
             $mongoDb = $mongo->selectDB($connection['database']);
-            $GLOBALS[$unique_name] = new MongoStorage($mongoDb);
+            $GLOBALS[$uniqueName] = new MongoStorage($mongoDb);
         } catch (MongoConnnectionException $e) {
             throw new RuntimeException('Connection failed: ' . $e->getMessage());
         }
@@ -176,7 +175,7 @@ class TickManager
     private static function createSolrStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
     {
         $connection = self::$connections[$connectionName];
-        $unique_name = self::getUniqueName($connectionName);
+        $uniqueName = self::getUniqueName($connectionName);
         
         $options = array();
         
@@ -194,7 +193,7 @@ class TickManager
         }
         
         $client = new SolrClient($options);
-        $GLOBALS[$unique_name] = new SolrStorage($client);
+        $GLOBALS[$uniqueName] = new SolrStorage($client);
     }
 
     /**
@@ -267,13 +266,13 @@ class TickManager
      *            The host name of the data source
      * @param integer $port
      *            The the port of the data source
-     * @param array $driver_options
+     * @param array $driverOptions
      *            Driver options
      *            
      * @throws InvalidArgumentException missing database driver or database name
      * @return void
      */
-    public final static function addConnectionConfig($name, $type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driver_options = null)
+    public final static function addConnectionConfig($name, $type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driverOptions = null)
     {
         $drivers = PDO::getAvailableDrivers();
         $drivers[] = 'mongodb';
@@ -294,7 +293,7 @@ class TickManager
         $connection["password"] = $password;
         $connection["host"] = $host;
         $connection["port"] = $port;
-        $connection["driverOptions"] = $driver_options;
+        $connection["driverOptions"] = $driverOptions;
         self::$connections[$name] = $connection;
     }
 
@@ -324,10 +323,10 @@ class TickManager
             unset(self::$connections[$connectionName]);
         }
         
-        $unique_name = self::getUniqueName($connectionName);
-        if (key_exists($unique_name, $GLOBALS)) {
-            $GLOBALS[$unique_name]->closeConnection();
-            unset($GLOBALS[$unique_name]);
+        $uniqueName = self::getUniqueName($connectionName);
+        if (key_exists($uniqueName, $GLOBALS)) {
+            $GLOBALS[$uniqueName]->closeConnection();
+            unset($GLOBALS[$uniqueName]);
         }
     }
 

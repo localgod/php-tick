@@ -24,7 +24,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"Localgod\\Tick\\" : "src/Tick"
+			"Localgod\\Tick\\" : "src"
 		}
 	},
 	"minimum-stability" : "dev",

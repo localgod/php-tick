@@ -3,14 +3,14 @@ namespace Localgod\Tick;
 /**
  * Type handler for Tick
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use ReflectionClass;
+ use \ReflectionClass;
+ use \InvalidArgumentException;
 /**
  * Type handler for Tick
  *
@@ -19,8 +19,6 @@ namespace Localgod\Tick;
  * "force" some kind of type checking and conversion for values handled by
  * Tick.
  *
- * @category ActiveRecord
- * @package  Tick
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
@@ -30,7 +28,7 @@ abstract class Type {
      * Class comment
      * @var string
      */
-    private $_classComment;
+    private $classComment;
 
     /**
      * Check if value is valid for the given property
@@ -79,11 +77,11 @@ abstract class Type {
      */
     protected function getClassComment() 
     {
-        if ($this->_classComment == '') {
+        if ($this->classComment == '') {
             $data = new ReflectionClass(get_class($this));
-            $this->_classComment = $data->getDocComment();
+            $this->classComment = $data->getDocComment();
         }
-        return $this->_classComment;
+        return $this->classComment;
     }
 
 }

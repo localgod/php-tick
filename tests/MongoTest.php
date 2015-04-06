@@ -3,21 +3,16 @@
 /**
  * Test a class extending php-tick
  *
- * PHP Version 5.1.2
+ * PHP version >=5.3.3
  *
- * @category Test
- * @package  Test
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
-use Localgod\Tick\TickManager;
+use Localgod\Tick\Manager;
 /**
  * Test a class extending php-tick
  *
- * @category Test
- * @package Test
- * @subpackage Test
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
@@ -77,8 +72,8 @@ class MUserTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('The mongo extension is not available.');
         }
         
-        TickManager::addDefaultConnectionConfig('mongodb', 'mongotest', null, null, '127.0.0.1', 27088);
-        TickManager::setModelPath(dirname(__FILE__) . '/_testdata/');
+        Manager::addDefaultConnectionConfig('mongodb', 'mongotest', null, null, '127.0.0.1', 27088);
+        Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
         shell_exec('mongoimport --port 27088 --drop --db mongotest --collection users --file ' . dirname(__FILE__) . '/_testdata/fixture.json');
         sleep(1);
     }
@@ -91,7 +86,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        TickManager::removeAllConnections();
+        Manager::removeAllConnections();
     }
 
     /**
@@ -103,8 +98,8 @@ class MUserTest extends PHPUnit_Framework_TestCase
      */
     public function getConnection()
     {
-        $this->assertTrue(TickManager::getStorage() instanceof Storage);
-        $this->assertTrue(TickManager::getStorage() instanceof MongoStorage);
+        $this->assertTrue(Manager::getStorage() instanceof Storage);
+        $this->assertTrue(Manager::getStorage() instanceof MongoStorage);
     }
 
     /**

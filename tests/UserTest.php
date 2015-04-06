@@ -2,21 +2,16 @@
 /**
  * Test a class extending php-tick
  *
- * PHP Version 5.1.2
+ * PHP version >=5.3.3
  *
- * @category Test
- * @package  Test
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
-use Localgod\Tick\TickManager;
+use Localgod\Tick\Manager;
 /**
  * Test a class extending php-tick
  *
- * @category   Test
- * @package    Test
- * @subpackage Test
  * @author     Johannes Skov Frandsen <localgod@heaven.dk>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  * @link       https://github.com/localgod/php-tick php-tick
@@ -29,9 +24,9 @@ class UserTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	protected function setUp() {
-        TickManager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
-		TickManager::setModelPath(dirname(__FILE__).'/_testdata/');
-		$storage = TickManager::getStorage();
+        Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
+		Manager::setModelPath(dirname(__FILE__).'/_testdata/');
+		$storage = Manager::getStorage();
 		$storage->getConnection()->exec(file_get_contents(dirname(__FILE__).'/_testdata/schema.sql'));
 		$storage->getConnection()->exec(file_get_contents(dirname(__FILE__).'/_testdata/fixture.sql'));
 	}
@@ -43,7 +38,7 @@ class UserTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	protected function tearDown() {
-		TickManager::removeAllConnections();
+		Manager::removeAllConnections();
 	}
 
 	/**

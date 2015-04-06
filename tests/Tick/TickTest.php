@@ -3,21 +3,18 @@
 /**
  * Test Record
  *
- * PHP Version 5.1.2
+ * PHP version >=5.3.3
  *
- * @category Test
- * @package  Test
  * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
  */
-use Localgod\Tick\TickManager;
+use Localgod\Tick\Manager;
+
 /**
  * Test Record
  *
- * @category Test
- * @package Test
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @author Brian Demant <brian.demant@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
@@ -34,15 +31,17 @@ class TickTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        TickManager::setModelPath(dirname(__FILE__) . '/../_testdata/');
-        TickManager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
+        Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+        Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(
+            PDO::ATTR_PERSISTENT => true
+        ));
         $dbPath = dirname(__FILE__) . '/../_testdata/test.sqlite';
         touch($dbPath);
-        TickManager::addConnectionConfig('tick_connection', 'sqlite', $dbPath);
+        Manager::addConnectionConfig('tick_connection', 'sqlite', $dbPath);
         
-        $storage = TickManager::getStorage();
+        $storage = Manager::getStorage();
         $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/../_testdata/schema.sql'));
-        $storage = TickManager::getStorage("tick_connection");
+        $storage = Manager::getStorage("tick_connection");
         $storage->getConnection()->exec(file_get_contents(dirname(__FILE__) . '/../_testdata/schema.sql'));
     }
 

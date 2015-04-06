@@ -3,34 +3,32 @@ namespace Localgod\Tick;
 /**
  * Record
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+ use \RuntimeException;
+ use \InvalidArgumentException;
  use Localgod\Tick\Entity;
 /**
  * Record
  *
  * The record class adds storage related functionality to the Tick objects.
  *
- * @category ActiveRecord
- * @package Tick
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
 abstract class Record extends Entity
 {
-
     /**
      * Storage
      *
      * @var Storage
      */
-    private $_storage;
+    private $storage;
 
     /**
      * Get storage
@@ -39,20 +37,10 @@ abstract class Record extends Entity
      */
     public function getStorage()
     {
-        if (! $this->_storage instanceof Storage) {
-            $this->_storage = TickManager::getStorage($this->getConnectionName());
+        if (! $this->storage instanceof Storage) {
+            $this->storage = Manager::getStorage($this->getConnectionName());
         }
-        return $this->_storage;
-    }
-
-    /**
-     * Reset storage
-     *
-     * @return void
-     */
-    private function _resetStorage()
-    {
-        $this->_storage = null;
+        return $this->storage;
     }
 
     /**

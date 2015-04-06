@@ -1,26 +1,28 @@
 <?php
 namespace Localgod\Tick\Storage;
+
 /**
  * Tick SOLR storage
  *
  * You should use a schema like the schema next to this file, solr-schema.xml
  * This requires your models to have an id property of type string.
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
- * @author   Jens Riisom Schultz <jers@fynskemedier.dk>
- * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     https://github.com/localgod/php-tick php-tick
+ * @author Jens Riisom Schultz <jers@fynskemedier.dk>
+ * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @link https://github.com/localgod/php-tick php-tick
  */
+use \SolrClient;
+use \SolrQuery;
+use \SolrInputDocument;
+use \Exception;
+
 /**
  * Tick SOLR storage
  *
  * Basic CRUD operations on SOLR based active records.
  *
- * @category ActiveRecord
- * @package Tick
- * @subpackage Storage
  * @author Jens Riisom Schultz <jers@fynskemedier.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick

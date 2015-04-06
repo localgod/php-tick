@@ -2,20 +2,16 @@
 /**
  * Test Entity
  *
- * PHP Version 5.1.2
+ * PHP version >=5.3.3
  *
- * @category Test
- * @package  Test
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
  */
-use Localgod\Tick\TickManager;
+use Localgod\Tick\Manager;
 /**
  * Test Entity
  *
- * @category Test
- * @package	 Test
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link	 https://github.com/localgod/php-tick php-tick
@@ -34,7 +30,7 @@ class EntityTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	protected function setUp() {
-		TickManager::setModelPath(dirname(__FILE__) . '/../_testdata/');
+		Manager::setModelPath(dirname(__FILE__) . '/../_testdata/');
 		$this->expected = array(
 			"properties" => array(
 				"id" => array("field" => "user_id", "type" => "integer", 'default' => null,"size" => 11,

@@ -2,10 +2,8 @@
 /**
  * Record test extension
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
- * @package  Tick
  * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
@@ -16,8 +14,6 @@ use Localgod\Tick\Record;
 /**
  * Record test extension
  *
- * @category ActiveRecord
- * @package  Tick
  * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
  * @author	 Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT

@@ -1,24 +1,28 @@
 <?php
 namespace Localgod\Tick;
+
 /**
  * Entity
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
- * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link     https://github.com/localgod/php-tick php-tick
+ * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @link https://github.com/localgod/php-tick php-tick
  */
 use \RangeException;
+use \Exception;
+use \LogicException;
+use \BadMethodCallException;
+use \InvalidArgumentException;
+use \RuntimeException;
+
 /**
  * Entity
  *
  * The entity class manages none storage related functionality in tick.
  * Basically this means working with the properties of your object.
  *
- * @category ActiveRecord
- * @package Tick
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
@@ -35,14 +39,14 @@ abstract class Entity extends Type
 
     /**
      * Connection name
-     * 
+     *
      * @var array
      */
     private static $connectionNameMap = array();
 
     /**
      * Collection name
-     * 
+     *
      * @var array
      */
     private static $collectionNameMap = array();
@@ -77,11 +81,11 @@ abstract class Entity extends Type
         if (! key_exists(get_class($this), self::$connectionNameMap)) {
             $regExp = '/@connection[[:blank:]]+([a-zA-Z0-9_]+)/';
             
-            if (preg_match($regExp, $this->getClassComment(), $mathes)) {
-                $this->setConnectionName($mathes[1]);
-                return $mathes[1];
+            if (preg_match($regExp, $this->getClassComment(), $matches)) {
+                $this->setConnectionName($matches[1]);
+                return $matches[1];
             } else {
-                return TickManager::DEFAULT_CONNECTION_NAME;
+                return Manager::DEFAULT_CONNECTION_NAME;
             }
         }
         return self::$connectionNameMap[get_class($this)];
@@ -110,9 +114,9 @@ abstract class Entity extends Type
     {
         if (! key_exists(get_class($this), self::$collectionNameMap)) {
             $regExp = '/@collection[[:blank:]]+([a-zA-Z0-9_]+)/';
-            if (preg_match($regExp, $this->getClassComment(), $mathes)) {
-                $this->setCollectionName($mathes[1]);
-                return $mathes[1];
+            if (preg_match($regExp, $this->getClassComment(), $matches)) {
+                $this->setCollectionName($matches[1]);
+                return $matches[1];
             } else {
                 throw new LogicException('No @collection tag defined');
             }
@@ -245,7 +249,7 @@ abstract class Entity extends Type
      */
     private final function callGet($name, $arguments)
     {
-        $propertyName = self::lcfirst(str_replace('get', '', $name));
+        $propertyName = lcfirst(str_replace('get', '', $name));
         
         if (! $this->propertyExists($propertyName)) {
             $message = 'Call to undefined method ' . get_class($this) . '::' . $name;
@@ -290,7 +294,7 @@ abstract class Entity extends Type
      */
     private final function callSet($name, $arguments)
     {
-        $propertyName = self::lcfirst(str_replace('set', '', $name));
+        $propertyName = lcfirst(str_replace('set', '', $name));
         
         if (! $this->propertyExists($propertyName)) {
             $message = 'Call to undefined method ' . get_class($this) . '::' . $name;
@@ -478,19 +482,6 @@ abstract class Entity extends Type
     }
 
     /**
-     * Lowercase first letter in string
-     *
-     * @param string $string
-     *            String to lowercase
-     *            
-     * @return string
-     */
-    protected static final function lcfirst($string)
-    {
-        return substr_replace($string, strtolower(substr($string, 0, 1)), 0, 1);
-    }
-
-    /**
      * Get meta data
      *
      * @throws InvalidArgumentException if an invalid option was found
@@ -505,37 +496,37 @@ abstract class Entity extends Type
             $propertyBasePattern = '/.*@property\s+([a-zA-Z0-9]+)(?:\(([0-9]+)\))?\s+([_a-zA-Z0-9]+)/';
             $optionsPattern = '/(?P<default><[^>]+>)|(?P<options>[a-z]+)/';
             foreach (explode("\n", $this->getClassComment()) as $line) {
-                if (preg_match($propertyBasePattern, $line, $mathes)) {
+                if (preg_match($propertyBasePattern, $line, $matches)) {
                     
-                    $type = $mathes[1];
-                    $size = (int) $mathes[2];
-                    $name = $mathes[3];
+                    $type = $matches[1];
+                    $size = (int) $matches[2];
+                    $name = $matches[3];
                     $property = array(
                         "type" => $type,
                         "default" => null
                     );
                     
-                    $rest = trim(substr($line, strlen($mathes[0]), 1000));
+                    $rest = trim(substr($line, strlen($matches[0]), 1000));
                     if (empty($rest) || $rest[0] == "-") {
                         $property["field"] = $name;
                     } else {
-                        preg_match("/[_a-zA-Z0-9]+/", $rest, $mathes2);
-                        $property["field"] = $mathes2[0];
-                        $rest = trim(substr($rest, strlen($mathes2[0])));
+                        preg_match("/[_a-zA-Z0-9]+/", $rest, $matches2);
+                        $property["field"] = $matches2[0];
+                        $rest = trim(substr($rest, strlen($matches2[0])));
                     }
                     
                     if ($size > 0) {
                         $property["size"] = $size;
                     }
                     
-                    if (preg_match_all($optionsPattern, $rest, $mathes, PREG_PATTERN_ORDER)) {
-                        foreach ($mathes["default"] as $option) {
+                    if (preg_match_all($optionsPattern, $rest, $matches, PREG_PATTERN_ORDER)) {
+                        foreach ($matches["default"] as $option) {
                             if (! empty($option)) {
                                 $property["default"] = substr($option, 1, - 1);
                                 break;
                             }
                         }
-                        foreach ($mathes["options"] as $option) {
+                        foreach ($matches["options"] as $option) {
                             if (! empty($option)) {
                                 if (in_array($option, array(
                                     "null",

@@ -3,22 +3,26 @@ namespace Localgod\Tick\Storage;
 /**
  * Tick mongo storage implementation
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
+ use \MongoDB;
+ use \MongoId;
+ use \MongoRegex;
+ use \MongoConnectionException;
+ use \MongoCursorTimeoutException;
+ use \MongoDate;
+ use \Exception;
+ use \RuntimeException;
 /**
  * Tick mongo storage implementation
  *
  * MongoDB (from "humongous") is a scalable, high-performance, open source,
  * document-oriented database.
  *
- * @category ActiveRecord
- * @package Tick
- * @subpackage Storage
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick

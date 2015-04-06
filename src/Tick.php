@@ -3,22 +3,19 @@ namespace Localgod\Tick;
 /**
  * Tick
  *
- * PHP version 5.2
+ * PHP version >=5.3.3
  *
- * @category ActiveRecord
  * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
-
+use \RuntimeException;
 /**
  * Tick
  *
  * Tick is THE class a object needs to extend to add Tick capabilities. It adds
  * basic CRUD operations.
  *
- * @category ActiveRecord
- * @package Tick
  * @author Johannes Skov Frandsen <localgod@heaven.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
@@ -168,52 +165,5 @@ abstract class Tick extends Record
     public function getAll()
     {
         return new Result(get_class($this));
-    }
-
-    /**
-     * Autoload function
-     *
-     * @param string $className
-     *            Name of the class to load
-     *            
-     * @return boolean true if the class was loaded, otherwise false
-     */
-    public static function autoload($className)
-    {
-        if (class_exists($className, false) || interface_exists($className, false)) {
-            return false;
-        }
-        $class = self::getPath() . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        
-        if (file_exists($class)) {
-            require_once $class;
-            return true;
-        }
-        
-        $class = self::getPath() . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        
-        if (file_exists($class)) {
-            require_once $class;
-            return true;
-        }
-        $class = TickManager::getModelPath() . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        if (file_exists($class)) {
-            require_once $class;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get the root path to Tick
-     *
-     * @return string
-     */
-    public static function getPath()
-    {
-        if (! self::$path) {
-            self::$path = dirname(__FILE__);
-        }
-        return self::$path;
     }
 }
