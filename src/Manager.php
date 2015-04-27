@@ -11,11 +11,13 @@ namespace Localgod\Tick;
  * @link https://github.com/localgod/php-tick php-tick
  */
 use \Mongo;
+use \MongoConnnectionException;
 use \SolrClient;
 use \PDO;
 use \PDOException;
 use \InvalidArgumentException;
 use \RuntimeException;
+use \Localgod\Tick\Storage\Storage;
 use \Localgod\Tick\Storage\SqlStorage;
 use \Localgod\Tick\Storage\SolrStorage;
 use \Localgod\Tick\Storage\MongoStorage;
