@@ -80,7 +80,7 @@ abstract class Entity extends Type
     {
         if (! key_exists(get_class($this), self::$connectionNameMap)) {
             $regExp = '/@connection[[:blank:]]+([a-zA-Z0-9_]+)/';
-            
+            $matches = array();
             if (preg_match($regExp, $this->getClassComment(), $matches)) {
                 $this->setConnectionName($matches[1]);
                 return $matches[1];
@@ -113,6 +113,7 @@ abstract class Entity extends Type
     {
         if (! key_exists(get_class($this), self::$collectionNameMap)) {
             $regExp = '/@collection[[:blank:]]+([a-zA-Z0-9_]+)/';
+            $matches = array();
             if (preg_match($regExp, $this->getClassComment(), $matches)) {
                 $this->setCollectionName($matches[1]);
                 return $matches[1];
@@ -495,6 +496,8 @@ abstract class Entity extends Type
             $properties = array();
             $propertyBasePattern = '/.*@property\s+([a-zA-Z0-9]+)(?:\(([0-9]+)\))?\s+([_a-zA-Z0-9]+)/';
             $optionsPattern = '/(?P<default><[^>]+>)|(?P<options>[a-z]+)/';
+            $matches = array();
+            $matches2 = array();
             foreach (explode("\n", $this->getClassComment()) as $line) {
                 if (preg_match($propertyBasePattern, $line, $matches)) {
                     
