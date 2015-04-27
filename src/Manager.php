@@ -77,14 +77,15 @@ class Manager
             $GLOBALS[$uniqueName] = null;
         }
         if (! $GLOBALS[$uniqueName] instanceof Storage) {
-            if ($connection['type'] == 'mongodb') {
-                self::createMongoStorage($connectionName);
-            } else {
-                if ($connection['type'] == 'solr') {
+            switch ($connection['type']) {
+                case 'mongodb':
+                    self::createMongoStorage($connectionName);
+                    break;
+                case 'solr':
                     self::createSolrStorage($connectionName);
-                } else {
+                    break;
+                default:
                     self::createSqlStorage($connectionName);
-                }
             }
         }
         return $GLOBALS[$uniqueName];
