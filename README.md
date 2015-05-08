@@ -2,6 +2,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/localgod/php-tick/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/localgod/php-tick/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/localgod/php-tick/v/stable.svg)](https://packagist.org/packages/localgod/php-tick) 
 [![License](https://poser.pugx.org/localgod/php-tick/license.svg)](https://packagist.org/packages/localgod/php-tick)
+[![Dependency Status](https://www.versioneye.com/user/projects/554c77135d47f2fcb80001d1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/554c77135d47f2fcb80001d1)
 
 #php-tick
 
