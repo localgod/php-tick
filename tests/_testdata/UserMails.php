@@ -18,9 +18,10 @@ use Localgod\Tick\Tick;
  * @link     https://github.com/localgod/php-tick php-tick
  *
  * @collection user_mails
- * 
- * @property integer(11) userId user_id  
- * @property integer(11) mailId mail_id    
+ *
+ * @property integer(11) userId user_id
+ * @property integer(11) mailId mail_id
  */
-class UserMails extends Tick {
+class UserMails extends Tick
+{
 }

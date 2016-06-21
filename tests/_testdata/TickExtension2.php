@@ -4,22 +4,22 @@
  *
  * PHP version >=5.3.3
  *
- * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
- * @author	 Brian Demant <brian.demant@gmail.com>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 https://github.com/localgod/php-tick php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  */
 use Localgod\Tick\Tick;
 
 /**
  * Tick test extension
  *
- * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
- * @author	 Brian Demant <brian.demant@gmail.com>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 https://github.com/localgod/php-tick php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  *
- * @collection tick_collection 
+ * @collection tick_collection
  * @connection tick_connection
  *
  * @property integer(11) id        tick_collection_id   - unique
@@ -27,5 +27,6 @@ use Localgod\Tick\Tick;
  * @property float       longitude longitude            - null
  * @property float       color     color                - null
  */
-class TickExtension2 extends Tick {
+class TickExtension2 extends Tick
+{
 }

@@ -4,10 +4,10 @@
  *
  * PHP version >=5.3.3
  *
- * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
- * @author	 Brian Demant <brian.demant@gmail.com>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 https://github.com/localgod/php-tick php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  */
 use Localgod\Tick\Manager;
 use Localgod\Tick\Result;
@@ -37,7 +37,7 @@ class RecordTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function readCollectionNameFromDocumentation()
@@ -50,7 +50,7 @@ class RecordTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function readConnectionNameFromDocumentation()

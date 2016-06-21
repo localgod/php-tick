@@ -1,5 +1,6 @@
 <?php
 namespace Localgod\Tick;
+
 /**
  * Tick
  *
@@ -10,6 +11,7 @@ namespace Localgod\Tick;
  * @link     https://github.com/localgod/php-tick php-tick
  */
 use \RuntimeException;
+
 /**
  * Tick
  *
@@ -76,7 +78,7 @@ abstract class Tick extends Record
      *
      * @param array $criterias
      *            Criterias to remove by
-     *            
+     *
      * @return void
      * @throws RuntimeException if no criteria was was given
      */
@@ -105,7 +107,7 @@ abstract class Tick extends Record
      *
      * @param array $criterias
      *            Criterias to update by
-     *            
+     *
      * @return void
      * @throws RuntimeException if no criteria was was given
      */
@@ -120,7 +122,11 @@ abstract class Tick extends Record
             $this->getStorage()->update($this->getCollectionName(), $this->hydrate(), $result);
         } else {
             if ($this->getUniqueCriteria()) {
-                $this->getStorage()->update($this->getCollectionName(), $this->hydrate(), $this->getAdvanced($this->getUniqueCriteria()));
+                $this->getStorage()->update(
+                    $this->getCollectionName(),
+                    $this->hydrate(),
+                    $this->getAdvanced($this->getUniqueCriteria())
+                );
             } else {
                 throw new RuntimeException('Can not update without a criteria');
             }

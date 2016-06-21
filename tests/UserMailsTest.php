@@ -10,6 +10,7 @@
  * @link     https://github.com/localgod/php-tick php-tick
  */
 use Localgod\Tick\Manager;
+
 /**
  * Test a class without a primary key extending php-tick
  *
@@ -50,7 +51,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function createNew()
@@ -64,7 +65,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function storeNew()
@@ -85,7 +86,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function remove()
@@ -109,7 +110,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function update()
@@ -136,7 +137,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function getWithOneCriteria()
@@ -151,7 +152,7 @@ class UserMailsTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function getWithBiggerThanCriterias()

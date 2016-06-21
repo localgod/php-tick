@@ -1,5 +1,6 @@
 <?php
 namespace Localgod\Tick;
+
 /**
  * Record
  *
@@ -12,6 +13,7 @@ namespace Localgod\Tick;
  use \RuntimeException;
  use \InvalidArgumentException;
  use Localgod\Tick\Entity;
+
 /**
  * Record
  *
@@ -50,7 +52,7 @@ abstract class Record extends Entity
      *
      * @param boolean $insert
      *            If we use the output for insert unique field can be empty
-     *            
+     *
      * @return array
      * @throws RuntimeException if property can not be persited as null
      */
@@ -78,7 +80,7 @@ abstract class Record extends Entity
      *            Condition
      * @param mixed $value
      *            Value
-     *            
+     *
      * @return array
      */
     public function createCriteria($property, $condition, $value)
@@ -95,7 +97,7 @@ abstract class Record extends Entity
      *
      * @param array $criterias
      *            Key => Value pairs to search for
-     *            
+     *
      * @return array of matching objects
      */
     protected function getSimple(array $criterias)
@@ -112,7 +114,7 @@ abstract class Record extends Entity
      *
      * @param array $criterias
      *            Key => Value pairs to search for
-     *            
+     *
      * @return array of matching objects
      */
     protected function getAdvanced(array $criterias)

@@ -88,11 +88,19 @@ class SolrStorage implements Storage
      *            Limit result
      * @param integer $offset
      *            Offset result
-     *            
+     *
      * @return array Array with Associative arrays with fieldname=>value
      */
-    public function get($collection, array $fields, array $criterias, array $order = array(), $direction = true, $limit = null, $offset = 0)
-    {
+    public function get(
+        $collection,
+        array $fields,
+        array $criterias,
+        array $order = array(),
+        $direction = true,
+        $limit = null,
+        $offset = 0
+    ) {
+    
         $query = $this->getQuery($collection, $criterias);
         
         foreach ($fields as $field) {
@@ -131,7 +139,7 @@ class SolrStorage implements Storage
      *            Collection to insert into
      * @param array $data
      *            Associative array with fieldname=>[value=>value,type=>type]
-     *            
+     *
      * @return integer Id of the object inserted
      *         @trows SolrClientException|Exception
      */
@@ -177,7 +185,7 @@ class SolrStorage implements Storage
      *            Associative array with fieldname=>[value=>value,type=>type]
      * @param array $criterias
      *            Criteria of the object to update
-     *            
+     *
      * @return void
      */
     public function update($collection, array $data, array $criterias)
@@ -193,7 +201,7 @@ class SolrStorage implements Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to remove
-     *            
+     *
      * @return void
      */
     public function remove($collection, array $criterias)
@@ -220,7 +228,7 @@ class SolrStorage implements Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to check for
-     *            
+     *
      * @return boolean
      */
     public function exists($collection, array $criterias)
@@ -240,7 +248,7 @@ class SolrStorage implements Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria
-     *            
+     *
      * @return integer
      */
     public function count($collection, array $criterias)
@@ -260,7 +268,7 @@ class SolrStorage implements Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria
-     *            
+     *
      * @return SolrQuery
      */
     private function getQuery($collection, $criterias)

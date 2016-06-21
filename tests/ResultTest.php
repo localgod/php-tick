@@ -5,12 +5,13 @@
  *
  * PHP version >=5.3.3
  *
- * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 https://github.com/localgod/php-tick php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  */
 use Localgod\Tick\Manager;
 use Localgod\Tick\Result;
+
 /**
  * Test the Result class
  *
@@ -51,7 +52,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithoutClauses()
@@ -64,7 +65,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithLimitClause()
@@ -78,7 +79,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOffsetClause()
@@ -97,7 +98,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOffsetAndLimitClause()
@@ -111,7 +112,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOrderByClauseWithOnePropertyAndNoDirection()
@@ -128,7 +129,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOrderByClauseWithOnePropertyAndAscDirection()
@@ -145,7 +146,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOrderByClauseWithOnePropertyAndDescDirection()
@@ -162,7 +163,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOrderByClauseWithTwoProperties()
@@ -180,7 +181,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOrderByClauseWithOnePropertyAndLimit()
@@ -197,7 +198,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOrderByClauseWithOnePropertyAndLimitAndOffset()
@@ -216,7 +217,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithWhereClause()
@@ -231,7 +232,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithWhereEqualsClause()
@@ -246,7 +247,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithWhereBetweenClause()
@@ -261,7 +262,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function iterateOverResult()
@@ -279,7 +280,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function resultObjectWithOutAnyHit()

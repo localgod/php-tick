@@ -6,8 +6,5 @@
 /.project
 /.settings
 /target
-/tests/phpunit.phar
-/build/tools/pdepend.phar
-/build/tools/phpcpd.phar
-/build/tools/phploc.phar
-/build/tools/phpmd.phar
+/build
+/*.phar

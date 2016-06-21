@@ -96,7 +96,7 @@ abstract class Entity extends Type
      *
      * @param string $connectionName
      *            Connection name
-     *            
+     *
      * @return void
      */
     public function setConnectionName($connectionName)
@@ -129,7 +129,7 @@ abstract class Entity extends Type
      *
      * @param string $collectionName
      *            Collection name
-     *            
+     *
      * @return void
      */
     public function setCollectionName($collectionName)
@@ -154,7 +154,7 @@ abstract class Entity extends Type
      *            of method to call
      * @param array $arguments
      *            Arguments to method
-     *            
+     *
      * @return mixed
      */
     public function __call($name, $arguments)
@@ -203,7 +203,7 @@ abstract class Entity extends Type
      *
      * @param string $name
      *            Name of the property
-     *            
+     *
      * @return mixed
      * @throws Exception if not found
      */
@@ -245,7 +245,7 @@ abstract class Entity extends Type
      *            of method to call
      * @param array $arguments
      *            Arguments to method
-     *            
+     *
      * @return mixed
      */
     final private function callGet($name, $arguments)
@@ -272,7 +272,7 @@ abstract class Entity extends Type
      *
      * @param boolean $modified
      *            Set the object as modified
-     *            
+     *
      * @return boolean
      */
     final protected function modified($modified = false)
@@ -290,7 +290,7 @@ abstract class Entity extends Type
      *            of method to call
      * @param array $arguments
      *            Arguments to method
-     *            
+     *
      * @return mixed
      */
     final private function callSet($name, $arguments)
@@ -321,7 +321,7 @@ abstract class Entity extends Type
      *
      * @param string $name
      *            Name of the property to check
-     *            
+     *
      * @return boolean
      */
     protected function propertyExists($name)
@@ -358,7 +358,7 @@ abstract class Entity extends Type
      *
      * @param string $name
      *            Property name
-     *            
+     *
      * @return string Property alias or property name if no alias was found/specfied
      */
     public function propertyAlias($name)
@@ -372,7 +372,7 @@ abstract class Entity extends Type
      *
      * @param string $name
      *            Property name
-     *            
+     *
      * @return mixed Property default value if specified
      */
     protected function defaultValue($name)
@@ -388,7 +388,7 @@ abstract class Entity extends Type
      *            Name
      * @param string $key
      *            Key
-     *            
+     *
      * @return string
      */
     protected function getProperty($name, $key)
@@ -406,7 +406,7 @@ abstract class Entity extends Type
      *
      * @param string $name
      *            Property name
-     *            
+     *
      * @return boolean false if the property can be persisted with a null value
      */
     protected function notNull($name)
@@ -419,7 +419,7 @@ abstract class Entity extends Type
      *
      * @param string $field
      *            Field name
-     *            
+     *
      * @return string Field alias or field name if no alias was found/specfied
      * @throws RuntimeException if field could not be matched to a property
      */
@@ -437,7 +437,7 @@ abstract class Entity extends Type
      *
      * @param string $name
      *            Field name
-     *            
+     *
      * @return boolean Property is unique
      * @throws RuntimeException if property don't exists
      */
@@ -453,7 +453,7 @@ abstract class Entity extends Type
      *            Name of the property
      * @param mixed $value
      *            Value to test
-     *            
+     *
      * @return boolean
      * @throws RangeException if the value dos not fit the specified size
      */
@@ -462,7 +462,8 @@ abstract class Entity extends Type
         $size = $this->getProperty($name, "size");
         if (isset($size) && $size > 0) {
             if (strlen($value) > $size) {
-                throw new RangeException('Should be in the range 0-' . $size . ' characters. Was ' . strlen($value) . '.');
+                $message = 'Should be in the range 0-' . $size . ' characters. Was ' . strlen($value) . '.';
+                throw new RangeException($message);
             }
         }
         return true;
@@ -473,7 +474,7 @@ abstract class Entity extends Type
      *
      * @param string $name
      *            Property name
-     *            
+     *
      * @return string
      */
     protected function propertyType($name)
@@ -486,7 +487,7 @@ abstract class Entity extends Type
      * Get meta data
      *
      * @throws InvalidArgumentException if an invalid option was found
-     *        
+     *
      * @return array
      */
     public function getMetadata()
@@ -500,7 +501,6 @@ abstract class Entity extends Type
             $matches2 = array();
             foreach (explode("\n", $this->getClassComment()) as $line) {
                 if (preg_match($propertyBasePattern, $line, $matches)) {
-                    
                     $type = $matches[1];
                     $size = (int) $matches[2];
                     $name = $matches[3];
@@ -537,7 +537,8 @@ abstract class Entity extends Type
                                 ))) {
                                     $property[$option] = true;
                                 } else {
-                                    throw new InvalidArgumentException("$class::$name option '$option' is not a valid option");
+                                    $message = "$class::$name option '$option' is not a valid option";
+                                    throw new InvalidArgumentException($message);
                                 }
                             }
                         }

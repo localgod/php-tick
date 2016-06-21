@@ -1,5 +1,6 @@
 <?php
 namespace Localgod\Tick;
+
 /**
  * Result
  *
@@ -12,6 +13,7 @@ namespace Localgod\Tick;
  use \Iterator;
  use \DateTime;
  use \InvalidArgumentException;
+
 /**
  * Result
  *
@@ -31,56 +33,56 @@ class Result implements Iterator
 
     /**
      * Position in result set
-     * 
+     *
      * @var integer
      */
     private $position = 0;
 
     /**
      * Condintions
-     * 
+     *
      * @var array
      */
     private $conditions;
 
     /**
      * Limit value
-     * 
+     *
      * @var integer
      */
     private $limit;
 
     /**
      * Offset value
-     * 
+     *
      * @var integer
      */
     private $offset;
 
     /**
      * List of object
-     * 
+     *
      * @var array
      */
     private $result;
 
     /**
      * Instance of the model we query
-     * 
+     *
      * @var Object
      */
     private $model;
 
     /**
      * Order of result
-     * 
+     *
      * @var array
      */
     private $order;
 
     /**
      * Direction of result
-     * 
+     *
      * @var boolean
      */
     private $direction;
@@ -109,7 +111,15 @@ class Result implements Iterator
     {
         if (! isset($this->result)) {
             $fieldNames = $this->model->listFieldNames();
-            $this->result = $this->model->getStorage()->get($this->model->getCollectionName(), $fieldNames, $this->conditions, $this->order, $this->direction, $this->limit, $this->offset);
+            $this->result = $this->model->getStorage()->get(
+                $this->model->getCollectionName(),
+                $fieldNames,
+                $this->conditions,
+                $this->order,
+                $this->direction,
+                $this->limit,
+                $this->offset
+            );
         }
         return $this->result;
     }
@@ -147,7 +157,7 @@ class Result implements Iterator
      *            Condition
      * @param mixed $value
      *            Value
-     *            
+     *
      * @return Result
      */
     public function where($property, $condition, $value)
@@ -167,7 +177,7 @@ class Result implements Iterator
      *            Property
      * @param mixed $value
      *            Value
-     *            
+     *
      * @return Result
      */
     public function whereEquals($property, $value)
@@ -185,7 +195,7 @@ class Result implements Iterator
      *            Value one
      * @param mixed $valueTwo
      *            Value two
-     *            
+     *
      * @return Result
      */
     public function whereBetween($property, $valueOne, $valueTwo)
@@ -208,7 +218,7 @@ class Result implements Iterator
      *
      * @param string $string
      *            String
-     *            
+     *
      * @return Result
      */
     public function whereAnyMatches($string)
@@ -229,7 +239,7 @@ class Result implements Iterator
      *            Properties to order by
      * @param boolean $direction
      *            Direction of the order (true = ascending, false descending)
-     *            
+     *
      * @return Result
      */
     public function orderBy($properties, $direction = true)
@@ -253,7 +263,7 @@ class Result implements Iterator
      *
      * @param integer $limit
      *            Limit
-     *            
+     *
      * @return Result
      */
     public function limit($limit)
@@ -267,7 +277,7 @@ class Result implements Iterator
      *
      * @param integer $offset
      *            Offset
-     *            
+     *
      * @return Result
      */
     public function offset($offset)
@@ -344,7 +354,7 @@ class Result implements Iterator
      *
      * @param integer $position
      *            Position in result
-     *            
+     *
      * @return Object
      */
     private function getModel($position)

@@ -26,21 +26,23 @@ use Localgod\Tick\Tick;
  * @property float(1)    latitude  latitude   - null
  * @property float(1)    longitude longitude  - null
  */
-class User extends Tick {
-	/**
-	 * Get user by id
-	 *
-	 * @param integer $userId User id
-	 *
-	 * @return User
-	 */
-	public static function getById($userId = null) {
-		if ($userId) {
-			$user = new self();
-			if ($user->get()->where('id', '=', $userId)->count() > 0) {
-				return $user->get()->where('id', '=', $userId)->current();
-			}
-		}
-		return null;
-	}
+class User extends Tick
+{
+    /**
+     * Get user by id
+     *
+     * @param integer $userId User id
+     *
+     * @return User
+     */
+    public static function getById($userId = null)
+    {
+        if ($userId) {
+            $user = new self();
+            if ($user->get()->where('id', '=', $userId)->count() > 0) {
+                return $user->get()->where('id', '=', $userId)->current();
+            }
+        }
+        return null;
+    }
 }

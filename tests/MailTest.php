@@ -10,6 +10,7 @@
  * @link     https://github.com/localgod/php-tick php-tick
  */
 use Localgod\Tick\Manager;
+
 /**
  * Test a class without 2 keys as primary key extending php-tick
  *
@@ -50,7 +51,7 @@ class MailTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function storeNew()
@@ -71,7 +72,7 @@ class MailTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function remove()
@@ -96,7 +97,7 @@ class MailTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function update()

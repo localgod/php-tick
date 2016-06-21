@@ -1,5 +1,6 @@
 <?php
 namespace Localgod\Tick;
+
 /**
  * Type handler for Tick
  *
@@ -11,6 +12,7 @@ namespace Localgod\Tick;
  */
  use \ReflectionClass;
  use \InvalidArgumentException;
+
 /**
  * Type handler for Tick
  *
@@ -23,7 +25,8 @@ namespace Localgod\Tick;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
-abstract class Type {
+abstract class Type
+{
     /**
      * Class comment
      * @var string
@@ -48,25 +51,26 @@ abstract class Type {
         if ($type == 'integer' && is_numeric($value) && preg_match('/^[0-9]+$/', $value)) {
             $this->isValidLength($property, $value);
             return true;
-        } else if ($type == 'float' && is_float($value)) {
+        } elseif ($type == 'float' && is_float($value)) {
             return true;
-        } else if ($type == 'double' && is_double($value)) {
+        } elseif ($type == 'double' && is_double($value)) {
             return true;
-        } else if ($type == 'boolean' && is_bool($value)) {
+        } elseif ($type == 'boolean' && is_bool($value)) {
             return true;
-        } else if ($type == 'string') {
+        } elseif ($type == 'string') {
             if (is_string($value) || is_float($value) || is_integer($value) || is_bool($value)) {
                 $this->isValidLength($property, $value);
                 return true;
             }
-        } else if ($type == 'array' && is_array($value)) {
+        } elseif ($type == 'array' && is_array($value)) {
             return true;
-        } else if ($type == 'mixed') {
+        } elseif ($type == 'mixed') {
             return true;
-        } else if ($value instanceof $type) {
+        } elseif ($value instanceof $type) {
             return true;
         } else {
-            $message = 'Input:\''.$value.'\' of type \''.gettype($value).'\' does not match property declartion ['.$type.' $'.$property.']';
+            $message = 'Input:\''.$value.'\' of type \''.gettype($value).
+            '\' does not match property declartion ['.$type.' $'.$property.']';
             throw new InvalidArgumentException($message, 1);
         }
     }
@@ -75,7 +79,7 @@ abstract class Type {
      *
      * @return string
      */
-    protected function getClassComment() 
+    protected function getClassComment()
     {
         if ($this->classComment == '') {
             $data = new ReflectionClass(get_class($this));
@@ -83,5 +87,4 @@ abstract class Type {
         }
         return $this->classComment;
     }
-
 }

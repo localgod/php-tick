@@ -1,5 +1,6 @@
 <?php
 namespace Localgod\Tick\Storage;
+
 /**
  * Tick storage interface
  *
@@ -38,10 +39,18 @@ interface Storage
      *            Limit result
      * @param array $offset
      *            Offset result
-     *            
+     *
      * @return array Array with Associative arrays with fieldname=>value
      */
-    public function get($collection, array $fields, array $criterias, array $order = array(), $direction = true, $limit = '', $offset = '');
+    public function get(
+        $collection,
+        array $fields,
+        array $criterias,
+        array $order = array(),
+        $direction = true,
+        $limit = '',
+        $offset = ''
+    );
 
     /**
      * Insert entity to storage
@@ -50,7 +59,7 @@ interface Storage
      *            Collection to insert into
      * @param array $data
      *            Associative array with fieldname=>value
-     *            
+     *
      * @return integer Id of the object inserted
      */
     public function insert($collection, array $data);
@@ -64,7 +73,7 @@ interface Storage
      *            Associative array with fieldname=>value
      * @param array $criterias
      *            Criteria of the object to update
-     *            
+     *
      * @return void
      */
     public function update($collection, array $data, array $criterias);
@@ -76,7 +85,7 @@ interface Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to remove
-     *            
+     *
      * @return void
      */
     public function remove($collection, array $criterias);
@@ -88,7 +97,7 @@ interface Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to check for
-     *            
+     *
      * @return boolean
      */
     public function exists($collection, array $criterias);
@@ -100,7 +109,7 @@ interface Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to check for
-     *            
+     *
      * @return integer
      */
     public function count($collection, array $criterias);

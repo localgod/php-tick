@@ -5,11 +5,12 @@
  *
  * PHP version >=5.3.3
  *
- * @author	 Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <localgod@heaven.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
- * @link	 https://github.com/localgod/php-tick php-tick
+ * @link     https://github.com/localgod/php-tick php-tick
  */
 use Localgod\Tick\Manager;
+
 /**
  * Test a class extending php-tick
  *
@@ -46,7 +47,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function removeAllConnectionsOnlyDefault()
@@ -62,7 +63,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function removeAllConnectionsOnlyNamed()
@@ -80,7 +81,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function removeAllConnectionsBoth()
@@ -100,7 +101,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @tests
-     * 
+     *
      * @return void
      */
     public function defaultIsAddedToGlobalAfterStorageIsRequested()
@@ -116,7 +117,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      *
      * @tests
      * @expectedException InvalidArgumentException
-     * 
+     *
      * @return void
      */
     public function throwsExceptionOnWrongName()
@@ -129,7 +130,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      *
      * @tests
      * @expectedException InvalidArgumentException
-     * 
+     *
      * @return void
      */
     public function setNonExistingModelPathFails()
@@ -141,7 +142,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @tests
-     * 
+     *
      * @return void
      */
     public function setAndGetExistingModelPathFails()
@@ -154,7 +155,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @tests
-     * 
+     *
      * @return void
      */
     public function defaultIsNotAddedToGlobalBeforeStorageIsRequested()

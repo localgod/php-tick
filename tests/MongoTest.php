@@ -10,6 +10,7 @@
  * @link     https://github.com/localgod/php-tick php-tick
  */
 use Localgod\Tick\Manager;
+
 /**
  * Test a class extending php-tick
  *
@@ -93,7 +94,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function getConnection()
@@ -106,7 +107,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function storeNew()
@@ -151,7 +152,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function remove()
@@ -172,7 +173,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function getOne()
@@ -188,7 +189,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function sortAscending()
@@ -205,7 +206,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function countAll()
@@ -219,7 +220,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function limit()
@@ -236,7 +237,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function offset()
@@ -254,7 +255,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function selectGreaterThan()
@@ -270,7 +271,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function selectLesserThan()
@@ -286,7 +287,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function selectLesserThanOrEqual()
@@ -302,7 +303,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function selectGreaterThanOrEqual()
@@ -318,7 +319,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function selectLike()
@@ -334,7 +335,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function selectLikeOpenEnd()
@@ -350,7 +351,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function selectLikeOpenStart()
@@ -366,7 +367,7 @@ class MUserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function sortDecending()

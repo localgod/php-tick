@@ -1,5 +1,6 @@
 <?php
 namespace Localgod\Tick\Storage;
+
 /**
  * Tick mongo storage implementation
  *
@@ -18,6 +19,7 @@ namespace Localgod\Tick\Storage;
  use \Exception;
  use \RuntimeException;
  use \DateTime;
+
 /**
  * Tick mongo storage implementation
  *
@@ -77,18 +79,28 @@ class MongoStorage implements Storage
      *            Limit result
      * @param integer $offset
      *            Offset result
-     *            
+     *
      * @return array Array with Associative arrays with fieldname=>value
      * @see Storage::get()
      * @throws RuntimeException if the query failed
      */
-    public function get($collection, array $fields, array $criterias, array $order = array(), $direction = true, $limit = null, $offset = null)
-    {
+    public function get(
+        $collection,
+        array $fields,
+        array $criterias,
+        array $order = array(),
+        $direction = true,
+        $limit = null,
+        $offset = null
+    ) {
+    
         $mongoCollection = $this->connection->selectCollection($collection);
         
         $cursor = $mongoCollection->find($this->criteria($criterias), $fields);
         
-        if (isset($order[0])) { // This is a amputated way of handeling it..... we should support multiple ordering clauses.
+        // This is a amputated way of handeling it.....
+        // we should support multiple ordering clauses.
+        if (isset($order[0])) {
             $cursor->sort(array(
                 $order[0] => ($direction ? 1 : - 1)
             ));
@@ -129,7 +141,7 @@ class MongoStorage implements Storage
      *
      * @param array $criterias
      *            List of criterias
-     *            
+     *
      * @return array
      */
     private function criteria(array $criterias)
@@ -154,7 +166,8 @@ class MongoStorage implements Storage
                         '' . $map[$criteria['condition']] . '' => $value
                     );
                 } elseif (preg_match('/^like$/i', $criteria['condition'])) {
-                    $regxp = '/' . (substr($value, 0, 1) == '%' ? '' : '^') . str_replace('%', '', $value) . (substr($value, - 1) == '%' ? '' : '$') . '/i';
+                    $regxp = '/' . (substr($value, 0, 1) == '%' ? '' : '^') .
+                    str_replace('%', '', $value) . (substr($value, - 1) == '%' ? '' : '$') . '/i';
                     $where[$criteria['property']] = new MongoRegex($regxp);
                 } elseif ($criteria['condition'] == '=') {
                     $where[$criteria['property']] = $value;
@@ -172,7 +185,7 @@ class MongoStorage implements Storage
      *            Collection to insert into
      * @param array $data
      *            Associative array with fieldname=>value
-     *            
+     *
      * @return integer Id of the object inserted
      * @see Storage::insert()
      */
@@ -215,7 +228,7 @@ class MongoStorage implements Storage
      *
      * @param DateTime $value
      *            Value to convert
-     *            
+     *
      * @return MongoDate null representation of a datetime value
      */
     private static function convertDateTime(DateTime $value = null)
@@ -235,7 +248,7 @@ class MongoStorage implements Storage
      *            Associative array with fieldname=>value
      * @param array $criterias
      *            Criteria of the object to update
-     *            
+     *
      * @return void
      * @see Storage::update()
      */
@@ -280,7 +293,7 @@ class MongoStorage implements Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to remove
-     *            
+     *
      * @return void
      * @see Storage::remove()
      */
@@ -297,7 +310,7 @@ class MongoStorage implements Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to check for
-     *            
+     *
      * @return boolean if the entity exists
      * @see Storage::exists()
      */
@@ -315,7 +328,7 @@ class MongoStorage implements Storage
      *            Collection to search
      * @param array $criterias
      *            Criteria of the object to check for
-     *            
+     *
      * @return integer
      * @see Storage::count()
      */

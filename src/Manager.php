@@ -60,7 +60,7 @@ class Manager
      *
      * @param string $connectionName
      *            Name of connection
-     *            
+     *
      * @return Storage
      * @throws RuntimeException if the storage could not be retrived
      */
@@ -96,7 +96,7 @@ class Manager
      *
      * @param string $connectionName
      *            Name of connection
-     *            
+     *
      * @return string
      */
     public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME)
@@ -109,9 +109,9 @@ class Manager
      *
      * @param string $connectionName
      *            Name of connection
-     *            
+     *
      * @throws RuntimeException if connection creation failed
-     *        
+     *
      * @return void
      */
     private static function createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
@@ -122,7 +122,8 @@ class Manager
         $dsn = $connection['type'] . ':host=' . $connection['host'] . ';dbname=' . $connection['database'];
         $connection['port'] != null ? $dsn = $dsn . ';port=' . $connection['port'] : null;
         
-        if ($connection['type'] == 'sqlite' && (file_exists($connection['database']) || $connection['database'] == ':memory:')) {
+        if ($connection['type'] == 'sqlite'
+            && (file_exists($connection['database']) || $connection['database'] == ':memory:')) {
             $dsn = $connection['type'] . ':' . $connection['database'];
         }
         try {
@@ -139,9 +140,9 @@ class Manager
      *
      * @param string $connectionName
      *            name of connection
-     *            
+     *
      * @throws RuntimeException if connection creation failed
-     *        
+     *
      * @return void
      */
     private static function createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
@@ -171,9 +172,9 @@ class Manager
      *
      * @param string $connectionName
      *            name of connection
-     *            
+     *
      * @throws RuntimeException if connection creation failed
-     *        
+     *
      * @return void
      */
     private static function createSolrStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
@@ -215,7 +216,7 @@ class Manager
      *
      * @param string $path
      *            Math to models
-     *            
+     *
      * @throws InvalidArgumentException on non existing path
      * @return void
      */
@@ -244,13 +245,29 @@ class Manager
      *            The the port of the data source
      * @param array $driver_options
      *            Driver options
-     *            
+     *
      * @throws InvalidArgumentException missing database driver or database name
      * @return void
      */
-    final public static function addDefaultConnectionConfig($type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driver_options = null)
-    {
-        self::addConnectionConfig(self::DEFAULT_CONNECTION_NAME, $type, $database, $username, $password, $host, $port, $driver_options);
+    final public static function addDefaultConnectionConfig(
+        $type,
+        $database,
+        $username = null,
+        $password = null,
+        $host = '127.0.0.1',
+        $port = null,
+        array $driver_options = null
+    ) {
+        self::addConnectionConfig(
+            self::DEFAULT_CONNECTION_NAME,
+            $type,
+            $database,
+            $username,
+            $password,
+            $host,
+            $port,
+            $driver_options
+        );
     }
 
     /**
@@ -272,18 +289,28 @@ class Manager
      *            The the port of the data source
      * @param array $driverOptions
      *            Driver options
-     *            
+     *
      * @throws InvalidArgumentException missing database driver or database name
      * @return void
      */
-    final public static function addConnectionConfig($name, $type, $database, $username = null, $password = null, $host = '127.0.0.1', $port = null, array $driverOptions = null)
-    {
+    final public static function addConnectionConfig(
+        $name,
+        $type,
+        $database,
+        $username = null,
+        $password = null,
+        $host = '127.0.0.1',
+        $port = null,
+        array $driverOptions = null
+    ) {
+    
         $drivers = PDO::getAvailableDrivers();
         $drivers[] = 'mongodb';
         $drivers[] = 'solr';
         
         if (! in_array($type, $drivers)) {
-            throw new InvalidArgumentException('Only pdo supported sql databases, solr and mongo is supported at the moment.(' . $type . ')');
+            $message = 'Only pdo supported sql databases, solr and mongo is supported at the moment.(' . $type . ')';
+            throw new InvalidArgumentException($message);
         }
         
         if (empty($database)) {
@@ -318,7 +345,7 @@ class Manager
      *
      * @param string $connectionName
      *            Connection name
-     *            
+     *
      * @return void
      */
     public static function removeConnectionConfig($connectionName = self::DEFAULT_CONNECTION_NAME)
@@ -339,7 +366,7 @@ class Manager
      *
      * @param string $connectionName
      *            Connection name
-     *            
+     *
      * @return string unique name
      */
     protected static function getUniqueName($connectionName)
