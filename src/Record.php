@@ -13,6 +13,7 @@ namespace Localgod\Tick;
  use \RuntimeException;
  use \InvalidArgumentException;
  use Localgod\Tick\Entity;
+ use Localgod\Tick\Storage;
 
 /**
  * Record

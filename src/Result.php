@@ -90,7 +90,7 @@ class Result implements Iterator
     /**
      * Construct a new result
      *
-     * @param Object $model
+     * @param String $model
      *            Model to get results from
      */
     public function __construct($model)

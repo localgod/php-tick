@@ -1,5 +1,4 @@
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/localgod/php-tick/badges/quality-score.png)]
-(https://scrutinizer-ci.com/g/localgod/php-tick/)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/localgod/php-tick/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/localgod/php-tick/?branch=master)
 [![Build Status](https://travis-ci.org/localgod/php-tick.svg)](https://travis-ci.org/localgod/php-tick)
 [![Dependency Status](https://www.versioneye.com/user/projects/554c77135d47f2fcb80001d1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/554c77135d47f2fcb80001d1)
 [![codecov.io](http://codecov.io/github/localgod/php-tick/coverage.svg)](http://codecov.io/github/localgod/php-tick)

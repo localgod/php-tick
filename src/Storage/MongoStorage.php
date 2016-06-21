@@ -106,10 +106,10 @@ class MongoStorage implements Storage
             ));
         }
         
-        if ($offset) {
+        if ($offset !== null) {
             $cursor->skip($offset);
         }
-        if ($limit) {
+        if ($limit !== null) {
             $cursor->limit($limit);
         }
         
