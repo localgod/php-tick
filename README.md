@@ -8,6 +8,7 @@
 [![Latest Stable Version](https://poser.pugx.org/localgod/php-tick/v/stable)](https://packagist.org/packages/localgod/php-tick)
 [![License](https://poser.pugx.org/localgod/php-tick/license)](https://packagist.org/packages/localgod/php-tick)
 
+
 #php-tick
 
 Simple active record implementation with the least amount of fuss needed to make it work fast.
