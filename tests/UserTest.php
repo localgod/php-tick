@@ -100,7 +100,7 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user->setCreated($now);
         $user->save();
         $user = User::getById(4);
-        $this->assertEquals($now, $user->getCreated());
+        $this->assertEquals($now->format('Y-m-d H:i:s'), $user->getCreated()->format('Y-m-d H:i:s'));
     }
 
     /**
@@ -116,7 +116,7 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user->setCreated($now);
         $user->save();
         $user = User::getById(1);
-        $this->assertEquals($now, $user->getCreated());
+        $this->assertEquals($now->format('Y-m-d H:i:s'), $user->getCreated()->format('Y-m-d H:i:s'));
     }
 
     /**

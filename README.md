@@ -8,17 +8,18 @@
 [![License](https://poser.pugx.org/localgod/php-tick/license)](https://packagist.org/packages/localgod/php-tick)
 
 
-#php-tick
+# php-tick
 
 Simple active record implementation with the least amount of fuss needed to make it work fast.
 
 Support for both SQL and noSQL databases (Mongo and Solr).
 No support for foreign key relations.
 
-##INSTALLATION
+## Installation
+
 See this page: http://localgod.github.com/php-tick/
 
-##REQUIREMENTS
+## Requirements
 
   * Php version >=5.3.3 build with the following extension: pcre, SPL (default build-in in most distributions)
   * The SOLR storage engine requires the PECL SOLR extension.

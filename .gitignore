@@ -7,4 +7,5 @@
 /.settings
 /target
 /build
+/docs
 /*.phar

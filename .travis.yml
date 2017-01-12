@@ -5,25 +5,12 @@ os:
 php:
 - 5.6
 - 7.0
-  
+
 before_install:
 - pip install --user codecov
-- sudo apt-get update -qq
-- sudo apt-get install -qq unzip  
 
 before_script:
-- echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-- composer self-update
-- composer install
-- wget -nc -O ./phpDocumentor.phar http://www.phpdoc.org/phpDocumentor.phar
-- chmod 755 ./phpDocumentor.phar
-- wget -nc -O ./phpunit.phar --no-check-certificate https://phar.phpunit.de/phpunit.phar
-- chmod 755 ./phpunit.phar
-- wget -nc -O ./phpcs.phar --no-check-certificate https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-- chmod 755 ./phpcs.phar
-- wget -nc -O ./phpcbf.phar --no-check-certificate https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
-- chmod 755 ./phpcbf.phar
-- phpenv rehash
+- make tools setup
 
 services:
   - mongodb
@@ -33,8 +20,7 @@ matrix:
   - php: 5.6
 
 script:
-- rm -rf ./build
-- php ./phpunit.phar --testdox -c ./phpunit.xml.dist
+- make build doc
 
 after_success:
 - codecov
