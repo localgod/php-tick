@@ -50,6 +50,3 @@ jobs:
       run: composer run unit
       env:
         XDEBUG_MODE: coverage
-
-    - name: BDD test
-      run: composer run integration
