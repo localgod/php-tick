@@ -4,9 +4,9 @@ namespace Localgod\Tick\Storage;
 /**
  * Tick sql storage implementation
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -21,7 +21,7 @@ use \RuntimeException;
  * All databases supported by PDO should work, but it has only been tested
  * with mysql and sqlite.
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -52,7 +52,7 @@ class SqlStorage implements Storage
      * @return PDO A PDO instance
      * @see Storage::getConnection()
      */
-    public function getConnection()
+    public function getConnection(): \PDO
     {
         return $this->connection;
     }
@@ -63,7 +63,7 @@ class SqlStorage implements Storage
      * @return void
      * @see Storage::closeConnection()
      */
-    public function closeConnection()
+    public function closeConnection(): void
     {
         $this->connection = null;
         unset($this->connection);

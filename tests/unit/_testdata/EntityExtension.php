@@ -2,7 +2,7 @@
 /**
  * Entity test extension
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
  * @author   Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT

@@ -2,9 +2,9 @@
 /**
  * Test Record
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @author   Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
@@ -15,12 +15,12 @@ use Localgod\Tick\Result;
 /**
  * Test Record
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @author Brian Demant <brian.demant@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-class RecordTest extends PHPUnit_Framework_TestCase
+class RecordTest extends PHPUnit\Framework\TestCase
 {
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -28,7 +28,7 @@ class RecordTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
     }

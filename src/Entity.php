@@ -4,9 +4,9 @@ namespace Localgod\Tick;
 /**
  * Entity
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -23,7 +23,7 @@ use \RuntimeException;
  * The entity class manages none storage related functionality in tick.
  * Basically this means working with the properties of your object.
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -248,7 +248,7 @@ abstract class Entity extends Type
      *
      * @return mixed
      */
-    final private function callGet($name, $arguments)
+    final protected function callGet($name, $arguments)
     {
         $propertyName = lcfirst(str_replace('get', '', $name));
         
@@ -293,7 +293,7 @@ abstract class Entity extends Type
      *
      * @return mixed
      */
-    final private function callSet($name, $arguments)
+    final protected function callSet($name, $arguments)
     {
         $propertyName = lcfirst(str_replace('set', '', $name));
         

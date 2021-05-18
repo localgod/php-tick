@@ -2,7 +2,7 @@
 /**
  * Test Entity
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
  * @author   Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
@@ -17,7 +17,7 @@ use Localgod\Tick\Manager;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
-class EntityTest extends PHPUnit_Framework_TestCase
+class EntityTest extends PHPUnit\Framework\TestCase
 {
     /**
      * Expected content
@@ -31,7 +31,7 @@ class EntityTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
         $this->expected = array(

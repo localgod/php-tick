@@ -4,9 +4,9 @@ namespace Localgod\Tick;
 /**
  * Tick Manager
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -27,7 +27,7 @@ use \Localgod\Tick\Storage\MongoStorage;
  *
  * Manages storage connection and autoloading of models.
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */

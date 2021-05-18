@@ -4,9 +4,9 @@ namespace Localgod\Tick;
 /**
  * Result
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
@@ -19,7 +19,7 @@ namespace Localgod\Tick;
  *
  * The result class helps you query your model and manage result sets
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */

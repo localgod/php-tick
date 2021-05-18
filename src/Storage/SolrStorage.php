@@ -7,7 +7,7 @@ namespace Localgod\Tick\Storage;
  * You should use a schema like the schema next to this file, solr-schema.xml
  * This requires your models to have an id property of type string.
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
  * @author Jens Riisom Schultz <jers@fynskemedier.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT

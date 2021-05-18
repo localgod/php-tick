@@ -2,9 +2,9 @@
 /**
  * Test a class extending php-tick
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
@@ -13,11 +13,11 @@ use Localgod\Tick\Manager;
 /**
  * Test a class extending php-tick
  *
- * @author     Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author     Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  * @link       https://github.com/localgod/php-tick php-tick
  */
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends PHPUnit\Framework\TestCase
 {
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -25,7 +25,7 @@ class UserTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
         Manager::setModelPath(dirname(__FILE__).'/_testdata/');
@@ -40,7 +40,7 @@ class UserTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Manager::removeAllConnections();
     }
@@ -64,11 +64,11 @@ class UserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * @expectedException RangeException
      * @return void
      */
     public function setIdWidthToBigANumber()
     {
+        $this->expectException(RangeException::class);
         $user = new User();
         $user->setId(123456789101);
     }
@@ -77,11 +77,11 @@ class UserTest extends PHPUnit_Framework_TestCase
      * Test
      *
      * @test
-     * @expectedException RangeException
      * @return void
      */
     public function setWithToLongString()
     {
+        $this->expectException(RangeException::class);
         $user = new User();
         $longString = str_pad('', 256, 'D');
         $user->setFirstname($longString);
