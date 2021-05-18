@@ -17,7 +17,7 @@ No support for foreign key relations.
 
 ## Installation
 
-See this page: http://localgod.github.com/php-tick/
+See this page: http://localgod.github.io/php-tick/
 
 ## Requirements
 
