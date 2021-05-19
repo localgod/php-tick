@@ -99,7 +99,7 @@ class SolrStorage implements Storage
         bool $direction = true,
         $limit = null,
         $offset = 0
-    ): array  {
+    ): array {
     
         $query = $this->getQuery($collection, $criterias);
         
