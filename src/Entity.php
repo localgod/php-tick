@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Entity
@@ -10,12 +9,15 @@ namespace Localgod\Tick;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-use \RangeException;
-use \Exception;
-use \LogicException;
-use \BadMethodCallException;
-use \InvalidArgumentException;
-use \RuntimeException;
+
+namespace Localgod\Tick;
+
+use RangeException;
+use Exception;
+use LogicException;
+use BadMethodCallException;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Entity
@@ -180,7 +182,7 @@ abstract class Entity extends Type
         foreach ($properties as $property) {
             switch ($this->propertyType($property)) {
                 case 'integer':
-                    $result[$property] = (integer) $this->$property;
+                    $result[$property] = (int) $this->$property;
                     break;
                 case 'DateTime':
                     $result[$property] = $this->$property;
@@ -251,17 +253,17 @@ abstract class Entity extends Type
     final protected function callGet(string $name, array $arguments): mixed
     {
         $propertyName = lcfirst(str_replace('get', '', $name));
-        
+
         if (! $this->propertyExists($propertyName)) {
             $message = 'Call to undefined method ' . get_class($this) . '::' . $name;
             throw new BadMethodCallException($message);
         }
-        
+
         if (sizeof($arguments) != 0) {
             $message = 'Method ' . get_class($this) . '::' . $name . ' does not take any arguments';
             throw new InvalidArgumentException($message);
         }
-        
+
         return $this->$propertyName;
     }
 
@@ -296,17 +298,17 @@ abstract class Entity extends Type
     final protected function callSet(string $name, array $arguments): mixed
     {
         $propertyName = lcfirst(str_replace('set', '', $name));
-        
+
         if (! $this->propertyExists($propertyName)) {
             $message = 'Call to undefined method ' . get_class($this) . '::' . $name;
             throw new BadMethodCallException($message);
         }
-        
+
         if (sizeof($arguments) != 1) {
             $message = 'Method ' . get_class($this) . '::' . $name . ' takes only one arguments';
             throw new InvalidArgumentException($message);
         }
-        
+
         if ($arguments[0] == null || $this->isValidType($propertyName, $arguments[0])) {
             if ($this->$propertyName != $arguments[0]) {
                 $this->$propertyName = $arguments[0];
@@ -327,7 +329,7 @@ abstract class Entity extends Type
     protected function propertyExists(string $name): bool
     {
         $prop = $this->getMetadata();
-        
+
         return array_key_exists($name, $prop["properties"]) ? true : false;
     }
 
@@ -508,7 +510,7 @@ abstract class Entity extends Type
                         "type" => $type,
                         "default" => null
                     );
-                    
+
                     $rest = trim(substr($line, strlen($matches[0]), 1000));
                     if (empty($rest) || $rest[0] == "-") {
                         $property["field"] = $name;
@@ -517,11 +519,11 @@ abstract class Entity extends Type
                         $property["field"] = $matches2[0];
                         $rest = trim(substr($rest, strlen($matches2[0])));
                     }
-                    
+
                     if ($size > 0) {
                         $property["size"] = $size;
                     }
-                    
+
                     if (preg_match_all($optionsPattern, $rest, $matches, PREG_PATTERN_ORDER)) {
                         foreach ($matches["default"] as $option) {
                             if (! empty($option)) {
@@ -531,10 +533,12 @@ abstract class Entity extends Type
                         }
                         foreach ($matches["options"] as $option) {
                             if (! empty($option)) {
-                                if (in_array($option, array(
+                                if (
+                                    in_array($option, array(
                                     "null",
                                     "unique"
-                                ))) {
+                                    ))
+                                ) {
                                     $property[$option] = true;
                                 } else {
                                     $message = "$class::$name option '$option' is not a valid option";
@@ -543,24 +547,24 @@ abstract class Entity extends Type
                             }
                         }
                     }
-                    
+
                     $properties[$name] = $property;
                 }
             }
-            
+
             $fields = array();
             foreach ($properties as $name => $props) {
                 $fields[$props["field"]] = array_merge($props, array(
                     "property" => $name
                 ));
             }
-            
+
             self::$propertyMap[$class] = array(
                 "properties" => $properties,
                 "fields" => $fields
             );
         }
-        
+
         return self::$propertyMap[$class];
     }
 }

@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Type handler for Tick
@@ -10,8 +9,11 @@ namespace Localgod\Tick;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use \ReflectionClass;
- use \InvalidArgumentException;
+
+namespace Localgod\Tick;
+
+use ReflectionClass;
+use InvalidArgumentException;
 
 /**
  * Type handler for Tick
@@ -69,8 +71,8 @@ abstract class Type
         } elseif ($value instanceof $type) {
             return true;
         } else {
-            $message = 'Input:\''.$value.'\' of type \''.gettype($value).
-            '\' does not match property declartion ['.$type.' $'.$property.']';
+            $message = 'Input:\'' . $value . '\' of type \'' . gettype($value) .
+            '\' does not match property declartion [' . $type . ' $' . $property . ']';
             throw new InvalidArgumentException($message, 1);
         }
     }

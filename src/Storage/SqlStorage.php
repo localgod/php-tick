@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick\Storage;
 
 /**
  * Tick sql storage implementation
@@ -10,10 +9,13 @@ namespace Localgod\Tick\Storage;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-use \PDO;
-use \DateTime;
-use \PDOException;
-use \RuntimeException;
+
+namespace Localgod\Tick\Storage;
+
+use PDO;
+use DateTime;
+use PDOException;
+use RuntimeException;
 
 /**
  * Tick sql storage implementation
@@ -99,7 +101,7 @@ class SqlStorage implements Storage
         int|null $limit = null,
         int|null $offset = null
     ): array {
-    
+
         if (count($fields) > 0) {
             $select = "`" . implode("`,`", $fields) . "`";
         } else {
@@ -157,7 +159,7 @@ class SqlStorage implements Storage
             $count = count($order);
             $orderString = array();
             $orderString[] = 'ORDER BY';
-            for ($i = 0; $count > $i; $i ++) {
+            for ($i = 0; $count > $i; $i++) {
                 if ($i == 0) {
                     $orderString[] = '`' . $order[$i] . '`';
                 } else {
@@ -212,7 +214,7 @@ class SqlStorage implements Storage
                 }
                 $where[] = '`' . $criteria['property'] . '` ' . $criteria['condition'] . ' ?';
             }
-            
+
             return implode('', $where);
         }
         return '';
@@ -232,7 +234,7 @@ class SqlStorage implements Storage
     public function insert(string $collection, array $data): int
     {
         $values = array();
-        
+
         foreach ($data as $field => $value) {
             if ($value['type'] == 'DateTime') {
                 $values[] = $this->convertDateTime($value['value']);
@@ -240,10 +242,10 @@ class SqlStorage implements Storage
             }
             $values[] = $value['value'];
         }
-        
+
         $sql = "INSERT INTO `" . $collection . "` (" . implode(', ', array_keys($data)) . ") 
                 VALUES (" . implode(', ', array_fill(0, count($data), '?')) . ");";
-        
+
         try {
             $statement = $this->connection->prepare($sql);
             $statement->execute($values);
@@ -289,7 +291,7 @@ class SqlStorage implements Storage
         $values = array();
         foreach ($data as $field => $value) {
             $setString[] = '`' . $field . "` = ?";
-            
+
             if ($value['type'] == 'DateTime') {
                 $values[] = self::convertDateTime($value['value']);
                 continue;
@@ -380,7 +382,7 @@ class SqlStorage implements Storage
     private static function interpolateQuery(string $query, array $params): string
     {
         $keys = array();
-        
+
         // build a regular expression for each parameter
         foreach ($params as $key => $value) {
             if (is_string($key)) {
@@ -389,7 +391,7 @@ class SqlStorage implements Storage
                 $keys[] = '/[?]/';
             }
         }
-        
+
         $query = preg_replace($keys, $params, $query, 1);
         return $query;
     }

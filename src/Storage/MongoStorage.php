@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick\Storage;
 
 /**
  * Tick mongo storage implementation
@@ -10,15 +9,18 @@ namespace Localgod\Tick\Storage;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use \MongoDB;
- use \MongoId;
- use \MongoRegex;
- use \MongoConnectionException;
- use \MongoCursorTimeoutException;
- use \MongoDate;
- use \Exception;
- use \RuntimeException;
- use \DateTime;
+
+namespace Localgod\Tick\Storage;
+
+ use MongoDB;
+ use MongoId;
+ use MongoRegex;
+ use MongoConnectionException;
+ use MongoCursorTimeoutException;
+ use MongoDate;
+ use Exception;
+ use RuntimeException;
+ use DateTime;
 
 /**
  * Tick mongo storage implementation
@@ -93,11 +95,11 @@ class MongoStorage implements Storage
         int|null $limit = null,
         $offset = null
     ): array {
-    
+
         $mongoCollection = $this->connection->selectCollection($collection);
-        
+
         $cursor = $mongoCollection->find($this->criteria($criterias), $fields);
-        
+
         // This is a amputated way of handeling it.....
         // we should support multiple ordering clauses.
         if (isset($order[0])) {
@@ -105,14 +107,14 @@ class MongoStorage implements Storage
                 $order[0] => ($direction ? 1 : - 1)
             ));
         }
-        
+
         if ($offset !== null) {
             $cursor->skip($offset);
         }
         if ($limit !== null) {
             $cursor->limit($limit);
         }
-        
+
         $result = array();
         try {
             while ($entry = $cursor->getNext()) {
@@ -154,7 +156,7 @@ class MongoStorage implements Storage
                 '<=' => '$lte',
                 '>=' => '$gte'
             );
-            
+
             foreach ($criterias as $criteria) {
                 if ($criteria['property'] == '_id') {
                     $value = new MongoId($criteria['value']);
@@ -196,13 +198,13 @@ class MongoStorage implements Storage
             if ($value['value'] == '') {
                 continue; // we dont insert empty values
             }
-            
+
             if ($value['type'] == 'float') {
                 $setArray[$field] = (float) $value['value'];
                 continue;
             }
             if ($value['type'] == 'integer') {
-                $setArray[$field] = (integer) $value['value'];
+                $setArray[$field] = (int) $value['value'];
                 continue;
             }
             if ($value['type'] == 'string') {
@@ -264,13 +266,13 @@ class MongoStorage implements Storage
             if ($value['value'] == '') {
                 continue; // we don't insert empty values
             }
-            
+
             if ($value['type'] == 'float') {
                 $setArray[$field] = (float) $value['value'];
                 continue;
             }
             if ($value['type'] == 'integer') {
-                $setArray[$field] = (integer) $value['value'];
+                $setArray[$field] = (int) $value['value'];
                 continue;
             }
             if ($value['type'] == 'string') {

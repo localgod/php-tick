@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Result
@@ -10,9 +9,12 @@ namespace Localgod\Tick;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use \Iterator;
- use \DateTime;
- use \InvalidArgumentException;
+
+ namespace Localgod\Tick;
+
+ use Iterator;
+ use DateTime;
+ use InvalidArgumentException;
 
 /**
  * Result
@@ -29,7 +31,7 @@ class Result implements Iterator
     /**
      * The default max result we get as a safety precaution
      */
-    const DEFAULT_LIMIT = 10000;
+    public const DEFAULT_LIMIT = 10000;
 
     /**
      * Position in result set
@@ -71,7 +73,7 @@ class Result implements Iterator
      *
      * @var Object
      */
-    private Object $model;
+    private object $model;
 
     /**
      * Order of result
@@ -228,7 +230,7 @@ class Result implements Iterator
             'condition' => 'MATCHES',
             'value' => $string
         );
-        
+
         return $this;
     }
 
@@ -308,7 +310,7 @@ class Result implements Iterator
      * @return Objetc
      * @see Iterator::current()
      */
-    public function current(): Object|null
+    public function current(): object|null
     {
         return $this->getModel($this->position);
     }
@@ -334,7 +336,7 @@ class Result implements Iterator
     public function next(): void
     {
         $this->getResult();
-        ++ $this->position;
+        ++$this->position;
     }
 
     /**
@@ -357,19 +359,19 @@ class Result implements Iterator
      *
      * @return Object
      */
-    private function getModel(int $position): Object|null
+    private function getModel(int $position): object|null
     {
         $this->getResult();
         $class = get_class($this->model);
         $entity = new $class();
         $meta = $this->model->getMetadata();
         $fields = $meta["fields"];
-        
+
         if (! $this->isEmpty()) {
             foreach ($this->result[$position] as $field => $value) {
                 $property = $fields[$field]["property"];
                 $propertyType = $fields[$field]["type"];
-                
+
                 if ($propertyType == 'DateTime') {
                     if ($value != 'NULL' && $value != '') {
                         $entity->$property = new DateTime($value);

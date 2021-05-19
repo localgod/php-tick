@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Tick Manager
@@ -10,17 +9,20 @@ namespace Localgod\Tick;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-use \Mongo;
-use \MongoConnnectionException;
-use \SolrClient;
-use \PDO;
-use \PDOException;
-use \InvalidArgumentException;
-use \RuntimeException;
-use \Localgod\Tick\Storage\Storage;
-use \Localgod\Tick\Storage\SqlStorage;
-use \Localgod\Tick\Storage\SolrStorage;
-use \Localgod\Tick\Storage\MongoStorage;
+
+namespace Localgod\Tick;
+
+use Mongo;
+use MongoConnnectionException;
+use SolrClient;
+use PDO;
+use PDOException;
+use InvalidArgumentException;
+use RuntimeException;
+use Localgod\Tick\Storage\Storage;
+use Localgod\Tick\Storage\SqlStorage;
+use Localgod\Tick\Storage\SolrStorage;
+use Localgod\Tick\Storage\MongoStorage;
 
 /**
  * Tick Manager
@@ -39,7 +41,7 @@ class Manager
      *
      * @var string
      */
-    const DEFAULT_CONNECTION_NAME = 'default';
+    public const DEFAULT_CONNECTION_NAME = 'default';
 
     /**
      * Path to Tick model directory
@@ -69,10 +71,10 @@ class Manager
         if (! key_exists($connectionName, self::$connections)) {
             throw new InvalidArgumentException("No connection named '" . $connectionName . "' has been configured");
         }
-        
+
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         if (! key_exists($uniqueName, $GLOBALS)) {
             $GLOBALS[$uniqueName] = null;
         }
@@ -118,12 +120,14 @@ class Manager
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         $dsn = $connection['type'] . ':host=' . $connection['host'] . ';dbname=' . $connection['database'];
         $connection['port'] != null ? $dsn = $dsn . ';port=' . $connection['port'] : null;
-        
-        if ($connection['type'] == 'sqlite'
-            && (file_exists($connection['database']) || $connection['database'] == ':memory:')) {
+
+        if (
+            $connection['type'] == 'sqlite'
+            && (file_exists($connection['database']) || $connection['database'] == ':memory:')
+        ) {
             $dsn = $connection['type'] . ':' . $connection['database'];
         }
         try {
@@ -149,7 +153,7 @@ class Manager
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         $dsn = $connection['type'] . '://' . $connection['host'];
         $connection['port'] != null ? $dsn = $dsn . ':' . $connection['port'] : null;
         try {
@@ -158,7 +162,7 @@ class Manager
             } else {
                 $mongo = new Mongo($dsn);
             }
-            
+
             $mongo->connect();
             $mongoDb = $mongo->selectDB($connection['database']);
             $GLOBALS[$uniqueName] = new MongoStorage($mongoDb);
@@ -181,9 +185,9 @@ class Manager
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         $options = array();
-        
+
         if ($connection['host']) {
             $options['hostname'] = $connection['host'];
         }
@@ -196,7 +200,7 @@ class Manager
         if ($connection['port']) {
             $options['port'] = $connection['port'];
         }
-        
+
         $client = new SolrClient($options);
         $GLOBALS[$uniqueName] = new SolrStorage($client);
     }
@@ -303,20 +307,20 @@ class Manager
         int|null $port = null,
         array $driverOptions = null
     ): void {
-    
+
         $drivers = PDO::getAvailableDrivers();
         $drivers[] = 'mongodb';
         $drivers[] = 'solr';
-        
+
         if (! in_array($type, $drivers)) {
             $message = 'Only pdo supported sql databases, solr and mongo is supported at the moment.(' . $type . ')';
             throw new InvalidArgumentException($message);
         }
-        
+
         if (empty($database)) {
             throw new InvalidArgumentException('No database specified');
         }
-        
+
         $connection = array();
         $connection["type"] = $type;
         $connection["database"] = $database;
@@ -353,7 +357,7 @@ class Manager
         if (self::$connections[$connectionName]) {
             unset(self::$connections[$connectionName]);
         }
-        
+
         $uniqueName = self::getUniqueName($connectionName);
         if (key_exists($uniqueName, $GLOBALS)) {
             $GLOBALS[$uniqueName]->closeConnection();

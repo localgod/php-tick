@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Record
@@ -10,8 +9,11 @@ namespace Localgod\Tick;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use \RuntimeException;
- use \InvalidArgumentException;
+
+namespace Localgod\Tick;
+
+ use RuntimeException;
+ use InvalidArgumentException;
  use Localgod\Tick\Entity;
  use Localgod\Tick\Storage\Storage;
 

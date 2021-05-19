@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Tick
@@ -10,7 +9,10 @@ namespace Localgod\Tick;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
-use \RuntimeException;
+
+namespace Localgod\Tick;
+
+use RuntimeException;
 
 /**
  * Tick
@@ -61,7 +63,7 @@ abstract class Tick extends Record
                 return false;
             }
         }
-        
+
         if (! empty($criterias)) {
             $result = $this->get();
             if (! empty($result)) {

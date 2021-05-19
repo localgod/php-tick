@@ -1,4 +1,5 @@
 <?php
+
 namespace Localgod\Tick\Storage;
 
 /**
