@@ -92,14 +92,14 @@ class SolrStorage implements Storage
      * @return array Array with Associative arrays with fieldname=>value
      */
     public function get(
-        $collection,
+        string $collection,
         array $fields,
         array $criterias,
         array $order = array(),
-        $direction = true,
+        bool $direction = true,
         $limit = null,
         $offset = 0
-    ) {
+    ): array  {
     
         $query = $this->getQuery($collection, $criterias);
         
@@ -143,7 +143,7 @@ class SolrStorage implements Storage
      * @return integer Id of the object inserted
      *         @trows SolrClientException|Exception
      */
-    public function insert($collection, array $data)
+    public function insert(string $collection, array $data): int
     {
         $doc = new SolrInputDocument();
         $doc->addField('collection', $collection);
@@ -174,6 +174,8 @@ class SolrStorage implements Storage
         
         $this->connection->addDocument($doc);
         $this->connection->commit();
+        //TODO Verify this
+        return 1;
     }
 
     /**
@@ -188,7 +190,7 @@ class SolrStorage implements Storage
      *
      * @return void
      */
-    public function update($collection, array $data, array $criterias)
+    public function update(string $collection, array $data, array $criterias): void
     {
         $this->remove($collection, $criterias);
         $this->insert($collection, $data);
@@ -204,7 +206,7 @@ class SolrStorage implements Storage
      *
      * @return void
      */
-    public function remove($collection, array $criterias)
+    public function remove(string $collection, array $criterias): void
     {
         $query = $this->getQuery($collection, $criterias);
         $query->addField('id');
@@ -231,7 +233,7 @@ class SolrStorage implements Storage
      *
      * @return boolean
      */
-    public function exists($collection, array $criterias)
+    public function exists(string $collection, array $criterias): bool
     {
         $query = $this->getQuery($collection, $criterias);
         $query->addField('id');
@@ -251,7 +253,7 @@ class SolrStorage implements Storage
      *
      * @return integer
      */
-    public function count($collection, array $criterias)
+    public function count(string $collection, array $criterias): int
     {
         $query = $this->getQuery($collection, $criterias);
         $query->setRows(0);

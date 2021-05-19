@@ -36,7 +36,7 @@ class MUser extends Tick
      *
      * @return User
      */
-    public static function getById($userId = null)
+    public static function getById($userId = null): User
     {
         if ($userId) {
             $user = new self();

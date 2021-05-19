@@ -34,7 +34,7 @@ class EntityExtension extends Entity
      * @return string
      * @see Entity::getCollectionName()
      */
-    public function getCollectionName()
+    public function getCollectionName(): string
     {
         return parent::getCollectionName();
     }
@@ -45,7 +45,7 @@ class EntityExtension extends Entity
      * @return string
      * @see Entity::getConnectionName()
      */
-    public function getConnectionName()
+    public function getConnectionName(): string
     {
         return parent::getConnectionName();
     }
@@ -56,7 +56,7 @@ class EntityExtension extends Entity
      * @return array with property names
      * @see Entity::listPropertyNames()
      */
-    public function listPropertyNames()
+    public function listPropertyNames(): array
     {
         return parent::listPropertyNames();
     }
@@ -69,7 +69,7 @@ class EntityExtension extends Entity
      * @return boolean
      * @see Entity::propertyExists()
      */
-    public function propertyExists($name)
+    public function propertyExists(string $name): bool
     {
         return parent::propertyExists($name);
     }
@@ -79,10 +79,10 @@ class EntityExtension extends Entity
      *
      * @param string $name Name of the property to check
      *
-     * @return boolean
+     * @return string
      * @see Entity::propertyAlias()
      */
-    public function propertyAlias($name)
+    public function propertyAlias(string $name): string
     {
         return parent::propertyAlias($name);
     }
@@ -95,7 +95,7 @@ class EntityExtension extends Entity
      * @return mixed Property default value if specified
      * @see Entity::defaultValue()
      */
-    public function defaultValue($name)
+    public function defaultValue(string $name): mixed
     {
         return parent::defaultValue($name);
     }
@@ -108,7 +108,7 @@ class EntityExtension extends Entity
      * @return boolean false if the property can be persisted with a null value
      * @see Entity::notNull()
      */
-    public function notNull($name)
+    public function notNull(string $name): bool
     {
         return parent::notNull($name);
     }
@@ -122,7 +122,7 @@ class EntityExtension extends Entity
      * @throws RuntimeException if field could not be matched to a property
      * @see Entity::fieldAlias()
      */
-    public function fieldAlias($name)
+    public function fieldAlias(string $name): string
     {
         return parent::fieldAlias($name);
     }
@@ -136,7 +136,7 @@ class EntityExtension extends Entity
      * @throws RuntimeException if property don't exists
      * @see Entity::_mustBeUnique()
      */
-    public function mustBeUnique($name)
+    public function mustBeUnique(string $name): bool
     {
         return parent::mustBeUnique($name);
     }
@@ -149,7 +149,7 @@ class EntityExtension extends Entity
      * @return string
      * @see Entity::propertyType()
      */
-    public function propertyType($name)
+    public function propertyType(string $name): string
     {
         return parent::propertyType($name);
     }
@@ -163,7 +163,7 @@ class EntityExtension extends Entity
      * @return boolean
      * @see Entity::_isValidLength()
      */
-    public function _isValidLength($name, $value)
+    public function _isValidLength(string $name, mixed $value): bool
     {
         return parent::isValidLength($name, $value);
     }
@@ -176,7 +176,7 @@ class EntityExtension extends Entity
      * @return array
      * @see Entity::getMetadata()
      */
-    public function _getMetadata()
+    public function _getMetadata(): array
     {
         return parent::getMetadata();
     }

@@ -249,7 +249,7 @@ class EntityTest extends PHPUnit\Framework\TestCase
      * @test
      * @return void
      */
-    public function parseDcoumentComment()
+    public function parseDocumentComment()
     {
         $re = new EntityExtension();
         $re->parseDcoumentComment();

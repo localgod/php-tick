@@ -28,7 +28,7 @@ class TickManagerExtension extends Manager
      *
      * @return string unique name
      */
-    public static function getUniqueName($name)
+    public static function getUniqueName(string $name): string
     {
         return parent::getUniqueName($name);
     }

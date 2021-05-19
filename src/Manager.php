@@ -64,7 +64,7 @@ class Manager
      * @return Storage
      * @throws RuntimeException if the storage could not be retrived
      */
-    public static function getStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    public static function getStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): Storage
     {
         if (! key_exists($connectionName, self::$connections)) {
             throw new InvalidArgumentException("No connection named '" . $connectionName . "' has been configured");
@@ -99,7 +99,7 @@ class Manager
      *
      * @return string
      */
-    public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME)
+    public static function getDatabaseName(string $connectionName = self::DEFAULT_CONNECTION_NAME): string
     {
         return self::$connections[$connectionName]['database'];
     }
@@ -114,7 +114,7 @@ class Manager
      *
      * @return void
      */
-    private static function createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createSqlStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
@@ -145,7 +145,7 @@ class Manager
      *
      * @return void
      */
-    private static function createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createMongoStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
@@ -177,7 +177,7 @@ class Manager
      *
      * @return void
      */
-    private static function createSolrStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createSolrStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
@@ -206,7 +206,7 @@ class Manager
      *
      * @return string
      */
-    public static function getModelPath()
+    public static function getModelPath(): string
     {
         return self::$modelPath;
     }
@@ -220,7 +220,7 @@ class Manager
      * @throws InvalidArgumentException on non existing path
      * @return void
      */
-    public static function setModelPath($path)
+    public static function setModelPath(string $path): void
     {
         if (! file_exists($path)) {
             throw new InvalidArgumentException('Model path could not be found:' . $path);
@@ -250,14 +250,14 @@ class Manager
      * @return void
      */
     final public static function addDefaultConnectionConfig(
-        $type,
-        $database,
-        $username = null,
-        $password = null,
-        $host = '127.0.0.1',
-        $port = null,
-        array $driver_options = null
-    ) {
+        string $type,
+        string $database,
+        string $username = null,
+        string $password = null,
+        string $host = '127.0.0.1',
+        int $port = null,
+        array|null $driver_options = null
+    ): void {
         self::addConnectionConfig(
             self::DEFAULT_CONNECTION_NAME,
             $type,
@@ -294,15 +294,15 @@ class Manager
      * @return void
      */
     final public static function addConnectionConfig(
-        $name,
-        $type,
-        $database,
-        $username = null,
-        $password = null,
-        $host = '127.0.0.1',
-        $port = null,
+        string $name,
+        string $type,
+        string $database,
+        string|null $username = null,
+        string|null $password = null,
+        string $host = '127.0.0.1',
+        int|null $port = null,
         array $driverOptions = null
-    ) {
+    ): void {
     
         $drivers = PDO::getAvailableDrivers();
         $drivers[] = 'mongodb';
@@ -333,7 +333,7 @@ class Manager
      *
      * @return void
      */
-    public static function removeAllConnections()
+    public static function removeAllConnections(): void
     {
         foreach (self::$connections as $name => $obj) {
             self::removeConnectionConfig($name);
@@ -348,7 +348,7 @@ class Manager
      *
      * @return void
      */
-    public static function removeConnectionConfig($connectionName = self::DEFAULT_CONNECTION_NAME)
+    public static function removeConnectionConfig(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         if (self::$connections[$connectionName]) {
             unset(self::$connections[$connectionName]);
@@ -369,7 +369,7 @@ class Manager
      *
      * @return string unique name
      */
-    protected static function getUniqueName($connectionName)
+    protected static function getUniqueName(string $connectionName): string
     {
         return "TickConnection:" . $connectionName;
     }

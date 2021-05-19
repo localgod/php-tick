@@ -13,7 +13,7 @@ namespace Localgod\Tick;
  use \RuntimeException;
  use \InvalidArgumentException;
  use Localgod\Tick\Entity;
- use Localgod\Tick\Storage;
+ use Localgod\Tick\Storage\Storage;
 
 /**
  * Record
@@ -38,7 +38,7 @@ abstract class Record extends Entity
      *
      * @return Storage
      */
-    public function getStorage()
+    public function getStorage(): Storage
     {
         if (! $this->storage instanceof Storage) {
             $this->storage = Manager::getStorage($this->getConnectionName());
@@ -57,7 +57,7 @@ abstract class Record extends Entity
      * @return array
      * @throws RuntimeException if property can not be persited as null
      */
-    protected function hydrate($insert = true)
+    protected function hydrate(bool $insert = true): array
     {
         $data = array();
         foreach ($this->listPropertyNames() as $property) {
@@ -84,7 +84,7 @@ abstract class Record extends Entity
      *
      * @return array
      */
-    public function createCriteria($property, $condition, $value)
+    public function createCriteria(string $property, string $condition, mixed $value): array
     {
         return array(
             'property' => $property,
@@ -101,7 +101,7 @@ abstract class Record extends Entity
      *
      * @return array of matching objects
      */
-    protected function getSimple(array $criterias)
+    protected function getSimple(array $criterias): array
     {
         $result = array();
         foreach ($criterias as $key => $value) {
@@ -118,7 +118,7 @@ abstract class Record extends Entity
      *
      * @return array of matching objects
      */
-    protected function getAdvanced(array $criterias)
+    protected function getAdvanced(array $criterias): array
     {
         $result = array();
         foreach ($criterias as $criteria) {
@@ -139,7 +139,7 @@ abstract class Record extends Entity
      *
      * @return array
      */
-    public function getUniqueCriteria()
+    public function getUniqueCriteria(): array
     {
         $criterias = array();
         foreach ($this->listPropertyNames() as $property) {

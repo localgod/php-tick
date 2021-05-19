@@ -35,7 +35,7 @@ class User extends Tick
      *
      * @return User
      */
-    public static function getById($userId = null)
+    public static function getById(int $userId = null): User|null
     {
         if ($userId) {
             $user = new self();

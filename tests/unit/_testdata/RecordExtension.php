@@ -30,7 +30,7 @@ class RecordExtension extends Record
      * @return string
      * @see Entity::getCollectionName()
      */
-    public function getCollectionName()
+    public function getCollectionName(): string
     {
         return parent::getCollectionName();
     }
@@ -41,7 +41,7 @@ class RecordExtension extends Record
      * @return string
      * @see Entity::getConnectionName()
      */
-    public function getConnectionName()
+    public function getConnectionName(): string
     {
         return parent::getConnectionName();
     }

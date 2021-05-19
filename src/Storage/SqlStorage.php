@@ -33,7 +33,7 @@ class SqlStorage implements Storage
      *
      * @var PDO
      */
-    private $connection;
+    private PDO|null $connection;
 
     /**
      * Set the database connection
@@ -52,7 +52,7 @@ class SqlStorage implements Storage
      * @return PDO A PDO instance
      * @see Storage::getConnection()
      */
-    public function getConnection(): \PDO
+    public function getConnection(): PDO
     {
         return $this->connection;
     }
@@ -91,14 +91,14 @@ class SqlStorage implements Storage
      * @see Storage::get()
      */
     public function get(
-        $collection,
+        string $collection,
         array $fields,
         array $criterias,
         array $order = array(),
-        $direction = true,
-        $limit = '',
-        $offset = ''
-    ) {
+        bool $direction = true,
+        int|null $limit = null,
+        int|null $offset = null
+    ): array {
     
         if (count($fields) > 0) {
             $select = "`" . implode("`,`", $fields) . "`";
@@ -131,11 +131,11 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a limit clause
      */
-    private function limit($limit, $offset)
+    private function limit(int|null $limit, int|null $offset): string
     {
-        if (! $offset == '') {
+        if (! $offset == null) {
             return 'LIMIT ' . $offset . ',' . $limit;
-        } elseif (! $limit == '') {
+        } elseif (! $limit == null) {
             return 'LIMIT ' . $limit;
         }
         return '';
@@ -151,7 +151,7 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a order clause
      */
-    private function orderBy(array $order, $direction = true)
+    private function orderBy(array $order, bool $direction = true): string
     {
         if (! empty($order)) {
             $count = count($order);
@@ -178,7 +178,7 @@ class SqlStorage implements Storage
      *
      * @return array values to fill where clause
      */
-    private function criteria(array $criterias)
+    private function criteria(array $criterias): array
     {
         $where = array();
         if (! empty($criterias)) {
@@ -201,7 +201,7 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a where clause
      */
-    private function prepareCriteria(array $criterias)
+    private function prepareCriteria(array $criterias): string
     {
         if (! empty($criterias)) {
             $where = array();
@@ -229,7 +229,7 @@ class SqlStorage implements Storage
      * @return integer Id of the object inserted
      * @see Storage::insert()
      */
-    public function insert($collection, array $data)
+    public function insert(string $collection, array $data): int
     {
         $values = array();
         
@@ -262,7 +262,7 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a datetime value
      */
-    private static function convertDateTime(DateTime $value = null)
+    private static function convertDateTime(DateTime $value = null): string
     {
         if ($value instanceof DateTime) {
             return $value->format('Y-m-d H:i:s');
@@ -283,7 +283,7 @@ class SqlStorage implements Storage
      * @return void
      * @see Storage::update()
      */
-    public function update($collection, array $data, array $criterias)
+    public function update(string $collection, array $data, array $criterias): void
     {
         $setString = array();
         $values = array();
@@ -319,7 +319,7 @@ class SqlStorage implements Storage
      * @return void
      * @see Storage::remove()
      */
-    public function remove($collection, array $criterias)
+    public function remove(string $collection, array $criterias): void
     {
         $sql = "DELETE FROM `" . $collection . "` " . $this->prepareCriteria($criterias) . ";";
         try {
@@ -343,7 +343,7 @@ class SqlStorage implements Storage
      * @return boolean if the entity exists
      * @see Storage::exists()
      */
-    public function exists($collection, array $criterias)
+    public function exists(string $collection, array $criterias): bool
     {
         return count($this->get($collection, array(), $criterias)) > 0;
     }
@@ -359,7 +359,7 @@ class SqlStorage implements Storage
      * @return integer
      * @see Storage::count()
      */
-    public function count($collection, array $criterias)
+    public function count(string $collection, array $criterias): int
     {
         return count($this->get($collection, array(), $criterias));
     }
@@ -377,7 +377,7 @@ class SqlStorage implements Storage
      *
      * @return string The interpolated query
      */
-    private static function interpolateQuery($query, $params)
+    private static function interpolateQuery(string $query, array $params): string
     {
         $keys = array();
         

@@ -43,7 +43,7 @@ abstract class Type
      * @throws RangeException if the value dos not fit the specified size
      * @throws InvalidArgumentException if the value dos not mathc the  property declartion
      */
-    protected function isValidType($property, $value)
+    protected function isValidType(string $property, mixed $value): bool
     {
         $type = $this->propertyType($property);
         $value = is_numeric($value) ? $value + 1 - 1 : $value;//Force to be a number
@@ -79,7 +79,7 @@ abstract class Type
      *
      * @return string
      */
-    protected function getClassComment()
+    protected function getClassComment(): string
     {
         if ($this->classComment == '') {
             $data = new ReflectionClass(get_class($this));

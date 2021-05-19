@@ -43,14 +43,14 @@ interface Storage
      * @return array Array with Associative arrays with fieldname=>value
      */
     public function get(
-        $collection,
+        string $collection,
         array $fields,
         array $criterias,
         array $order = array(),
-        $direction = true,
-        $limit = '',
-        $offset = ''
-    );
+        bool $direction = true,
+        int|null $limit = null,
+        int|null $offset = null
+    ): array;
 
     /**
      * Insert entity to storage
@@ -62,7 +62,7 @@ interface Storage
      *
      * @return integer Id of the object inserted
      */
-    public function insert($collection, array $data);
+    public function insert(string $collection, array $data): int;
 
     /**
      * Update entity in storage
@@ -76,7 +76,7 @@ interface Storage
      *
      * @return void
      */
-    public function update($collection, array $data, array $criterias);
+    public function update(string $collection, array $data, array $criterias): void;
 
     /**
      * Remove entity from storage
@@ -88,7 +88,7 @@ interface Storage
      *
      * @return void
      */
-    public function remove($collection, array $criterias);
+    public function remove(string $collection, array $criterias): void;
 
     /**
      * Entity exists in storage
@@ -100,7 +100,7 @@ interface Storage
      *
      * @return boolean
      */
-    public function exists($collection, array $criterias);
+    public function exists(string $collection, array $criterias): bool;
 
     /**
      * Count the number of entities matching the given criteria
@@ -112,7 +112,7 @@ interface Storage
      *
      * @return integer
      */
-    public function count($collection, array $criterias);
+    public function count(string $collection, array $criterias): int;
 
     /**
      * Close storage connection

@@ -85,14 +85,14 @@ class MongoStorage implements Storage
      * @throws RuntimeException if the query failed
      */
     public function get(
-        $collection,
+        string $collection,
         array $fields,
         array $criterias,
         array $order = array(),
-        $direction = true,
-        $limit = null,
+        bool $direction = true,
+        int|null $limit = null,
         $offset = null
-    ) {
+    ): array {
     
         $mongoCollection = $this->connection->selectCollection($collection);
         
@@ -144,7 +144,7 @@ class MongoStorage implements Storage
      *
      * @return array
      */
-    private function criteria(array $criterias)
+    private function criteria(array $criterias): array
     {
         if (! empty($criterias)) {
             $where = array();
@@ -189,7 +189,7 @@ class MongoStorage implements Storage
      * @return integer Id of the object inserted
      * @see Storage::insert()
      */
-    public function insert($collection, array $data)
+    public function insert(string $collection, array $data): int
     {
         $setArray = array();
         foreach ($data as $field => $value) {
@@ -221,6 +221,8 @@ class MongoStorage implements Storage
             echo $e->getMessage() . "\n";
             echo 'Failed insert in collection > $collection: ' . implode(', ', $setArray) . "\n";
         }
+        //TODO Verify this
+        return 1;
     }
 
     /**
@@ -231,7 +233,7 @@ class MongoStorage implements Storage
      *
      * @return MongoDate null representation of a datetime value
      */
-    private static function convertDateTime(DateTime $value = null)
+    private static function convertDateTime(DateTime $value = null): MongoDate
     {
         if ($value instanceof DateTime) {
             return new MongoDate(strtotime($value->format('Y-m-d h:i:s')));
@@ -252,7 +254,7 @@ class MongoStorage implements Storage
      * @return void
      * @see Storage::update()
      */
-    public function update($collection, array $data, array $criterias)
+    public function update(string $collection, array $data, array $criterias): void
     {
         $setArray = array();
         foreach ($data as $field => $value) {
@@ -297,7 +299,7 @@ class MongoStorage implements Storage
      * @return void
      * @see Storage::remove()
      */
-    public function remove($collection, array $criterias)
+    public function remove(string $collection, array $criterias): void
     {
         $mongoCollection = $this->connection->selectCollection($collection);
         $mongoCollection->remove($this->criteria($criterias));
@@ -314,7 +316,7 @@ class MongoStorage implements Storage
      * @return boolean if the entity exists
      * @see Storage::exists()
      */
-    public function exists($collection, array $criterias)
+    public function exists(string $collection, array $criterias): bool
     {
         $mongoCollection = $this->connection->selectCollection($collection);
         $cursor = $mongoCollection->find($this->criteria($criterias));
@@ -332,7 +334,7 @@ class MongoStorage implements Storage
      * @return integer
      * @see Storage::count()
      */
-    public function count($collection, array $criterias)
+    public function count(string $collection, array $criterias): int
     {
         $mongoCollection = $this->connection->selectCollection($collection);
         $cursor = $mongoCollection->find($this->criteria($criterias));
@@ -345,7 +347,7 @@ class MongoStorage implements Storage
      * @return void
      * @see Storage::closeConnection()
      */
-    public function closeConnection()
+    public function closeConnection(): void
     {
         $this->connection = null;
         unset($this->connection);

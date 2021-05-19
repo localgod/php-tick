@@ -23,7 +23,7 @@ class MUserTest extends PHPUnit\Framework\TestCase
 
     /**
      * Start a mongo server if we can
-     *
+     * 
      * @return void
      */
     public function __construct()

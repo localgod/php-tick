@@ -35,35 +35,35 @@ abstract class Entity extends Type
      *
      * @var boolean
      */
-    private $modified = false;
+    private bool $modified = false;
 
     /**
      * Connection name
      *
      * @var array
      */
-    private static $connectionNameMap = array();
+    private static array $connectionNameMap = array();
 
     /**
      * Collection name
      *
      * @var array
      */
-    private static $collectionNameMap = array();
+    private static array $collectionNameMap = array();
 
     /**
      * Property map
      *
      * @var array map of properties from Document Comment
      */
-    private static $propertyMap = array();
+    private static array $propertyMap = array();
 
     /**
      * Initialize the properties with empty values
      *
      * @return void
      */
-    protected function init()
+    protected function init(): void
     {
         $meta = $this->getMetadata();
         foreach ($meta["properties"] as $name => $prop) {
@@ -76,7 +76,7 @@ abstract class Entity extends Type
      *
      * @return string
      */
-    public function getConnectionName()
+    public function getConnectionName(): string
     {
         if (! key_exists(get_class($this), self::$connectionNameMap)) {
             $regExp = '/@connection[[:blank:]]+([a-zA-Z0-9_]+)/';
@@ -99,7 +99,7 @@ abstract class Entity extends Type
      *
      * @return void
      */
-    public function setConnectionName($connectionName)
+    public function setConnectionName(string $connectionName): void
     {
         self::$connectionNameMap[get_class($this)] = $connectionName;
     }
@@ -109,7 +109,7 @@ abstract class Entity extends Type
      *
      * @return string
      */
-    public function getCollectionName()
+    public function getCollectionName(): string
     {
         if (! key_exists(get_class($this), self::$collectionNameMap)) {
             $regExp = '/@collection[[:blank:]]+([a-zA-Z0-9_]+)/';
@@ -132,7 +132,7 @@ abstract class Entity extends Type
      *
      * @return void
      */
-    public function setCollectionName($collectionName)
+    public function setCollectionName(string $collectionName): void
     {
         self::$collectionNameMap[get_class($this)] = $collectionName;
     }
@@ -142,7 +142,7 @@ abstract class Entity extends Type
      *
      * @return void
      */
-    public function resetCollectionName()
+    public function resetCollectionName(): void
     {
         unset(self::$collectionNameMap[get_class($this)]);
     }
@@ -157,7 +157,7 @@ abstract class Entity extends Type
      *
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         if (preg_match('/^get.*/', $name)) {
             return $this->callGet($name, $arguments);
@@ -173,7 +173,7 @@ abstract class Entity extends Type
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $result = array();
         $properties = $this->listPropertyNames();
@@ -207,7 +207,7 @@ abstract class Entity extends Type
      * @return mixed
      * @throws Exception if not found
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         if (in_array($name, $this->listPropertyNames())) {
             return $this->$name;
@@ -220,7 +220,7 @@ abstract class Entity extends Type
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $out = '';
         foreach ($this->listPropertyNames() as $property) {
@@ -248,7 +248,7 @@ abstract class Entity extends Type
      *
      * @return mixed
      */
-    final protected function callGet($name, $arguments)
+    final protected function callGet(string $name, array $arguments): mixed
     {
         $propertyName = lcfirst(str_replace('get', '', $name));
         
@@ -275,7 +275,7 @@ abstract class Entity extends Type
      *
      * @return boolean
      */
-    final protected function modified($modified = false)
+    final protected function modified(bool $modified = false): bool
     {
         if ($modified) {
             $this->modified = true;
@@ -293,7 +293,7 @@ abstract class Entity extends Type
      *
      * @return mixed
      */
-    final protected function callSet($name, $arguments)
+    final protected function callSet(string $name, array $arguments): mixed
     {
         $propertyName = lcfirst(str_replace('set', '', $name));
         
@@ -324,7 +324,7 @@ abstract class Entity extends Type
      *
      * @return boolean
      */
-    protected function propertyExists($name)
+    protected function propertyExists(string $name): bool
     {
         $prop = $this->getMetadata();
         
@@ -336,7 +336,7 @@ abstract class Entity extends Type
      *
      * @return array with property names
      */
-    public function listPropertyNames()
+    public function listPropertyNames(): array
     {
         $prop = $this->getMetadata();
         return array_keys($prop["properties"]);
@@ -347,7 +347,7 @@ abstract class Entity extends Type
      *
      * @return array with field names
      */
-    public function listFieldNames()
+    public function listFieldNames(): array
     {
         $prop = $this->getMetadata();
         return array_keys($prop["fields"]);
@@ -361,7 +361,7 @@ abstract class Entity extends Type
      *
      * @return string Property alias or property name if no alias was found/specfied
      */
-    public function propertyAlias($name)
+    public function propertyAlias(string $name): string
     {
         $prop = $this->getMetadata();
         return $prop["properties"][$name]["field"];
@@ -375,7 +375,7 @@ abstract class Entity extends Type
      *
      * @return mixed Property default value if specified
      */
-    protected function defaultValue($name)
+    protected function defaultValue(string $name): mixed
     {
         $prop = $this->getMetadata();
         return $prop["properties"][$name]["default"];
@@ -391,7 +391,7 @@ abstract class Entity extends Type
      *
      * @return string
      */
-    protected function getProperty($name, $key)
+    protected function getProperty(string $name, string $key): string|null
     {
         $prop = $this->getMetadata();
         if (key_exists($key, $prop["properties"][$name])) {
@@ -409,9 +409,9 @@ abstract class Entity extends Type
      *
      * @return boolean false if the property can be persisted with a null value
      */
-    protected function notNull($name)
+    protected function notNull(string $name): bool
     {
-        return $this->getProperty($name, "null");
+        return $this->getProperty($name, "null") == null ? false : true;
     }
 
     /**
@@ -423,7 +423,7 @@ abstract class Entity extends Type
      * @return string Field alias or field name if no alias was found/specfied
      * @throws RuntimeException if field could not be matched to a property
      */
-    protected function fieldAlias($field)
+    protected function fieldAlias(string $field): string
     {
         $prop = $this->getMetadata();
         if (key_exists("property", $prop["fields"][$field])) {
@@ -441,9 +441,9 @@ abstract class Entity extends Type
      * @return boolean Property is unique
      * @throws RuntimeException if property don't exists
      */
-    protected function mustBeUnique($name)
+    protected function mustBeUnique(string $name): bool
     {
-        return $this->getProperty($name, "unique");
+        return (bool) $this->getProperty($name, "unique");
     }
 
     /**
@@ -457,7 +457,7 @@ abstract class Entity extends Type
      * @return boolean
      * @throws RangeException if the value dos not fit the specified size
      */
-    protected function isValidLength($name, $value)
+    protected function isValidLength(string $name, mixed $value): bool
     {
         $size = $this->getProperty($name, "size");
         if (isset($size) && $size > 0) {
@@ -477,7 +477,7 @@ abstract class Entity extends Type
      *
      * @return string
      */
-    protected function propertyType($name)
+    protected function propertyType(string $name): string
     {
         $prop = $this->getMetadata();
         return $prop["properties"][$name]["type"];
@@ -490,7 +490,7 @@ abstract class Entity extends Type
      *
      * @return array
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         $class = get_class($this);
         if (! key_exists($class, self::$propertyMap)) {
