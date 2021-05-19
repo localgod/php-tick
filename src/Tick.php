@@ -1,16 +1,18 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Tick
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
-use \RuntimeException;
+
+namespace Localgod\Tick;
+
+use RuntimeException;
 
 /**
  * Tick
@@ -18,7 +20,7 @@ use \RuntimeException;
  * Tick is THE class a object needs to extend to add Tick capabilities. It adds
  * basic CRUD operations.
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -37,7 +39,7 @@ abstract class Tick extends Record
      *
      * @return void
      */
-    public function save()
+    public function save(): void
     {
         if ($this->modified()) {
             if ($this->exists()) {
@@ -53,7 +55,7 @@ abstract class Tick extends Record
      *
      * @return boolean
      */
-    private function exists()
+    private function exists(): bool
     {
         $criterias = $this->getUniqueCriteria();
         foreach ($criterias as $criteria) {
@@ -61,7 +63,7 @@ abstract class Tick extends Record
                 return false;
             }
         }
-        
+
         if (! empty($criterias)) {
             $result = $this->get();
             if (! empty($result)) {
@@ -82,7 +84,7 @@ abstract class Tick extends Record
      * @return void
      * @throws RuntimeException if no criteria was was given
      */
-    public function remove(array $criterias = null)
+    public function remove(array $criterias = null): void
     {
         if ($criterias) {
             if (isset($criterias[0])) {
@@ -111,7 +113,7 @@ abstract class Tick extends Record
      * @return void
      * @throws RuntimeException if no criteria was was given
      */
-    public function update(array $criterias = null)
+    public function update(array $criterias = null): void
     {
         if ($criterias) {
             if (isset($criterias[0])) {
@@ -138,7 +140,7 @@ abstract class Tick extends Record
      *
      * @return void
      */
-    private function insert()
+    private function insert(): void
     {
         $this->getStorage()->insert($this->getCollectionName(), $this->hydrate());
     }
@@ -148,7 +150,7 @@ abstract class Tick extends Record
      *
      * @return Result Result of matching objects
      */
-    public function get()
+    public function get(): Result
     {
         return $this->getAll();
     }
@@ -158,7 +160,7 @@ abstract class Tick extends Record
      *
      * @return Result Result of matching objects
      */
-    public function getAll()
+    public function getAll(): Result
     {
         return new Result(get_class($this));
     }

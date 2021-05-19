@@ -1,5 +1,4 @@
 <?php
-namespace Localgod\Tick\Storage;
 
 /**
  * Tick SOLR storage
@@ -7,16 +6,19 @@ namespace Localgod\Tick\Storage;
  * You should use a schema like the schema next to this file, solr-schema.xml
  * This requires your models to have an id property of type string.
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
  * @author Jens Riisom Schultz <jers@fynskemedier.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-use \SolrClient;
-use \SolrQuery;
-use \SolrInputDocument;
-use \Exception;
+
+namespace Localgod\Tick\Storage;
+
+use SolrClient;
+use SolrQuery;
+use SolrInputDocument;
+use Exception;
 
 /**
  * Tick SOLR storage
@@ -92,32 +94,32 @@ class SolrStorage implements Storage
      * @return array Array with Associative arrays with fieldname=>value
      */
     public function get(
-        $collection,
+        string $collection,
         array $fields,
         array $criterias,
         array $order = array(),
-        $direction = true,
+        bool $direction = true,
         $limit = null,
         $offset = 0
-    ) {
-    
+    ): array {
+
         $query = $this->getQuery($collection, $criterias);
-        
+
         foreach ($fields as $field) {
             $query->addField($field);
         }
-        
+
         $query->setStart($offset);
         if ($limit !== null) {
             $query->setRows($limit);
         }
-        
+
         foreach ($order as $field) {
             $query->addSortField($field, $direction ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC);
         }
-        
+
         $response = $this->connection->query($query)->getResponse()->response;
-        
+
         $result = array();
         if ($response->numFound > 0) {
             foreach ($response->docs as $doc) {
@@ -128,7 +130,7 @@ class SolrStorage implements Storage
                 $result[] = $subResult;
             }
         }
-        
+
         return $result;
     }
 
@@ -143,11 +145,11 @@ class SolrStorage implements Storage
      * @return integer Id of the object inserted
      *         @trows SolrClientException|Exception
      */
-    public function insert($collection, array $data)
+    public function insert(string $collection, array $data): int
     {
         $doc = new SolrInputDocument();
         $doc->addField('collection', $collection);
-        
+
         foreach ($data as $key => $d) {
             if ($key != 'id') {
                 switch ($d['type']) {
@@ -158,7 +160,7 @@ class SolrStorage implements Storage
                         $doc->addField($key, (double) $d['value']);
                         break;
                     case 'integer':
-                        $doc->addField($key, (integer) $d['value']);
+                        $doc->addField($key, (int) $d['value']);
                         break;
                     case 'string':
                         $doc->addField($key, $d['value']);
@@ -171,9 +173,11 @@ class SolrStorage implements Storage
                 }
             }
         }
-        
+
         $this->connection->addDocument($doc);
         $this->connection->commit();
+        //TODO Verify this
+        return 1;
     }
 
     /**
@@ -188,7 +192,7 @@ class SolrStorage implements Storage
      *
      * @return void
      */
-    public function update($collection, array $data, array $criterias)
+    public function update(string $collection, array $data, array $criterias): void
     {
         $this->remove($collection, $criterias);
         $this->insert($collection, $data);
@@ -204,20 +208,20 @@ class SolrStorage implements Storage
      *
      * @return void
      */
-    public function remove($collection, array $criterias)
+    public function remove(string $collection, array $criterias): void
     {
         $query = $this->getQuery($collection, $criterias);
         $query->addField('id');
-        
+
         $response = $this->connection->query($query)->getResponse()->response;
-        
+
         $ids = array();
         foreach ($response->docs as $doc) {
             $ids[] = $doc['id'];
         }
-        
+
         $this->connection->deleteByIds($ids);
-        
+
         $this->connection->commit();
     }
 
@@ -231,13 +235,13 @@ class SolrStorage implements Storage
      *
      * @return boolean
      */
-    public function exists($collection, array $criterias)
+    public function exists(string $collection, array $criterias): bool
     {
         $query = $this->getQuery($collection, $criterias);
         $query->addField('id');
-        
+
         $response = $this->connection->query($query)->getResponse()->response;
-        
+
         return $response->numFound > 0;
     }
 
@@ -251,13 +255,13 @@ class SolrStorage implements Storage
      *
      * @return integer
      */
-    public function count($collection, array $criterias)
+    public function count(string $collection, array $criterias): int
     {
         $query = $this->getQuery($collection, $criterias);
         $query->setRows(0);
-        
+
         $response = $this->connection->query($query)->getResponse()->response;
-        
+
         return $response->numFound;
     }
 
@@ -274,10 +278,10 @@ class SolrStorage implements Storage
     private function getQuery($collection, $criterias)
     {
         $query = new SolrQuery();
-        
+
         $queryParts = array();
         $queryParts[] = "collection:\"$collection\"";
-        
+
         foreach ($criterias as $crit) {
             switch ($crit['condition']) {
                 case '>=':
@@ -296,9 +300,9 @@ class SolrStorage implements Storage
                     throw new Exception("The {$crit['condition']} operator is not supported.");
             }
         }
-        
+
         $query->setQuery(implode(' AND ', $queryParts));
-        
+
         return $query;
     }
 }

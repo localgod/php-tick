@@ -3,9 +3,9 @@
 /**
  * Test the Result class
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
@@ -15,11 +15,11 @@ use Localgod\Tick\Result;
 /**
  * Test the Result class
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-class ResultTest extends PHPUnit_Framework_TestCase
+class ResultTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -28,7 +28,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
         Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
@@ -43,7 +43,7 @@ class ResultTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Manager::removeAllConnections();
     }

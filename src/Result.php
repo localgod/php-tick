@@ -1,25 +1,27 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Result
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use \Iterator;
- use \DateTime;
- use \InvalidArgumentException;
+
+ namespace Localgod\Tick;
+
+ use Iterator;
+ use DateTime;
+ use InvalidArgumentException;
 
 /**
  * Result
  *
  * The result class helps you query your model and manage result sets
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -29,21 +31,21 @@ class Result implements Iterator
     /**
      * The default max result we get as a safety precaution
      */
-    const DEFAULT_LIMIT = 10000;
+    public const DEFAULT_LIMIT = 10000;
 
     /**
      * Position in result set
      *
      * @var integer
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
      * Condintions
      *
      * @var array
      */
-    private $conditions;
+    private array $conditions;
 
     /**
      * Limit value
@@ -57,35 +59,35 @@ class Result implements Iterator
      *
      * @var integer
      */
-    private $offset;
+    private int $offset;
 
     /**
      * List of object
      *
      * @var array
      */
-    private $result;
+    private array $result;
 
     /**
      * Instance of the model we query
      *
      * @var Object
      */
-    private $model;
+    private object $model;
 
     /**
      * Order of result
      *
      * @var array
      */
-    private $order;
+    private array $order;
 
     /**
      * Direction of result
      *
      * @var boolean
      */
-    private $direction;
+    private $direction = true;
 
     /**
      * Construct a new result
@@ -93,7 +95,7 @@ class Result implements Iterator
      * @param String $model
      *            Model to get results from
      */
-    public function __construct($model)
+    public function __construct(string $model)
     {
         $this->model = new $model();
         $this->position = 0;
@@ -107,7 +109,7 @@ class Result implements Iterator
      *
      * @return array
      */
-    private function getResult()
+    private function getResult(): array
     {
         if (! isset($this->result)) {
             $fieldNames = $this->model->listFieldNames();
@@ -129,7 +131,7 @@ class Result implements Iterator
      *
      * @return integer
      */
-    public function count()
+    public function count(): int
     {
         if (isset($this->result) || isset($this->limit)) {
             return count($this->getResult());
@@ -143,7 +145,7 @@ class Result implements Iterator
      *
      * @return boolean
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->count() == 0;
     }
@@ -160,7 +162,7 @@ class Result implements Iterator
      *
      * @return Result
      */
-    public function where($property, $condition, $value)
+    public function where(string $property, string $condition, mixed $value): Result
     {
         $this->conditions[] = array(
             'property' => $this->model->propertyAlias($property),
@@ -180,7 +182,7 @@ class Result implements Iterator
      *
      * @return Result
      */
-    public function whereEquals($property, $value)
+    public function whereEquals(string $property, mixed $value): Result
     {
         $this->where($property, '=', $value);
         return $this;
@@ -198,7 +200,7 @@ class Result implements Iterator
      *
      * @return Result
      */
-    public function whereBetween($property, $valueOne, $valueTwo)
+    public function whereBetween(string $property, mixed $valueOne, mixed $valueTwo): Result
     {
         $this->conditions[] = array(
             'property' => $this->model->propertyAlias($property),
@@ -221,14 +223,14 @@ class Result implements Iterator
      *
      * @return Result
      */
-    public function whereAnyMatches($string)
+    public function whereAnyMatches(string $string): Result
     {
         $this->conditions[] = array(
             'property' => '*',
             'condition' => 'MATCHES',
             'value' => $string
         );
-        
+
         return $this;
     }
 
@@ -242,7 +244,7 @@ class Result implements Iterator
      *
      * @return Result
      */
-    public function orderBy($properties, $direction = true)
+    public function orderBy(array|string $properties, bool $direction = true): Result
     {
         if (! is_bool($direction)) {
             throw new InvalidArgumentException('Order direction must be boolean. (true = ascending, false descending)');
@@ -266,7 +268,7 @@ class Result implements Iterator
      *
      * @return Result
      */
-    public function limit($limit)
+    public function limit(int $limit): Result
     {
         $this->limit = $limit;
         return $this;
@@ -280,7 +282,7 @@ class Result implements Iterator
      *
      * @return Result
      */
-    public function offset($offset)
+    public function offset(int $offset): Result
     {
         $this->offset = $offset;
         if (! is_numeric($this->limit) && ! $this->limit >= 0) {
@@ -296,7 +298,7 @@ class Result implements Iterator
      * @return void
      * @see Iterator::rewind()
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->getResult();
         $this->position = 0;
@@ -305,10 +307,10 @@ class Result implements Iterator
     /**
      * Get the current
      *
-     * @return void
+     * @return Objetc
      * @see Iterator::current()
      */
-    public function current()
+    public function current(): object|null
     {
         return $this->getModel($this->position);
     }
@@ -319,7 +321,7 @@ class Result implements Iterator
      * @return integer
      * @see Iterator::key()
      */
-    public function key()
+    public function key(): int
     {
         $this->getResult();
         return $this->position;
@@ -331,10 +333,10 @@ class Result implements Iterator
      * @return void
      * @see Iterator::next()
      */
-    public function next()
+    public function next(): void
     {
         $this->getResult();
-        ++ $this->position;
+        ++$this->position;
     }
 
     /**
@@ -343,7 +345,7 @@ class Result implements Iterator
      * @return boolean
      * @see Iterator::valid()
      */
-    public function valid()
+    public function valid(): bool
     {
         $this->getResult();
         return isset($this->result[$this->position]);
@@ -357,19 +359,19 @@ class Result implements Iterator
      *
      * @return Object
      */
-    private function getModel($position)
+    private function getModel(int $position): object|null
     {
         $this->getResult();
         $class = get_class($this->model);
         $entity = new $class();
         $meta = $this->model->getMetadata();
         $fields = $meta["fields"];
-        
+
         if (! $this->isEmpty()) {
             foreach ($this->result[$position] as $field => $value) {
                 $property = $fields[$field]["property"];
                 $propertyType = $fields[$field]["type"];
-                
+
                 if ($propertyType == 'DateTime') {
                     if ($value != 'NULL' && $value != '') {
                         $entity->$property = new DateTime($value);

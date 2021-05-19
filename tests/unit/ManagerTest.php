@@ -3,9 +3,9 @@
 /**
  * Test a class extending php-tick
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
@@ -14,11 +14,11 @@ use Localgod\Tick\Manager;
 /**
  * Test a class extending php-tick
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-class ManagerTest extends PHPUnit_Framework_TestCase
+class ManagerTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -27,7 +27,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
     }
@@ -38,7 +38,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Manager::removeAllConnections();
     }

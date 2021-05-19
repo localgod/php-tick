@@ -1,33 +1,35 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Tick Manager
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-use \Mongo;
-use \MongoConnnectionException;
-use \SolrClient;
-use \PDO;
-use \PDOException;
-use \InvalidArgumentException;
-use \RuntimeException;
-use \Localgod\Tick\Storage\Storage;
-use \Localgod\Tick\Storage\SqlStorage;
-use \Localgod\Tick\Storage\SolrStorage;
-use \Localgod\Tick\Storage\MongoStorage;
+
+namespace Localgod\Tick;
+
+use Mongo;
+use MongoConnnectionException;
+use SolrClient;
+use PDO;
+use PDOException;
+use InvalidArgumentException;
+use RuntimeException;
+use Localgod\Tick\Storage\Storage;
+use Localgod\Tick\Storage\SqlStorage;
+use Localgod\Tick\Storage\SolrStorage;
+use Localgod\Tick\Storage\MongoStorage;
 
 /**
  * Tick Manager
  *
  * Manages storage connection and autoloading of models.
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -39,7 +41,7 @@ class Manager
      *
      * @var string
      */
-    const DEFAULT_CONNECTION_NAME = 'default';
+    public const DEFAULT_CONNECTION_NAME = 'default';
 
     /**
      * Path to Tick model directory
@@ -64,15 +66,15 @@ class Manager
      * @return Storage
      * @throws RuntimeException if the storage could not be retrived
      */
-    public static function getStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    public static function getStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): Storage
     {
         if (! key_exists($connectionName, self::$connections)) {
             throw new InvalidArgumentException("No connection named '" . $connectionName . "' has been configured");
         }
-        
+
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         if (! key_exists($uniqueName, $GLOBALS)) {
             $GLOBALS[$uniqueName] = null;
         }
@@ -99,7 +101,7 @@ class Manager
      *
      * @return string
      */
-    public static function getDatabaseName($connectionName = self::DEFAULT_CONNECTION_NAME)
+    public static function getDatabaseName(string $connectionName = self::DEFAULT_CONNECTION_NAME): string
     {
         return self::$connections[$connectionName]['database'];
     }
@@ -114,16 +116,18 @@ class Manager
      *
      * @return void
      */
-    private static function createSqlStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createSqlStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         $dsn = $connection['type'] . ':host=' . $connection['host'] . ';dbname=' . $connection['database'];
         $connection['port'] != null ? $dsn = $dsn . ';port=' . $connection['port'] : null;
-        
-        if ($connection['type'] == 'sqlite'
-            && (file_exists($connection['database']) || $connection['database'] == ':memory:')) {
+
+        if (
+            $connection['type'] == 'sqlite'
+            && (file_exists($connection['database']) || $connection['database'] == ':memory:')
+        ) {
             $dsn = $connection['type'] . ':' . $connection['database'];
         }
         try {
@@ -145,11 +149,11 @@ class Manager
      *
      * @return void
      */
-    private static function createMongoStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createMongoStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         $dsn = $connection['type'] . '://' . $connection['host'];
         $connection['port'] != null ? $dsn = $dsn . ':' . $connection['port'] : null;
         try {
@@ -158,7 +162,7 @@ class Manager
             } else {
                 $mongo = new Mongo($dsn);
             }
-            
+
             $mongo->connect();
             $mongoDb = $mongo->selectDB($connection['database']);
             $GLOBALS[$uniqueName] = new MongoStorage($mongoDb);
@@ -177,13 +181,13 @@ class Manager
      *
      * @return void
      */
-    private static function createSolrStorage($connectionName = self::DEFAULT_CONNECTION_NAME)
+    private static function createSolrStorage(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         $connection = self::$connections[$connectionName];
         $uniqueName = self::getUniqueName($connectionName);
-        
+
         $options = array();
-        
+
         if ($connection['host']) {
             $options['hostname'] = $connection['host'];
         }
@@ -196,7 +200,7 @@ class Manager
         if ($connection['port']) {
             $options['port'] = $connection['port'];
         }
-        
+
         $client = new SolrClient($options);
         $GLOBALS[$uniqueName] = new SolrStorage($client);
     }
@@ -206,7 +210,7 @@ class Manager
      *
      * @return string
      */
-    public static function getModelPath()
+    public static function getModelPath(): string
     {
         return self::$modelPath;
     }
@@ -220,7 +224,7 @@ class Manager
      * @throws InvalidArgumentException on non existing path
      * @return void
      */
-    public static function setModelPath($path)
+    public static function setModelPath(string $path): void
     {
         if (! file_exists($path)) {
             throw new InvalidArgumentException('Model path could not be found:' . $path);
@@ -250,14 +254,14 @@ class Manager
      * @return void
      */
     final public static function addDefaultConnectionConfig(
-        $type,
-        $database,
-        $username = null,
-        $password = null,
-        $host = '127.0.0.1',
-        $port = null,
-        array $driver_options = null
-    ) {
+        string $type,
+        string $database,
+        string $username = null,
+        string $password = null,
+        string $host = '127.0.0.1',
+        int $port = null,
+        array|null $driver_options = null
+    ): void {
         self::addConnectionConfig(
             self::DEFAULT_CONNECTION_NAME,
             $type,
@@ -294,29 +298,29 @@ class Manager
      * @return void
      */
     final public static function addConnectionConfig(
-        $name,
-        $type,
-        $database,
-        $username = null,
-        $password = null,
-        $host = '127.0.0.1',
-        $port = null,
+        string $name,
+        string $type,
+        string $database,
+        string|null $username = null,
+        string|null $password = null,
+        string $host = '127.0.0.1',
+        int|null $port = null,
         array $driverOptions = null
-    ) {
-    
+    ): void {
+
         $drivers = PDO::getAvailableDrivers();
         $drivers[] = 'mongodb';
         $drivers[] = 'solr';
-        
+
         if (! in_array($type, $drivers)) {
             $message = 'Only pdo supported sql databases, solr and mongo is supported at the moment.(' . $type . ')';
             throw new InvalidArgumentException($message);
         }
-        
+
         if (empty($database)) {
             throw new InvalidArgumentException('No database specified');
         }
-        
+
         $connection = array();
         $connection["type"] = $type;
         $connection["database"] = $database;
@@ -333,7 +337,7 @@ class Manager
      *
      * @return void
      */
-    public static function removeAllConnections()
+    public static function removeAllConnections(): void
     {
         foreach (self::$connections as $name => $obj) {
             self::removeConnectionConfig($name);
@@ -348,12 +352,12 @@ class Manager
      *
      * @return void
      */
-    public static function removeConnectionConfig($connectionName = self::DEFAULT_CONNECTION_NAME)
+    public static function removeConnectionConfig(string $connectionName = self::DEFAULT_CONNECTION_NAME): void
     {
         if (self::$connections[$connectionName]) {
             unset(self::$connections[$connectionName]);
         }
-        
+
         $uniqueName = self::getUniqueName($connectionName);
         if (key_exists($uniqueName, $GLOBALS)) {
             $GLOBALS[$uniqueName]->closeConnection();
@@ -369,7 +373,7 @@ class Manager
      *
      * @return string unique name
      */
-    protected static function getUniqueName($connectionName)
+    protected static function getUniqueName(string $connectionName): string
     {
         return "TickConnection:" . $connectionName;
     }

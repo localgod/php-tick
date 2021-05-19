@@ -1,24 +1,26 @@
 <?php
-namespace Localgod\Tick\Storage;
 
 /**
  * Tick mongo storage implementation
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use \MongoDB;
- use \MongoId;
- use \MongoRegex;
- use \MongoConnectionException;
- use \MongoCursorTimeoutException;
- use \MongoDate;
- use \Exception;
- use \RuntimeException;
- use \DateTime;
+
+namespace Localgod\Tick\Storage;
+
+ use MongoDB;
+ use MongoId;
+ use MongoRegex;
+ use MongoConnectionException;
+ use MongoCursorTimeoutException;
+ use MongoDate;
+ use Exception;
+ use RuntimeException;
+ use DateTime;
 
 /**
  * Tick mongo storage implementation
@@ -26,7 +28,7 @@ namespace Localgod\Tick\Storage;
  * MongoDB (from "humongous") is a scalable, high-performance, open source,
  * document-oriented database.
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -85,19 +87,19 @@ class MongoStorage implements Storage
      * @throws RuntimeException if the query failed
      */
     public function get(
-        $collection,
+        string $collection,
         array $fields,
         array $criterias,
         array $order = array(),
-        $direction = true,
-        $limit = null,
+        bool $direction = true,
+        int|null $limit = null,
         $offset = null
-    ) {
-    
+    ): array {
+
         $mongoCollection = $this->connection->selectCollection($collection);
-        
+
         $cursor = $mongoCollection->find($this->criteria($criterias), $fields);
-        
+
         // This is a amputated way of handeling it.....
         // we should support multiple ordering clauses.
         if (isset($order[0])) {
@@ -105,14 +107,14 @@ class MongoStorage implements Storage
                 $order[0] => ($direction ? 1 : - 1)
             ));
         }
-        
+
         if ($offset !== null) {
             $cursor->skip($offset);
         }
         if ($limit !== null) {
             $cursor->limit($limit);
         }
-        
+
         $result = array();
         try {
             while ($entry = $cursor->getNext()) {
@@ -144,7 +146,7 @@ class MongoStorage implements Storage
      *
      * @return array
      */
-    private function criteria(array $criterias)
+    private function criteria(array $criterias): array
     {
         if (! empty($criterias)) {
             $where = array();
@@ -154,7 +156,7 @@ class MongoStorage implements Storage
                 '<=' => '$lte',
                 '>=' => '$gte'
             );
-            
+
             foreach ($criterias as $criteria) {
                 if ($criteria['property'] == '_id') {
                     $value = new MongoId($criteria['value']);
@@ -189,20 +191,20 @@ class MongoStorage implements Storage
      * @return integer Id of the object inserted
      * @see Storage::insert()
      */
-    public function insert($collection, array $data)
+    public function insert(string $collection, array $data): int
     {
         $setArray = array();
         foreach ($data as $field => $value) {
             if ($value['value'] == '') {
                 continue; // we dont insert empty values
             }
-            
+
             if ($value['type'] == 'float') {
                 $setArray[$field] = (float) $value['value'];
                 continue;
             }
             if ($value['type'] == 'integer') {
-                $setArray[$field] = (integer) $value['value'];
+                $setArray[$field] = (int) $value['value'];
                 continue;
             }
             if ($value['type'] == 'string') {
@@ -221,6 +223,8 @@ class MongoStorage implements Storage
             echo $e->getMessage() . "\n";
             echo 'Failed insert in collection > $collection: ' . implode(', ', $setArray) . "\n";
         }
+        //TODO Verify this
+        return 1;
     }
 
     /**
@@ -231,7 +235,7 @@ class MongoStorage implements Storage
      *
      * @return MongoDate null representation of a datetime value
      */
-    private static function convertDateTime(DateTime $value = null)
+    private static function convertDateTime(DateTime $value = null): MongoDate
     {
         if ($value instanceof DateTime) {
             return new MongoDate(strtotime($value->format('Y-m-d h:i:s')));
@@ -252,7 +256,7 @@ class MongoStorage implements Storage
      * @return void
      * @see Storage::update()
      */
-    public function update($collection, array $data, array $criterias)
+    public function update(string $collection, array $data, array $criterias): void
     {
         $setArray = array();
         foreach ($data as $field => $value) {
@@ -262,13 +266,13 @@ class MongoStorage implements Storage
             if ($value['value'] == '') {
                 continue; // we don't insert empty values
             }
-            
+
             if ($value['type'] == 'float') {
                 $setArray[$field] = (float) $value['value'];
                 continue;
             }
             if ($value['type'] == 'integer') {
-                $setArray[$field] = (integer) $value['value'];
+                $setArray[$field] = (int) $value['value'];
                 continue;
             }
             if ($value['type'] == 'string') {
@@ -297,7 +301,7 @@ class MongoStorage implements Storage
      * @return void
      * @see Storage::remove()
      */
-    public function remove($collection, array $criterias)
+    public function remove(string $collection, array $criterias): void
     {
         $mongoCollection = $this->connection->selectCollection($collection);
         $mongoCollection->remove($this->criteria($criterias));
@@ -314,7 +318,7 @@ class MongoStorage implements Storage
      * @return boolean if the entity exists
      * @see Storage::exists()
      */
-    public function exists($collection, array $criterias)
+    public function exists(string $collection, array $criterias): bool
     {
         $mongoCollection = $this->connection->selectCollection($collection);
         $cursor = $mongoCollection->find($this->criteria($criterias));
@@ -332,7 +336,7 @@ class MongoStorage implements Storage
      * @return integer
      * @see Storage::count()
      */
-    public function count($collection, array $criterias)
+    public function count(string $collection, array $criterias): int
     {
         $mongoCollection = $this->connection->selectCollection($collection);
         $cursor = $mongoCollection->find($this->criteria($criterias));
@@ -345,7 +349,7 @@ class MongoStorage implements Storage
      * @return void
      * @see Storage::closeConnection()
      */
-    public function closeConnection()
+    public function closeConnection(): void
     {
         $this->connection = null;
         unset($this->connection);

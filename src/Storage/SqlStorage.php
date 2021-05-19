@@ -1,19 +1,21 @@
 <?php
-namespace Localgod\Tick\Storage;
 
 /**
  * Tick sql storage implementation
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-use \PDO;
-use \DateTime;
-use \PDOException;
-use \RuntimeException;
+
+namespace Localgod\Tick\Storage;
+
+use PDO;
+use DateTime;
+use PDOException;
+use RuntimeException;
 
 /**
  * Tick sql storage implementation
@@ -21,7 +23,7 @@ use \RuntimeException;
  * All databases supported by PDO should work, but it has only been tested
  * with mysql and sqlite.
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
@@ -33,7 +35,7 @@ class SqlStorage implements Storage
      *
      * @var PDO
      */
-    private $connection;
+    private PDO|null $connection;
 
     /**
      * Set the database connection
@@ -52,7 +54,7 @@ class SqlStorage implements Storage
      * @return PDO A PDO instance
      * @see Storage::getConnection()
      */
-    public function getConnection()
+    public function getConnection(): PDO
     {
         return $this->connection;
     }
@@ -63,7 +65,7 @@ class SqlStorage implements Storage
      * @return void
      * @see Storage::closeConnection()
      */
-    public function closeConnection()
+    public function closeConnection(): void
     {
         $this->connection = null;
         unset($this->connection);
@@ -91,15 +93,15 @@ class SqlStorage implements Storage
      * @see Storage::get()
      */
     public function get(
-        $collection,
+        string $collection,
         array $fields,
         array $criterias,
         array $order = array(),
-        $direction = true,
-        $limit = '',
-        $offset = ''
-    ) {
-    
+        bool $direction = true,
+        int|null $limit = null,
+        int|null $offset = null
+    ): array {
+
         if (count($fields) > 0) {
             $select = "`" . implode("`,`", $fields) . "`";
         } else {
@@ -131,11 +133,11 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a limit clause
      */
-    private function limit($limit, $offset)
+    private function limit(int|null $limit, int|null $offset): string
     {
-        if (! $offset == '') {
+        if (! $offset == null) {
             return 'LIMIT ' . $offset . ',' . $limit;
-        } elseif (! $limit == '') {
+        } elseif (! $limit == null) {
             return 'LIMIT ' . $limit;
         }
         return '';
@@ -151,13 +153,13 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a order clause
      */
-    private function orderBy(array $order, $direction = true)
+    private function orderBy(array $order, bool $direction = true): string
     {
         if (! empty($order)) {
             $count = count($order);
             $orderString = array();
             $orderString[] = 'ORDER BY';
-            for ($i = 0; $count > $i; $i ++) {
+            for ($i = 0; $count > $i; $i++) {
                 if ($i == 0) {
                     $orderString[] = '`' . $order[$i] . '`';
                 } else {
@@ -178,7 +180,7 @@ class SqlStorage implements Storage
      *
      * @return array values to fill where clause
      */
-    private function criteria(array $criterias)
+    private function criteria(array $criterias): array
     {
         $where = array();
         if (! empty($criterias)) {
@@ -201,7 +203,7 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a where clause
      */
-    private function prepareCriteria(array $criterias)
+    private function prepareCriteria(array $criterias): string
     {
         if (! empty($criterias)) {
             $where = array();
@@ -212,7 +214,7 @@ class SqlStorage implements Storage
                 }
                 $where[] = '`' . $criteria['property'] . '` ' . $criteria['condition'] . ' ?';
             }
-            
+
             return implode('', $where);
         }
         return '';
@@ -229,10 +231,10 @@ class SqlStorage implements Storage
      * @return integer Id of the object inserted
      * @see Storage::insert()
      */
-    public function insert($collection, array $data)
+    public function insert(string $collection, array $data): int
     {
         $values = array();
-        
+
         foreach ($data as $field => $value) {
             if ($value['type'] == 'DateTime') {
                 $values[] = $this->convertDateTime($value['value']);
@@ -240,10 +242,10 @@ class SqlStorage implements Storage
             }
             $values[] = $value['value'];
         }
-        
+
         $sql = "INSERT INTO `" . $collection . "` (" . implode(', ', array_keys($data)) . ") 
                 VALUES (" . implode(', ', array_fill(0, count($data), '?')) . ");";
-        
+
         try {
             $statement = $this->connection->prepare($sql);
             $statement->execute($values);
@@ -262,7 +264,7 @@ class SqlStorage implements Storage
      *
      * @return string Sql representation of a datetime value
      */
-    private static function convertDateTime(DateTime $value = null)
+    private static function convertDateTime(DateTime $value = null): string
     {
         if ($value instanceof DateTime) {
             return $value->format('Y-m-d H:i:s');
@@ -283,13 +285,13 @@ class SqlStorage implements Storage
      * @return void
      * @see Storage::update()
      */
-    public function update($collection, array $data, array $criterias)
+    public function update(string $collection, array $data, array $criterias): void
     {
         $setString = array();
         $values = array();
         foreach ($data as $field => $value) {
             $setString[] = '`' . $field . "` = ?";
-            
+
             if ($value['type'] == 'DateTime') {
                 $values[] = self::convertDateTime($value['value']);
                 continue;
@@ -319,7 +321,7 @@ class SqlStorage implements Storage
      * @return void
      * @see Storage::remove()
      */
-    public function remove($collection, array $criterias)
+    public function remove(string $collection, array $criterias): void
     {
         $sql = "DELETE FROM `" . $collection . "` " . $this->prepareCriteria($criterias) . ";";
         try {
@@ -343,7 +345,7 @@ class SqlStorage implements Storage
      * @return boolean if the entity exists
      * @see Storage::exists()
      */
-    public function exists($collection, array $criterias)
+    public function exists(string $collection, array $criterias): bool
     {
         return count($this->get($collection, array(), $criterias)) > 0;
     }
@@ -359,7 +361,7 @@ class SqlStorage implements Storage
      * @return integer
      * @see Storage::count()
      */
-    public function count($collection, array $criterias)
+    public function count(string $collection, array $criterias): int
     {
         return count($this->get($collection, array(), $criterias));
     }
@@ -377,10 +379,10 @@ class SqlStorage implements Storage
      *
      * @return string The interpolated query
      */
-    private static function interpolateQuery($query, $params)
+    private static function interpolateQuery(string $query, array $params): string
     {
         $keys = array();
-        
+
         // build a regular expression for each parameter
         foreach ($params as $key => $value) {
             if (is_string($key)) {
@@ -389,7 +391,7 @@ class SqlStorage implements Storage
                 $keys[] = '/[?]/';
             }
         }
-        
+
         $query = preg_replace($keys, $params, $query, 1);
         return $query;
     }

@@ -1,17 +1,19 @@
 <?php
-namespace Localgod\Tick;
 
 /**
  * Type handler for Tick
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
- use \ReflectionClass;
- use \InvalidArgumentException;
+
+namespace Localgod\Tick;
+
+use ReflectionClass;
+use InvalidArgumentException;
 
 /**
  * Type handler for Tick
@@ -21,7 +23,7 @@ namespace Localgod\Tick;
  * "force" some kind of type checking and conversion for values handled by
  * Tick.
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
@@ -43,7 +45,7 @@ abstract class Type
      * @throws RangeException if the value dos not fit the specified size
      * @throws InvalidArgumentException if the value dos not mathc the  property declartion
      */
-    protected function isValidType($property, $value)
+    protected function isValidType(string $property, mixed $value): bool
     {
         $type = $this->propertyType($property);
         $value = is_numeric($value) ? $value + 1 - 1 : $value;//Force to be a number
@@ -69,8 +71,8 @@ abstract class Type
         } elseif ($value instanceof $type) {
             return true;
         } else {
-            $message = 'Input:\''.$value.'\' of type \''.gettype($value).
-            '\' does not match property declartion ['.$type.' $'.$property.']';
+            $message = 'Input:\'' . $value . '\' of type \'' . gettype($value) .
+            '\' does not match property declartion [' . $type . ' $' . $property . ']';
             throw new InvalidArgumentException($message, 1);
         }
     }
@@ -79,7 +81,7 @@ abstract class Type
      *
      * @return string
      */
-    protected function getClassComment()
+    protected function getClassComment(): string
     {
         if ($this->classComment == '') {
             $data = new ReflectionClass(get_class($this));

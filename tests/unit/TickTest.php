@@ -3,9 +3,9 @@
 /**
  * Test Record
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @author   Brian Demant <brian.demant@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
@@ -15,12 +15,12 @@ use Localgod\Tick\Manager;
 /**
  * Test Record
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @author Brian Demant <brian.demant@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-class TickTest extends PHPUnit_Framework_TestCase
+class TickTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -29,7 +29,7 @@ class TickTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
         Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(
@@ -51,13 +51,13 @@ class TickTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // $dbPath = dirname ( __FILE__ ) . '/../_testdata/test.sqlite';
         // unlink ( $dbPath );
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $dbPath = dirname(__FILE__) . '/_testdata/test.sqlite';
         unlink($dbPath);
@@ -126,15 +126,15 @@ class TickTest extends PHPUnit_Framework_TestCase
         $obj1->save();
         $obj1 = new TickExtension();
         $res = $obj1->get(array());
-        
-        $this->assertEquals(1, sizeof($res));
+
+        $this->assertInstanceOf('Localgod\Tick\Result',$res);
         
         $obj2 = new TickExtension2();
         $this->assertEquals("tick_connection", $obj2->getConnectionName());
         $obj2->setConnectionName('default');
         $this->assertEquals("default", $obj2->getConnectionName());
         $res2 = $obj2->get(array());
-        $this->assertEquals(1, sizeof($res2));
+        $this->assertInstanceOf('Localgod\Tick\Result',$res2);
         $obj2->resetCollectionName();
     }
 }

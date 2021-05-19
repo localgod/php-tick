@@ -8,13 +8,11 @@ This project adheres to [Keep a CHANGELOG](http://keepachangelog.com/)
 
 ## [Unreleased]
 
-### Added
-
-- Makefile
-- phpdox support
+## [1.1.1] - 2021-05-19
 
 ### Fixed
 
+- php8 compatible
 - Unit test date error
 
 ## [1.1.0] - 2015-04-06

@@ -3,9 +3,9 @@
 /**
  * Test a class without 2 keys as primary key extending php-tick
  *
- * PHP version >=5.3.3
+ * PHP version >=8.0
  *
- * @author   Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author   Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/localgod/php-tick php-tick
  */
@@ -14,11 +14,11 @@ use Localgod\Tick\Manager;
 /**
  * Test a class without 2 keys as primary key extending php-tick
  *
- * @author Johannes Skov Frandsen <localgod@heaven.dk>
+ * @author Johannes Skov Frandsen <jsf@greenoak.dk>
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link https://github.com/localgod/php-tick php-tick
  */
-class MailTest extends PHPUnit_Framework_TestCase
+class MailTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -27,7 +27,7 @@ class MailTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         Manager::addDefaultConnectionConfig('sqlite', ':memory:', null, null, '127.0.0.1', null, array(PDO::ATTR_PERSISTENT => true));
         Manager::setModelPath(dirname(__FILE__) . '/_testdata/');
@@ -42,7 +42,7 @@ class MailTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Manager::removeAllConnections();
     }
