@@ -31,7 +31,6 @@ use RuntimeException;
  */
 abstract class Entity extends Type
 {
-
     /**
      * Has the object been modified
      *

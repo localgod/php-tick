@@ -29,7 +29,6 @@ use RuntimeException;
  */
 class SqlStorage implements Storage
 {
-
     /**
      * Database connection
      *

@@ -35,7 +35,6 @@ use Localgod\Tick\Storage\MongoStorage;
  */
 class Manager
 {
-
     /**
      * Default connection name
      *

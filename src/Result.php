@@ -27,7 +27,6 @@
  */
 class Result implements Iterator
 {
-
     /**
      * The default max result we get as a safety precaution
      */

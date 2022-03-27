@@ -22,7 +22,6 @@ namespace Localgod\Tick\Storage;
  */
 interface Storage
 {
-
     /**
      * Get entities in storage
      *

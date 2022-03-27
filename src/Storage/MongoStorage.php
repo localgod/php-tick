@@ -34,7 +34,6 @@ namespace Localgod\Tick\Storage;
  */
 class MongoStorage implements Storage
 {
-
     /**
      * Database connection
      *

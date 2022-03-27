@@ -31,7 +31,6 @@ use Exception;
  */
 class SolrStorage implements Storage
 {
-
     /**
      * Database connection
      *
