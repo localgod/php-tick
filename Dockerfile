@@ -17,21 +17,20 @@ LABEL maintainer="https://github.com/localgod/php-tick.git" \
       org.label-schema.url="http://localgod.github.io/php-tick/" \
       org.label-schema.usage="https://raw.githubusercontent.com/localgod/php-tick/master/README.md"
 
-ARG bash_version=5.1.0-r0
-ARG php8_version=8.0.2-r0
+ARG bash_version=5.1.16-r0
+ARG php8_version=8.0.13-r0
 ARG make_version=4.3-r0
 ARG jq_version=1.6-r1
-ARG git_version=2.30.2-r0
-ARG imagemagick_version=7.0.10.57-r0
+ARG git_version=2.30.3-r0
+ARG imagemagick_version=7.0.11.14-r0
 ARG composer_version=2.0.13-r0
 ARG php8_pecl_xdebug=3.0.4-r0
 ARG pcre_version=8.44-r0
 ARG php_major_version=php8
-ARG php_version=8.0.2-r0 
-
+ARG php_version=8.0.13-r0
 RUN for value in phar iconv openssl curl mbstring tokenizer xmlwriter simplexml dom xml fileinfo; do apk --update --no-cache add ${php_major_version}-${value}=${php_version}; done
 
-RUN apk add ${php_major_version}-pdo=8.0.6-r0 ${php_major_version}-pdo_sqlite=8.0.6-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
+RUN apk add ${php_major_version}-pdo=${php8_version} ${php_major_version}-pdo_sqlite=${php8_version} --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
 RUN apk --update --no-cache add \
     bash=${bash_version} \
     composer=${composer_version} \
