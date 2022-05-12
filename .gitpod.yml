@@ -1,5 +1,3 @@
-image:
-  file: ./Dockerfile
 github:
   prebuilds:
     master: true
