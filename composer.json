@@ -34,7 +34,7 @@
 	"homepage" : "https://github.com/localgod/php-tick",
 	"license" : "MIT",
 	"require-dev": {
-		"squizlabs/php_codesniffer": "3.6.2",
+		"squizlabs/php_codesniffer": "3.7.1",
 		"phpunit/phpunit": "9.5.24"
 	},
 	"require" : {
